@@ -63,6 +63,7 @@ function pickBiome(lm, we, tr, hy, q, r, rows, elevationBand) {
   const winds = we.primary.toLowerCase();
   const water = hy.primary.toLowerCase();
   const tect = tr.primary.toLowerCase();
+  const COAST_THRESHOLD = 0.42; // tweak for more/less land
 
   const n = noise(q + 100, r + 200); // separate noise channel
   const lat = latitudeFromRow(r, rows); // -1 to +1
