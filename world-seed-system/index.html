@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>World Seed System</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: system-ui, sans-serif; background:#111; color:#eee; margin:0; padding:2rem; }
+    h1, h2 { margin-top:0; }
+    .card { background:#1b1b1b; padding:1rem 1.5rem; border-radius:8px; margin-bottom:1rem; }
+    label { display:block; margin-bottom:0.25rem; font-weight:bold; }
+    input[type="text"] { width:100%; padding:0.5rem; border-radius:4px; border:1px solid #444; background:#111; color:#eee; }
+    button { padding:0.5rem 1rem; margin-right:0.5rem; border-radius:4px; border:none; cursor:pointer; background:#3b82f6; color:#fff; }
+    button.secondary { background:#4b5563; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1rem; }
+    .label { font-weight:bold; color:#93c5fd; }
+  </style>
+</head>
+
+<body>
+  <h1>World Seed System</h1>
+  <p>Generate or enter a seed, then decode it into world parameters.</p>
+
+  <!-- SEED INPUT PANEL -->
+  <div class="card">
+    <h2>Seed</h2>
+    <label for="seedInput">Seed (format: CC-LM-WE-TR-HY-SF)</label>
+    <input id="seedInput" type="text" placeholder="e.g. 6A-2B-51-3A-4C-09" />
+    <div style="margin-top:0.75rem;">
+      <button id="btnGenerate">Generate Random Seed</button>
+      <button id="btnDecode" class="secondary">Decode Seed</button>
+    </div>
+  </div>
+
+  <!-- DECODED SEED PANEL -->
+  <div class="card">
+    <h2>Decoded Seed</h2>
+    <div id="decodedOutput">No seed decoded yet.</div>
+  </div>
+
+  <!-- WORLD SUMMARY PANEL -->
+  <div class="card">
+    <h2>World Summary</h2>
+    <div id="worldSummary">No summary yet.</div>
+  </div>
+
+  <!-- CONTINENT SUMMARY PANEL -->
+  <div class="card">
+    <h2>Continent Summary</h2>
+    <div id="continentSummary">No summary yet.</div>
+  </div>
+
+  <!-- CLIMATE BIOME SUMMARY PANEL -->
+  <div class="card">
+    <h2>Climate & Biome Summary</h2>
+    <div id="climateBiomeSummary">No summary yet.</div>
+  </div>
+
+  <!-- REGION SUMMARY PANEL -->
+  <div class="card">
+    <h2>Regions</h2>
+    <div id="regionSummary">No regions generated yet.</div>
+  </div>
+  
+  <!-- HEAT MAP PANEL -->
+  <div class="card">
+    <h2>Biome Heatmap</h2>
+    <div id="biomeHeatmap" style="min-height: 340px;">No heatmap yet.</div>
+  </div>
+
+  <!-- HEX MAP PANEL -->
+  <div class="card">
+    <h2>Hex Map</h2>
+    <canvas id="hexMapCanvas" width="600" height="400" style="background:#000;"></canvas>
+  </div>
+
+
+  <!-- MAIN APP SCRIPT -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
