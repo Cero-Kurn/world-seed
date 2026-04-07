@@ -1,3 +1,9 @@
+// Add landmass noise
+function landNoise(q, r) {
+  const n = Math.sin(q * 7.123 + r * 3.331) * 9999.1337;
+  return n - Math.floor(n); // 0–1
+}
+
 // Simple deterministic noise based on q, r
 function noise(q, r) {
   const n = Math.sin(q * 12.9898 + r * 78.233) * 43758.5453;
