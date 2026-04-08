@@ -53,7 +53,7 @@ function getNeighbors(q, r, cols, rows) {
 // Classify elevation from 0–1 into terrain bands
 function classifyElevation(e) {
   if (e < 0.25) return "ocean";
-  if (e < 0.35) return "coast";
+  if (e < COAST_THRESHOLD) return "coast";
   if (e < 0.6) return "plains";
   if (e < 0.8) return "hills";
   return "mountains";
