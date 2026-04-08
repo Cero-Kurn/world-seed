@@ -62,7 +62,6 @@ function getNeighbors(q, r, cols, rows) {
   return neighbors;
 }
 
-
 // -----------------------------
 // Elevation Classification
 // -----------------------------
