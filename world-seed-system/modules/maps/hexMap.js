@@ -24,6 +24,9 @@ const HEX_COLORS = {
   "desert": "#e9c46a",
   "alpine": "#bfc0c0",
   "mixed": "#999999"
+  "ocean": "#003f5c",
+  "coast": "#2f4b7c",
+
 };
 
 const COAST_THRESHOLD = 0.42; // tweak for more/less land
