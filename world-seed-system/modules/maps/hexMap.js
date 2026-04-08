@@ -435,7 +435,7 @@ export function renderHexMap(hexMap) {
 
   const size = 18;
 
-  // Correct canvas size for axial hexes
+  // Correct canvas size for pointy-top axial hexes
   canvas.width = size * Math.sqrt(3) * (cols + rows / 2 + 2);
   canvas.height = size * 1.5 * (rows + 2);
 
@@ -449,8 +449,8 @@ export function renderHexMap(hexMap) {
       const hex = hexes[r][q];
       const color = HEX_COLORS[hex.biome] || "#555";
 
-      // Correct axial → pixel conversion
-      const x = size * Math.sqrt(3) * (q + r / 2) + size * 2;
+      // Correct axial → pixel conversion for pointy-top
+      const x = size * Math.sqrt(3) * q + size * Math.sqrt(3) / 2 * r + size * 2;
       const y = size * 1.5 * r + size * 2;
 
       drawHex(ctx, x, y, size, color);
@@ -462,7 +462,7 @@ export function renderHexMap(hexMap) {
     for (let q = 0; q < cols; q++) {
       const hex = hexes[r][q];
       if (hex.river && hex.river > 1) {
-        const x = size * Math.sqrt(3) * (q + r / 2) + size * 2;
+        const x = size * Math.sqrt(3) * q + size * Math.sqrt(3) / 2 * r + size * 2;
         const y = size * 1.5 * r + size * 2;
 
         ctx.beginPath();
