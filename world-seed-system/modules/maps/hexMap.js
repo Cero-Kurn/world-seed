@@ -151,7 +151,18 @@ export function generateHexMap(decoded) {
     for (let q = 0; q < cols; q++) {
       // elevation noise (0–1)
       const e = noise(q * 1.37, r * 2.11);
-      const elevationBand = classifyElevation(e);
+      // landmass noise (big shapes)
+      const ln = landNoise(q * 0.7, r * 0.7);
+      
+      // blend elevation + landmass
+      const blended = (e * 0.6) + (ln * 0.4);
+      
+      // determine land/sea
+      let elevationBand;
+      if (blended < COAST_THRESHOLD - 0.1) elevationBand = "ocean";
+      else if (blended < COAST_THRESHOLD) elevationBand = "coast";
+      else elevationBand = classifyElevation(e);
+
 
       const biome = pickBiome(lm, we, tr, hy, q, r, rows, elevationBand);
 
