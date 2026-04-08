@@ -35,7 +35,9 @@ const HEX_COLORS = {
   "alpine": "#bfc0c0",
   "mixed": "#999999",
   "ocean": "#003f5c",
-  "coast": "#2f4b7c"
+  "coast": "#2f4b7c",
+  "lake": "#4cc9f0",
+  "inland sea": "#2f7fc1"
 };
 
 // -----------------------------
