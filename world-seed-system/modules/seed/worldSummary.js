@@ -1,5 +1,5 @@
 export function generateWorldSummary(decoded) {
-  const { cc, lm, we, tr, hy, sf } = decoded;
+  const [CC1, LM1, WE1, TR1, HY1, SF1, CC2, LM2, WE2, TR2, HY2, SF2] = clean;
 
   const combo = (item) => {
     if (item.primary === item.twist) return item.primary;
