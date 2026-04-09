@@ -4,11 +4,11 @@ import { CC_SECONDARY, LM_SECONDARY, WE_SECONDARY, TR_SECONDARY, HY_SECONDARY, S
 
 export function decodeSeed(seedStr) {
   const parts = seedStr.trim().toUpperCase().split("-");
-  if (parts.length !== 6) {
-    throw new Error("Seed must have 6 parts: CC-LM-WE-TR-HY-SF");
+  if (clean.length < 12) {
+    throw new Error("Seed must be 12 characters (6 primary + 6 secondary)");
   }
 
-  const [cc, lm, we, tr, hy, sf] = parts;
+  const [CC1, LM1, WE1, TR1, HY1, SF1, CC2, LM2, WE2, TR2, HY2, SF2] = parts;
 
   const decodePair = (pair, table, label) => {
     const a = pair[0];
