@@ -16,6 +16,14 @@ export function decodeSeed(seed) {
 
   const [CC1, LM1, WE1, TR1, HY1, SF1, CC2, LM2, WE2, TR2, HY2, SF2] = clean;
 
+  const decodePair = (pair, table, label) => {
+    const a = pair[0];
+    const b = pair[1];
+    const descA = table[a] || `Unknown (${a})`;
+    const descB = table[b] || `Unknown (${b})`;
+    return { label, code: pair, primary: descA, twist: descB };
+  };
+  
   return {
     cc: { code: CC1, primary: CC_TABLE[CC1], secondary: CC_SECONDARY[CC2] },
     lm: { code: LM1, primary: LM_TABLE[LM1], secondary: LM_SECONDARY[LM2] },
