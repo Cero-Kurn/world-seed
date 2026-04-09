@@ -2,8 +2,8 @@ import { CC_TABLE, LM_TABLE, WE_TABLE, TR_TABLE, HY_TABLE, SF_TABLE } from "./lo
 
 import { CC_SECONDARY, LM_SECONDARY, WE_SECONDARY, TR_SECONDARY, HY_SECONDARY, SF_SECONDARY } from "./secondaryTables.js";
 
-export function decodeSeed(seedStr) {
-  const parts = seedStr.trim().toUpperCase().split("-");
+export function decodeSeed(seed) {
+  const clean = seed.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
   if (clean.length < 12) {
     throw new Error("Seed must be 12 characters (6 primary + 6 secondary)");
   }
