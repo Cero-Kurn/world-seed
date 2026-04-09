@@ -1,6 +1,11 @@
-import { CC_TABLE, LM_TABLE, WE_TABLE, TR_TABLE, HY_TABLE, SF_TABLE } from "./lookupTables.js";
+import {
+  CC_TABLE, LM_TABLE, WE_TABLE, TR_TABLE, HY_TABLE, SF_TABLE
+} from "./lookupTables.js";
 
-import { CC_SECONDARY, LM_SECONDARY, WE_SECONDARY, TR_SECONDARY, HY_SECONDARY, SF_SECONDARY } from "./secondaryTables.js";
+import {
+  CC_SECONDARY, LM_SECONDARY, WE_SECONDARY,
+  TR_SECONDARY, HY_SECONDARY, SF_SECONDARY
+} from "./secondaryTables.js";
 
 export function decodeSeed(seed) {
   const clean = seed.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
