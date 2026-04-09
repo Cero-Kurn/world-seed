@@ -4,6 +4,19 @@ function randomKey(table) {
   const keys = Object.keys(table);
   return keys[Math.floor(Math.random() * keys.length)];
 }
+export function generateSeed() {
+  const chars = "123456789ABC";
+
+  const primary = Array.from({ length: 6 }, () =>
+    chars[Math.floor(Math.random() * chars.length)]
+  ).join("");
+
+  const secondary = Array.from({ length: 6 }, () =>
+    chars[Math.floor(Math.random() * chars.length)]
+  ).join("");
+
+  return `${primary}-${secondary}`;
+}
 
 export function generateRandomSeed() {
   const cc = randomKey(CC_TABLE) + randomKey(CC_TABLE);
