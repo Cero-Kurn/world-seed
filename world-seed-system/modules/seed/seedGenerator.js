@@ -1,3 +1,10 @@
+import { CC_TABLE, LM_TABLE, WE_TABLE, TR_TABLE, HY_TABLE, SF_TABLE } from "./lookupTables.js";
+
+function randomKey(table) {
+  const keys = Object.keys(table);
+  return keys[Math.floor(Math.random() * keys.length)];
+}
+
 export function generateSeed() {
   const chars = "123456789ABC";
 
