@@ -25,13 +25,3 @@ export function decodeSeed(seed) {
     sf: { code: SF1, primary: SF_TABLE[SF1], secondary: SF_SECONDARY[SF2] }
   };
 }
-
-
-    cc: decodePair(cc, CC_TABLE, "Continental Configuration"),
-    lm: decodePair(lm, LM_TABLE, "Latitude & Temperature Model"),
-    we: decodePair(we, WE_TABLE, "Wind & Rainfall Model"),
-    tr: decodePair(tr, TR_TABLE, "Tectonic & Elevation Model"),
-    hy: decodePair(hy, HY_TABLE, "Hydrology Model"),
-    sf: decodePair(sf, SF_TABLE, "Special Features Model"),
-  };
-}
