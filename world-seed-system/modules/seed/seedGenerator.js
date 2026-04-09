@@ -5,15 +5,7 @@ function randomKey(table) {
   return keys[Math.floor(Math.random() * keys.length)];
 }
 
-export function generateRandomSeed() {
-  const cc = randomKey(CC_TABLE) + randomKey(CC_TABLE);
-  const lm = randomKey(LM_TABLE) + randomKey(LM_TABLE);
-  const we = randomKey(WE_TABLE) + randomKey(WE_TABLE);
-  const tr = randomKey(TR_TABLE) + randomKey(TR_TABLE);
-  const hy = randomKey(HY_TABLE) + randomKey(HY_TABLE);
-  const sf = randomKey(SF_TABLE) + randomKey(SF_TABLE);
-  return `${cc}-${lm}-${we}-${tr}-${hy}-${sf}`;
-}
+
 export function generateSeed() {
   const chars = "123456789ABC";
 
