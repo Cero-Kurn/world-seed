@@ -58,21 +58,20 @@ function renderRegions(regions) {
       <div class="label">${r.name}</div>
 
       <p><strong>Type:</strong> ${r.type}</p>
-      <p><strong>Biome:</strong> ${r.biome}</p>
+      <p><strong>Tectonic Type:</strong> ${r.tectonic}</p>
       <p><strong>Elevation:</strong> ${r.elevation}</p>
       <p><strong>Moisture:</strong> ${r.moisture}</p>
-      <p><strong>Climate Pattern:</strong> ${r.climatePattern}</p>
-
-      <p><strong>Sub‑Features:</strong> ${r.subFeatures}</p>
-
+      <p><strong>Climate Zone:</strong> ${r.climateZone}</p>
+      <p><strong>Biome:</strong> ${r.biome}</p>
       <p><strong>Special Feature:</strong> ${r.specialFeature}</p>
-
+      <p><strong>Sub‑Features:</strong> ${r.subFeatures}</p>
       <p><strong>Narrative Hook:</strong> ${r.narrativeHook}</p>
 
       <p>${r.description}</p>
     </div>
   `).join("");
 }
+
 
 
 
