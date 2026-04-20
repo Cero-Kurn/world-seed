@@ -174,7 +174,7 @@ function climateToBiome(climate) {
   return map[climate] || "Mixed Terrain";
 }
   // Add subFeatures back for compatibility
-  const SUB_FEATURES = {
+  const SUB_FEATURES = [
     "Deep ravine",
     "Ancient forest",
     "Salt flats",
@@ -185,7 +185,7 @@ function climateToBiome(climate) {
     "Steppes",
     "Mangrove swamps",
     "Glacial moraine"
-  };
+  ];
   
   for (let r of regions.slice(1)) {
     r.subFeatures = [
