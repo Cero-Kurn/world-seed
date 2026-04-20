@@ -7,23 +7,37 @@ import {
   NARRATIVE_HOOKS
 } from "./regionTables.js";
 
-// Simple helper — safe and self-contained
+import { buildRegionDescription } from "./regionDescription.js";
+
+// Simple helper
 function randomItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-export function generateRegions(index, worldTraits) {
-  // These come directly from your decoded seed structure
-  const biome = worldTraits.we.primary;        // biome is based on wind/rainfall model
-  const elevation = worldTraits.tr.primary;    // tectonic/elevation model
-  const moisture = worldTraits.hy.primary;     // hydrology model
+// MAIN FUNCTION — app.js calls THIS
+export function generateRegions(worldTraits) {
+  const regions = [];
+
+  // Generate 6 regions (or change number if needed)
+  for (let i = 0; i < 6; i++) {
+    const region = generateSingleRegion(i, worldTraits);
+    region.description = buildRegionDescription(region);
+    regions.push(region);
+  }
+
+  return regions;
+}
+
+// INTERNAL — generates ONE region
+function generateSingleRegion(index, worldTraits) {
+  const biome = worldTraits.we.primary;
+  const elevation = worldTraits.tr.primary;
+  const moisture = worldTraits.hy.primary;
   const specialFeature = worldTraits.sf.primary;
 
-  // New fields
   const type = randomItem(REGION_TYPES);
   const climatePattern = randomItem(CLIMATE_PATTERNS);
 
-  // 1–2 sub-features
   const subFeatures = [
     randomItem(SUB_FEATURES),
     Math.random() < 0.4 ? randomItem(SUB_FEATURES) : null
@@ -41,6 +55,6 @@ export function generateRegions(index, worldTraits) {
     subFeatures,
     specialFeature,
     narrativeHook,
-    description: "" // filled in later by regionDescription.js
+    description: ""
   };
 }
