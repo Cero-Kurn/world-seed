@@ -59,7 +59,7 @@ function renderRegions(regions) {
       <p><strong>Biome:</strong> ${r.biome}</p>
       <p><strong>Elevation:</strong> ${r.elevation}</p>
       <p><strong>Moisture:</strong> ${r.moisture}</p>
-      <p><strong>Feature:</strong> ${r.specialFeature}</p>
+      <p><strong>Feature:</strong> ${r.feature}</p>
       <p>${r.description}</p>
     </div>
   `).join("");
