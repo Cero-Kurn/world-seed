@@ -3,7 +3,7 @@
 // Handles seed input, worldTraits generation, and region rendering
 // ------------------------------------------------------------
 
-import { generateRegions } from "./regionGenerator.js";
+import { generateRegions } from "./regions/regionGenerator.js";
 
 // ------------------------------------------------------------
 // 1. Convert seed into worldTraits (your existing logic)
