@@ -1,7 +1,4 @@
 // regionDescription.js
-const region = generateRegion(i, decodedSeed);
-region.description = buildRegionDescription(region);
-regions.push(region);
 
 export function buildRegionDescription(region) {
   const {
