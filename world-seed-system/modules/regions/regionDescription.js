@@ -1,4 +1,7 @@
 // regionDescription.js
+const region = generateRegion(i, decodedSeed);
+region.description = buildRegionDescription(region);
+regions.push(region);
 
 export function buildRegionDescription(region) {
   const {
@@ -11,10 +14,6 @@ export function buildRegionDescription(region) {
     specialFeature,
     narrativeHook
   } = region;
-
-const region = generateRegion(i, decodedSeed);
-region.description = buildRegionDescription(region);
-regions.push(region);
 
   const subFeatureText = subFeatures.length
     ? "It contains " + subFeatures.join(" and ") + "."
