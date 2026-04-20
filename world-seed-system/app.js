@@ -57,6 +57,7 @@ function renderRegions(regions) {
     <div class="card" style="background:#111; margin:0;">
       <div class="label">${r.name}</div>
 
+      <p><strong>Type:</strong> ${r.type}</p>
       <p><strong>Tectonic Type:</strong> ${r.tectonic}</p>
       <p><strong>Elevation:</strong> ${r.elevation}</p>
       <p><strong>Moisture:</strong> ${r.moisture}</p>
@@ -64,6 +65,7 @@ function renderRegions(regions) {
       <p><strong>Biome:</strong> ${r.biome}</p>
 
       <p><strong>Special Feature:</strong> ${r.specialFeature}</p>
+      <p><strong>Sub‑Features:</strong> ${r.subFeatures}</p>
       <p><strong>Narrative Hook:</strong> ${r.narrativeHook}</p>
 
       <p>${r.description}</p>
