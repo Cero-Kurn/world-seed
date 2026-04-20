@@ -173,26 +173,26 @@ function climateToBiome(climate) {
   };
   return map[climate] || "Mixed Terrain";
 }
-// Add subFeatures back for compatibility
-const SUB_FEATURES = [
-  "Deep ravine",
-  "Ancient forest",
-  "Salt flats",
-  "Volcanic vents",
-  "Braided river",
-  "Limestone cliffs",
-  "Cavern system",
-  "Steppes",
-  "Mangrove swamps",
-  "Glacial moraine"
-];
-
-for (let r of regions.slice(1)) {
-  r.subFeatures = [
-    randomItem(SUB_FEATURES),
-    Math.random() < 0.4 ? randomItem(SUB_FEATURES) : null
-  ].filter(Boolean);
-}
+  // Add subFeatures back for compatibility
+  const SUB_FEATURES = {
+    "Deep ravine",
+    "Ancient forest",
+    "Salt flats",
+    "Volcanic vents",
+    "Braided river",
+    "Limestone cliffs",
+    "Cavern system",
+    "Steppes",
+    "Mangrove swamps",
+    "Glacial moraine"
+  };
+  
+  for (let r of regions.slice(1)) {
+    r.subFeatures = [
+      randomItem(SUB_FEATURES),
+      Math.random() < 0.4 ? randomItem(SUB_FEATURES) : null
+    ].filter(Boolean);
+  }
 
 // ------------------------------------------------------------
 // 8. Region adjacency (hex ring + center)
