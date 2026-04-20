@@ -19,6 +19,17 @@ function latitudeFromRow(r, rows) {
 // -----------------------------
 // Constants
 // -----------------------------
+const icons = {
+  mountain: new Image(),
+  forest: new Image(),
+  desert: new Image(),
+  city: new Image()
+};
+
+icons.mountain.src = "modules/Geo_Icons/alpine/Mountain%20Range1.png";
+icons.forest.src = "icons/forest.png";
+icons.desert.src = "icons/desert.png";
+icons.city.src = "icons/city.png";
 
 const COAST_THRESHOLD = 0.42;
 
@@ -35,7 +46,7 @@ const HEX_COLORS = {
   "coast": "#2f4b7c",
   "lake": "#4cc9f0",
   "inland sea": "#2f7fc1"
-};
+};  
 
 // -----------------------------
 // Hex Grid Helpers (Axial)
@@ -284,6 +295,16 @@ function isWaterBiome(biome) {
 // -----------------------------
 // Main Map Generation
 // -----------------------------
+function drawIcon(ctx, img, x, y, size) {
+  const iconSize = size * 1.2; // scale relative to hex size
+  ctx.drawImage(
+    img,
+    x - iconSize / 2,
+    y - iconSize / 2,
+    iconSize,
+    iconSize
+  );
+}
 
 export function generateHexMap(decoded) {
   const { lm, we, tr, hy } = decoded;
@@ -491,4 +512,16 @@ function drawHex(ctx, x, y, size, fill) {
   ctx.fillStyle = fill;
   ctx.fill();
   ctx.stroke();
+}
+// After drawHex(...)
+if (hex.elevation === "mountains") {
+  drawIcon(ctx, icons.mountain, x, y, size);
+}
+
+if (hex.biome === "tropical rainforest") {
+  drawIcon(ctx, icons.forest, x, y, size);
+}
+
+if (hex.biome === "desert") {
+  drawIcon(ctx, icons.desert, x, y, size);
 }
