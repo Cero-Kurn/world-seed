@@ -7,14 +7,32 @@ import {
   NARRATIVE_HOOKS
 } from "./regionTables.js";
 
-import { pickBiome } from "./biomeGenerator.js"; // your existing biome logic
-import { randomItem } from "./utils.js";         // helper: pick random array item
+import { pickBiome } from "../biomes/biomeGenerator.js"; 
+// ^ adjust this path if needed
+
+// Fallback randomItem if utils.js doesn't export it
+function randomItem(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 export function generateRegion(index, worldTraits) {
+  // SAFELY extract traits
   const biome = pickBiome(worldTraits);
-  const elevation = pickElevation(worldTraits);
-  const moisture = pickMoisture(worldTraits);
-  const specialFeature = pickSpecialFeature(worldTraits);
+
+  const elevation =
+    worldTraits.tr?.primary ||
+    worldTraits.tr ||
+    "Unknown elevation";
+
+  const moisture =
+    worldTraits.hy?.primary ||
+    worldTraits.hy ||
+    "Unknown moisture";
+
+  const specialFeature =
+    worldTraits.sf?.primary ||
+    worldTraits.sf ||
+    "Unknown feature";
 
   const type = randomItem(REGION_TYPES);
   const climatePattern = randomItem(CLIMATE_PATTERNS);
@@ -37,19 +55,6 @@ export function generateRegion(index, worldTraits) {
     subFeatures,
     specialFeature,
     narrativeHook,
-    description: "" // filled in later
+    description: "" // filled in later by regionDescription.js
   };
-}
-
-// Placeholder functions — these already exist in your system
-function pickElevation(worldTraits) {
-  return worldTraits.tr.primary;
-}
-
-function pickMoisture(worldTraits) {
-  return worldTraits.hy.primary;
-}
-
-function pickSpecialFeature(worldTraits) {
-  return worldTraits.sf.primary;
 }
