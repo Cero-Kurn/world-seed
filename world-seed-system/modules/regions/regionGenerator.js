@@ -28,7 +28,7 @@ export function generateRegions(worldTraits) {
     const moisture = variedTrait(worldTraits.hy.primary, worldTraits.hy.twist);
     const specialFeature = variedTrait(worldTraits.sf.primary, worldTraits.sf.twist);
 
-    const type = randomItem(REGION_TYPES);
+    const type = variedTrait(REGION_TYPES.primary, REGION_TYPES.twist);
     const climatePattern = randomItem(CLIMATE_PATTERNS);
 
     const subFeatures = [
