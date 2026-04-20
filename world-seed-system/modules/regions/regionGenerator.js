@@ -29,14 +29,14 @@ export function generateRegions(worldTraits) {
     const specialFeature = variedTrait(worldTraits.sf.primary, worldTraits.sf.twist);
 
     const type = variedTrait(REGION_TYPES.primary, REGION_TYPES.twist);
-    const climatePattern = randomItem(CLIMATE_PATTERNS);
+    const climatePattern = variedTrait(CLIMATE_PATTERNS.primary, CLIMATE_PATTERNS.twist);
 
     const subFeatures = [
       randomItem(SUB_FEATURES),
       Math.random() < 0.4 ? randomItem(SUB_FEATURES) : null
     ].filter(Boolean);
 
-    const narrativeHook = randomItem(NARRATIVE_HOOKS);
+    const narrativeHook = variedTrait(NARRATIVE_HOOKS.primary, NARRATIVE_HOOKS.twist);
 
     const region = {
       name: `Region ${i + 1}`,
