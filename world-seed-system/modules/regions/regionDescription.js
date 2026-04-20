@@ -12,6 +12,10 @@ export function buildRegionDescription(region) {
     narrativeHook
   } = region;
 
+const region = generateRegion(i, decodedSeed);
+region.description = buildRegionDescription(region);
+regions.push(region);
+
   const subFeatureText = subFeatures.length
     ? "It contains " + subFeatures.join(" and ") + "."
     : "";
