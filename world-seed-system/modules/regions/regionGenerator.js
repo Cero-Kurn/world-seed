@@ -9,19 +9,24 @@ import {
 
 import { buildRegionDescription } from "./regionDescription.js";
 
-// Simple helper
+// Simple helpers
 function randomItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function variedTrait(primary, twist) {
+  return Math.random() < 0.6 ? primary : twist;
 }
 
 export function generateRegions(worldTraits) {
   const regions = [];
 
   for (let i = 0; i < 6; i++) {
-    const biome = worldTraits.we.primary;
-    const elevation = worldTraits.tr.primary;
-    const moisture = worldTraits.hy.primary;
-    const specialFeature = worldTraits.sf.primary;
+    // Blend primary + twist values for variation
+    const biome = variedTrait(worldTraits.we.primary, worldTraits.we.twist);
+    const elevation = variedTrait(worldTraits.tr.primary, worldTraits.tr.twist);
+    const moisture = variedTrait(worldTraits.hy.primary, worldTraits.hy.twist);
+    const specialFeature = variedTrait(worldTraits.sf.primary, worldTraits.sf.twist);
 
     const type = randomItem(REGION_TYPES);
     const climatePattern = randomItem(CLIMATE_PATTERNS);
@@ -41,7 +46,7 @@ export function generateRegions(worldTraits) {
       moisture,
       climatePattern,
       subFeatures,
-      specialFeature,   // ✔ matches description + UI
+      specialFeature,
       narrativeHook,
       description: ""
     };
