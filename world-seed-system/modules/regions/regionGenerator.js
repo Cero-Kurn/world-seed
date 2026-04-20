@@ -12,7 +12,7 @@ function randomItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-export function generateRegion(index, worldTraits) {
+export function generateRegions(index, worldTraits) {
   // These come directly from your decoded seed structure
   const biome = worldTraits.we.primary;        // biome is based on wind/rainfall model
   const elevation = worldTraits.tr.primary;    // tectonic/elevation model
