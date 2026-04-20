@@ -7,33 +7,19 @@ import {
   NARRATIVE_HOOKS
 } from "./regionTables.js";
 
-import { pickBiome } from "../biomes/biomeGenerator.js"; 
-// ^ adjust this path if needed
-
-// Fallback randomItem if utils.js doesn't export it
+// Simple helper — safe and self-contained
 function randomItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
 export function generateRegion(index, worldTraits) {
-  // SAFELY extract traits
-  const biome = pickBiome(worldTraits);
+  // These come directly from your decoded seed structure
+  const biome = worldTraits.we.primary;        // biome is based on wind/rainfall model
+  const elevation = worldTraits.tr.primary;    // tectonic/elevation model
+  const moisture = worldTraits.hy.primary;     // hydrology model
+  const specialFeature = worldTraits.sf.primary;
 
-  const elevation =
-    worldTraits.tr?.primary ||
-    worldTraits.tr ||
-    "Unknown elevation";
-
-  const moisture =
-    worldTraits.hy?.primary ||
-    worldTraits.hy ||
-    "Unknown moisture";
-
-  const specialFeature =
-    worldTraits.sf?.primary ||
-    worldTraits.sf ||
-    "Unknown feature";
-
+  // New fields
   const type = randomItem(REGION_TYPES);
   const climatePattern = randomItem(CLIMATE_PATTERNS);
 
