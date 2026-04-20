@@ -63,9 +63,7 @@ function renderRegions(regions) {
       <p><strong>Moisture:</strong> ${r.moisture}</p>
       <p><strong>Climate Pattern:</strong> ${r.climatePattern}</p>
 
-      <p><strong>Sub‑Features:</strong> 
-        ${r.subFeatures.length ? r.subFeatures.join(", ") : "None"}
-      </p>
+      <p><strong>Sub‑Features:</strong> ${r.subFeatures}</p>
 
       <p><strong>Special Feature:</strong> ${r.specialFeature}</p>
 
