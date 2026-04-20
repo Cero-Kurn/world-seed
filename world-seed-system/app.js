@@ -65,7 +65,6 @@ function renderRegions(regions) {
       <p><strong>Biome:</strong> ${r.biome}</p>
 
       <p><strong>Special Feature:</strong> ${r.specialFeature}</p>
-      <p><strong>Sub‑Features:</strong> ${r.subFeatures}</p>
       <p><strong>Narrative Hook:</strong> ${r.narrativeHook}</p>
 
       <p>${r.description}</p>
