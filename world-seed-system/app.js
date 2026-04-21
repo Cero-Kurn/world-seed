@@ -73,6 +73,23 @@ function renderRegions(regions) {
   `).join("");
 }
 
+function renderTectonicMap(regions) {
+  const container = document.getElementById("tectonicMap");
+
+  const colors = {
+    CONVERGENT: "#c0392b",
+    DIVERGENT: "#8e44ad",
+    TRANSFORM: "#f1c40f",
+    CRATON: "#7f8c8d",
+    HOTSPOT: "#e67e22"
+  };
+
+  container.innerHTML = regions.map(r => `
+    <div class="tectonic-cell" style="background:${colors[r.tectonicType] || "#444"}">
+      <div class="tectonic-cell-inner">${r.tectonicType[0]}</div>
+    </div>
+  `).join("");
+}
 
 
 // --- MAIN ACTIONS ---
