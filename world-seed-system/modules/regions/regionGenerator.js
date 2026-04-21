@@ -35,7 +35,7 @@ export function generateRegions(decoded) {
       tectonicType
     ));
 
-    // Re-evaluate elevation tier after tectonic climate changes if needed
+    // Re-evaluate elevation tier after tectonic climate changes
     elevationTier = pickElevationTier(elevation, biome, moisture, sf);
 
     // Rain shadow using prevailing wind
