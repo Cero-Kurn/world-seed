@@ -4,6 +4,7 @@ export function buildRegionDescription(region) {
   const {
     name,
     latitudeBand,
+    climatePattern,
     biome,
     elevation,
     elevationTier,
@@ -13,8 +14,9 @@ export function buildRegionDescription(region) {
   } = region;
 
   return `
-    ${name} lies within the ${latitudeBand} zone, forming part of the ${elevationTier} and serving as a ${role}.
-    It is a ${elevation} region with ${moisture} conditions.
-    The dominant biome is ${biome}, and the area is known for ${feature}.
+    ${name} lies within the ${latitudeBand} zone and follows a ${climatePattern} climate pattern.
+    It forms part of the ${elevationTier} and serves as a ${role} in the wider world.
+    The region is a ${elevation} area with ${moisture} conditions.
+    Its dominant biome is ${biome}, and it is known for ${feature}.
   `.trim();
 }
