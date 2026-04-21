@@ -1,11 +1,5 @@
 // regionDescription.js
 // ------------------------------------------------------------
-// Builds a natural-language description for each region
-// using the new tectonic + climate + biome world model.
-// ------------------------------------------------------------
-
-// regionDescription.js
-// ------------------------------------------------------------
 // Simple description builder matching the older regionGenerator
 // ------------------------------------------------------------
 
@@ -21,9 +15,5 @@ export function buildRegionDescription(region) {
   return `
     ${name} is a ${elevation} region with ${moisture} conditions.
     Its dominant biome is ${biome}, and it is known for ${feature}.
-  `.trim();
-}
-
-    ${narrativeHook}
   `.trim();
 }
