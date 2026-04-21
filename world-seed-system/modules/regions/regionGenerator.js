@@ -8,6 +8,12 @@ export function generateRegions(decoded) {
   const regionCount = 8 + Math.floor(Math.random() * 5); // 8–12 regions
   const regions = [];
 
+  // Determine hemisphere from seed (simple, deterministic)
+  const hemisphere = pickHemisphere(lm);
+
+  // Determine prevailing wind direction
+  const prevailingWind = pickPrevailingWind(lm, we, hemisphere);
+
   for (let i = 0; i < regionCount; i++) {
     const name = generateRegionName(i, tr, sf);
 
@@ -20,13 +26,13 @@ export function generateRegions(decoded) {
     let elevationTier = pickElevationTier(elevation, biome, moisture, sf);
     let climatePattern = pickClimatePattern(latitudeBand, moisture, elevationTier, we);
 
-    // --- APPLY RAIN SHADOW EFFECTS ---
+    // --- APPLY RAIN SHADOW EFFECTS (using prevailing wind) ---
     ({ moisture, climatePattern, biome } = applyRainShadow({
       moisture,
       climatePattern,
       biome,
       elevationTier,
-      wind: we.primary
+      wind: prevailingWind
     }));
 
     const role = pickRegionRole(elevationTier, biome, moisture, latitudeBand);
@@ -40,7 +46,9 @@ export function generateRegions(decoded) {
       elevationTier,
       moisture,
       feature,
-      role
+      role,
+      prevailingWind,
+      hemisphere
     };
 
     region.description = buildRegionDescription(region);
@@ -48,6 +56,64 @@ export function generateRegions(decoded) {
   }
 
   return regions;
+}
+
+// ------------------------------------------------------------
+// HEMISPHERE
+// ------------------------------------------------------------
+function pickHemisphere(lm) {
+  const code = lm.code.toUpperCase();
+  return "ABCDEFGHIJKLM".includes(code) ? "Northern" : "Southern";
+}
+
+// ------------------------------------------------------------
+// PREVAILING WIND SIMULATION
+// ------------------------------------------------------------
+function pickPrevailingWind(lm, we, hemisphere) {
+  const lat = pickLatitudeBand(lm);
+  const w = we.primary.toLowerCase();
+
+  let baseWind;
+
+  // Latitude-driven global wind belts
+  switch (lat) {
+    case "Equatorial":
+    case "Tropical":
+      baseWind = "east"; // Trade Winds
+      break;
+    case "Subtropical":
+      baseWind = Math.random() < 0.5 ? "east" : "west";
+      break;
+    case "Temperate":
+      baseWind = "west"; // Westerlies
+      break;
+    case "Subpolar":
+    case "Polar":
+      baseWind = "east"; // Polar Easterlies
+      break;
+  }
+
+  // Hemisphere flip
+  if (hemisphere === "Southern") {
+    if (baseWind === "east") baseWind = "west";
+    else baseWind = "east";
+  }
+
+  // Weather code influence
+  if (w.includes("monsoon")) {
+    baseWind = Math.random() < 0.5 ? "west" : "east";
+  }
+  if (w.includes("cyclonic")) {
+    baseWind = Math.random() < 0.5 ? "north" : "south";
+  }
+  if (w.includes("jetstream")) {
+    baseWind = "west";
+  }
+  if (w.includes("calm")) {
+    baseWind = "variable";
+  }
+
+  return baseWind;
 }
 
 // ------------------------------------------------------------
@@ -97,36 +163,27 @@ function pickClimatePattern(latitudeBand, moisture, elevationTier, we) {
 }
 
 // ------------------------------------------------------------
-// RAIN SHADOW SYSTEM
+// RAIN SHADOW SYSTEM (now uses prevailingWind)
 // ------------------------------------------------------------
 function applyRainShadow({ moisture, climatePattern, biome, elevationTier, wind }) {
-  const w = wind.toLowerCase();
   const m = moisture.toLowerCase();
   const b = biome.toLowerCase();
 
-  // Only mountains create rain shadows
   if (elevationTier !== "Mountains") {
     return { moisture, climatePattern, biome };
   }
 
-  // Determine wind direction
-  let windDir = "west"; // default
-  if (w.includes("east")) windDir = "east";
-  if (w.includes("north")) windDir = "north";
-  if (w.includes("south")) windDir = "south";
-
   // Windward side gets wetter
-  if (["west", "southwest", "northwest"].includes(windDir)) {
+  if (["west"].includes(wind)) {
     if (m === "dry") moisture = "moderate moisture";
     else if (m === "moderate moisture") moisture = "humid";
     else if (m === "humid") moisture = "very wet";
 
     if (b.includes("forest")) biome = "temperate rainforest";
-    if (b.includes("tundra")) biome = "alpine tundra";
   }
 
   // Leeward side gets drier
-  if (["east", "southeast", "northeast"].includes(windDir)) {
+  if (["east"].includes(wind)) {
     if (m === "humid") moisture = "moderate moisture";
     else if (m === "moderate moisture") moisture = "dry";
     else if (m === "dry") moisture = "very dry";
@@ -135,7 +192,6 @@ function applyRainShadow({ moisture, climatePattern, biome, elevationTier, wind 
 
     if (b.includes("forest")) biome = "dry woodland";
     if (b.includes("temperate")) biome = "steppe";
-    if (b.includes("savanna")) biome = "semi-arid savanna";
   }
 
   return { moisture, climatePattern, biome };
