@@ -119,11 +119,7 @@ function processSeed(seed) {
   document.getElementById("climateBiomeSummary").innerHTML =
     generateClimateBiomeSummary(decoded);
 
-    // Regions
-  const regions = generateRegions(decoded);
-  renderRegions(regions);
-
-  //Tectonic Map
+    // Regions Tectonic
   const regions = generateRegions(decoded);
   renderRegions(regions);
   renderTectonicMap(regions);
