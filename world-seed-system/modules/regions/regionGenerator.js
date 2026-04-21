@@ -10,19 +10,19 @@ export function generateRegions(decoded) {
 
   for (let i = 0; i < regionCount; i++) {
     const name = generateRegionName(i, tr, sf);
-    const biome = pickBiome(lm, we, tr, hy);
+
+    const latitudeBand = pickLatitudeBand(lm);
+    const biome = pickBiome(lm, we, tr, hy, latitudeBand);
     const elevation = pickElevation(tr);
     const moisture = pickMoisture(we, hy);
     const feature = pickFeature(sf);
 
-    // NEW: Elevation Tier
     const elevationTier = pickElevationTier(elevation, biome, moisture, sf);
-
-    // NEW: Region Role
-    const role = pickRegionRole(elevationTier, biome, moisture);
+    const role = pickRegionRole(elevationTier, biome, moisture, latitudeBand);
 
     const region = {
       name,
+      latitudeBand,
       biome,
       elevation,
       elevationTier,
@@ -36,6 +36,20 @@ export function generateRegions(decoded) {
   }
 
   return regions;
+}
+
+// ------------------------------------------------------------
+// LATITUDE BANDS
+// ------------------------------------------------------------
+function pickLatitudeBand(lm) {
+  const code = lm.code.toUpperCase();
+
+  if ("ABC".includes(code)) return "Equatorial";
+  if ("DEF".includes(code)) return "Tropical";
+  if ("GHI".includes(code)) return "Subtropical";
+  if ("JKL".includes(code)) return "Temperate";
+  if ("MNO".includes(code)) return "Subpolar";
+  return "Polar";
 }
 
 // ------------------------------------------------------------
@@ -84,11 +98,10 @@ function pickElevationTier(elevation, biome, moisture, sf) {
   return "Mixed Elevation";
 }
 
-
 // ------------------------------------------------------------
 // REGION ROLES
 // ------------------------------------------------------------
-function pickRegionRole(elevationTier, biome, moisture) {
+function pickRegionRole(elevationTier, biome, moisture, latitudeBand) {
   const roles = [];
 
   // Geography-driven roles
@@ -105,6 +118,10 @@ function pickRegionRole(elevationTier, biome, moisture) {
 
   // Moisture-driven roles
   if (moisture.includes("dry")) roles.push("Deep Interior");
+
+  // Latitude-driven roles
+  if (latitudeBand === "Equatorial" && biome.includes("rainforest"))
+    roles.push("Rainforest Expanse");
 
   // Random special roles
   const special = ["Resource Belt", "Sacred Lands", "Trade Hub"];
@@ -145,41 +162,12 @@ function generateRegionName(index, tr, sf) {
   return `${tectonicFlavor} ${featureFlavor} ${base}`;
 }
 
-function pickBiome(lm, we, tr, hy) {
+function pickBiome(lm, we, tr, hy, latitudeBand) {
   const climate = lm.primary.toLowerCase();
   const winds = we.primary.toLowerCase();
   const water = hy.primary.toLowerCase();
 
-  if (climate.includes("hot")) return "tropical rainforest";
-  if (climate.includes("cold")) return "tundra";
-  if (winds.includes("monsoon")) return "monsoon forest";
-  if (water.includes("lake")) return "wetlands";
-  if (water.includes("sparse")) return "desert";
-  if (tr.primary.includes("mountain")) return "alpine";
-
-  return "temperate forest";
-}
-
-function pickElevation(tr) {
-  const t = tr.primary.toLowerCase();
-  if (t.includes("mountain")) return "mountain highland";
-  if (t.includes("plateau")) return "plateau";
-  if (t.includes("rift")) return "rift valley";
-  if (t.includes("coastal")) return "coastal lowland";
-  return "mixed elevation";
-}
-
-function pickMoisture(we, hy) {
-  const w = we.primary.toLowerCase();
-  const h = hy.primary.toLowerCase();
-
-  if (w.includes("monsoon")) return "seasonally wet";
-  if (h.includes("sparse")) return "dry";
-  if (h.includes("wetland")) return "very wet";
-  if (h.includes("lake")) return "humid";
-  return "moderate moisture";
-}
-
-function pickFeature(sf) {
-  return sf.primary.toLowerCase();
-}
+  // Latitude-driven biomes
+  if (latitudeBand === "Equatorial") return "tropical rainforest";
+  if (latitudeBand === "Tropical") return "savanna";
+  if (latitudeBand === "Subtropical" && water.includes("sparse")) return
