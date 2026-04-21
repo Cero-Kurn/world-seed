@@ -2,18 +2,6 @@
 
 import { buildRegionDescription } from "./regionDescription.js";
 
-region.debug = {
-  tectonic: `Tectonic type ${tectonicType} forced elevation to "${elevation}" and climate pattern to "${climatePattern}".`,
-  wind: `Prevailing wind "${prevailingWind}" influenced rain shadows and moisture.`,
-  rainShadow: elevationTier === "Mountains"
-    ? `Mountains + wind "${prevailingWind}" modified moisture to "${moisture}" and biome to "${biome}".`
-    : `No rain shadow applied (not a mountain region).`,
-  elevationTier: `Elevation "${elevation}" + biome "${biome}" + moisture "${moisture}" produced elevation tier "${elevationTier}".`,
-  biome: `Biome chosen from latitude "${latitudeBand}", climate "${lm.primary}", winds "${we.primary}", and hydrology "${hy.primary}".`,
-  moisture: `Moisture derived from winds "${we.primary}" and hydrology "${hy.primary}". Final moisture: "${moisture}".`,
-  climate: `Climate pattern derived from latitude "${latitudeBand}", moisture "${moisture}", elevation tier "${elevationTier}", and weather code "${we.primary}".`
-};
-
 export function generateRegions(decoded) {
   const { lm, we, tr, hy, sf } = decoded;
 
@@ -336,6 +324,19 @@ function pickElevationTier(elevation, biome, moisture, sf) {
 // ------------------------------------------------------------
 // REGION ROLES
 // ------------------------------------------------------------
+
+region.debug = {
+  tectonic: `Tectonic type ${tectonicType} forced elevation to "${elevation}" and climate pattern to "${climatePattern}".`,
+  wind: `Prevailing wind "${prevailingWind}" influenced rain shadows and moisture.`,
+  rainShadow: elevationTier === "Mountains"
+    ? `Mountains + wind "${prevailingWind}" modified moisture to "${moisture}" and biome to "${biome}".`
+    : `No rain shadow applied (not a mountain region).`,
+  elevationTier: `Elevation "${elevation}" + biome "${biome}" + moisture "${moisture}" produced elevation tier "${elevationTier}".`,
+  biome: `Biome chosen from latitude "${latitudeBand}", climate "${lm.primary}", winds "${we.primary}", and hydrology "${hy.primary}".`,
+  moisture: `Moisture derived from winds "${we.primary}" and hydrology "${hy.primary}". Final moisture: "${moisture}".`,
+  climate: `Climate pattern derived from latitude "${latitudeBand}", moisture "${moisture}", elevation tier "${elevationTier}", and weather code "${we.primary}".`
+};
+
 function pickRegionRole(elevationTier, biome, moisture, latitudeBand) {
   const roles = [];
 
