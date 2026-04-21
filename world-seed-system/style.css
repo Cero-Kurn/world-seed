@@ -107,3 +107,26 @@ button.secondary {
   display: block;
   margin: 0 auto;
 }
+
+/* ------------------------------
+   Region Debug
+------------------------------ */
+.debug-entry {
+  border-bottom: 1px solid #333;
+  padding: 6px 0;
+}
+
+.debug-header {
+  cursor: pointer;
+  color: #6cf;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.debug-content {
+  display: none;
+  padding-left: 12px;
+  color: #ccc;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
