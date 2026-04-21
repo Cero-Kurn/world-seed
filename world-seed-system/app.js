@@ -159,6 +159,67 @@ function renderTectonicSummary(regions) {
   `;
 }
 
+function renderGeologyNarrative(regions) {
+  const container = document.getElementById("geologyNarrative");
+
+  const counts = regions.reduce((acc, r) => {
+    acc[r.tectonicType] = (acc[r.tectonicType] || 0) + 1;
+    return acc;
+  }, {});
+
+  const total = regions.length;
+
+  const convergent = counts.CONVERGENT || 0;
+  const divergent = counts.DIVERGENT || 0;
+  const transform = counts.TRANSFORM || 0;
+  const craton = counts.CRATON || 0;
+  const hotspot = counts.HOTSPOT || 0;
+
+  // Determine world character
+  const youngWorld = convergent + divergent + hotspot > total * 0.5;
+  const stableWorld = craton > total * 0.5;
+  const fracturedWorld = transform > total * 0.3;
+
+  let tone = "";
+
+  if (youngWorld) {
+    tone = "This is a geologically young and restless world, shaped by active plate collisions, spreading rifts, and volcanic hotspots.";
+  } else if (stableWorld) {
+    tone = "This is an old, stable world dominated by ancient cratons and long‑quiet continental interiors.";
+  } else if (fracturedWorld) {
+    tone = "This world is heavily fractured, marked by long transform faults and shifting continental blocks.";
+  } else {
+    tone = "This world shows a balanced mix of tectonic forces, neither overly young nor fully settled.";
+  }
+
+  // Add details
+  const details = [];
+
+  if (convergent > 0) {
+    details.push(`• ${convergent} convergent zones create major mountain belts and strong rain shadows.`);
+  }
+  if (divergent > 0) {
+    details.push(`• ${divergent} divergent zones form rift valleys, heat traps, and linear lakes.`);
+  }
+  if (transform > 0) {
+    details.push(`• ${transform} transform faults carve deep basins and canyon systems.`);
+  }
+  if (craton > 0) {
+    details.push(`• ${craton} cratonic regions anchor the continents with stable, ancient bedrock.`);
+  }
+  if (hotspot > 0) {
+    details.push(`• ${hotspot} hotspot regions fuel volcanic uplands and isolated island chains.`);
+  }
+
+  container.innerHTML = `
+    <h3>🪨 Geological Narrative</h3>
+    <p>${tone}</p>
+    <p>${details.join("<br>")}</p>
+  `;
+}
+
+
+
 // --- MAIN ACTIONS ---
 
 function processSeed(seed) {
@@ -186,11 +247,12 @@ function processSeed(seed) {
   document.getElementById("climateBiomeSummary").innerHTML =
     generateClimateBiomeSummary(decoded);
 
-    // Regions Tectonic
+  // Regions Tectonic
   const regions = generateRegions(decoded);
+  renderGeologyNarrative(regions);
+  renderTectonicSummary(regions);
   renderRegions(regions);
   renderTectonicMap(regions);
-  renderDebugPanel(regions);
   renderDebugPanel(regions);
   
   // Heatmap
