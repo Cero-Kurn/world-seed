@@ -5,9 +5,7 @@ import { buildRegionDescription } from "./regionDescription.js";
 export function generateRegions(decoded) {
   const { lm, we, tr, hy, sf } = decoded;
 
-  // Decide number of regions (simple for now)
   const regionCount = 8 + Math.floor(Math.random() * 5); // 8–12 regions
-
   const regions = [];
 
   for (let i = 0; i < regionCount; i++) {
@@ -16,25 +14,61 @@ export function generateRegions(decoded) {
     const elevation = pickElevation(tr);
     const moisture = pickMoisture(we, hy);
     const feature = pickFeature(sf);
+    const role = pickRegionRole(elevation, biome);
 
     const region = {
       name,
       biome,
       elevation,
       moisture,
-      feature
+      feature,
+      role
     };
 
     region.description = buildRegionDescription(region);
-
     regions.push(region);
   }
 
   return regions;
 }
 
-// --- Helper functions ---
+// --- NEW: Region Roles ---
+function pickRegionRole(elevation, biome) {
+  const roles = [];
 
+  // Geography-based roles
+  if (elevation.includes("coastal")) roles.push("Coastlands");
+  if (elevation.includes("highland")) roles.push("Highlands");
+  if (elevation.includes("lowland")) roles.push("Lowlands");
+  if (elevation.includes("plateau")) roles.push("Plateau Realm");
+  if (elevation.includes("rift")) roles.push("Rift Zone");
+
+  // Biome-based roles
+  if (biome.includes("forest")) roles.push("Wildlands");
+  if (biome.includes("tundra")) roles.push("Frontier");
+  if (biome.includes("alpine")) roles.push("Highlands");
+  if (biome.includes("desert")) roles.push("Deep Interior");
+  if (biome.includes("wetlands")) roles.push("Marsh Country");
+
+  // If nothing matched, pick a general-purpose role
+  const fallback = [
+    "Heartland",
+    "Frontier",
+    "Wildlands",
+    "Deep Interior",
+    "Coastlands",
+    "Plateau Realm"
+  ];
+
+  if (roles.length === 0) return randomItem(fallback);
+  return randomItem(roles);
+}
+
+function randomItem(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// --- Existing helpers unchanged ---
 function generateRegionName(index, tr, sf) {
   const baseNames = [
     "Coast", "Highlands", "Lowlands", "Basin", "Plateau",
