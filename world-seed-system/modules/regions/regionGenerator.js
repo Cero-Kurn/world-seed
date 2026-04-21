@@ -16,9 +16,9 @@ export function generateRegions(decoded) {
     const feature = pickFeature(sf);
 
     // NEW: Elevation Tier
-    const elevationTier = pickElevationTier(elevation, biome, moisture);
+    const elevationTier = pickElevationTier(elevation, biome, moisture, sf);
 
-    // NEW: Region Role (now uses elevation tier)
+    // NEW: Region Role
     const role = pickRegionRole(elevationTier, biome, moisture);
 
     const region = {
@@ -39,53 +39,73 @@ export function generateRegions(decoded) {
 }
 
 // ------------------------------------------------------------
-// NEW: Elevation Tier System
+// ELEVATION TIERS
 // ------------------------------------------------------------
-function pickElevationTier(elevation, biome, moisture) {
+function pickElevationTier(elevation, biome, moisture, sf) {
   const e = elevation.toLowerCase();
   const b = biome.toLowerCase();
   const m = moisture.toLowerCase();
+  const f = sf.primary.toLowerCase();
 
-  if (e.includes("coastal")) return "Coastal Lowlands";
-  if (e.includes("highland")) return "Highlands";
+  // Direct elevation matches
+  if (e.includes("mountain")) return "Mountains";
   if (e.includes("plateau")) return "Plateau";
   if (e.includes("rift")) return "Rift Valley";
-  if (b.includes("wetland")) return "Lowlands";
+  if (e.includes("coastal")) return "Coastal Shelf";
+  if (e.includes("highland")) return "Uplands";
+  if (e.includes("lowland")) return "Lowlands";
+
+  // Biome-driven elevation tiers
+  if (b.includes("alpine")) return "Mountains";
+  if (b.includes("wetlands")) return "Basinlands";
+  if (b.includes("tundra")) return "Deep Interior Highlands";
+  if (b.includes("forest") && m.includes("humid")) return "Mid Slopes";
+
+  // Feature-driven (archipelago)
+  if (f.includes("archipelago")) return "Archipelago Cluster";
+
+  // Moisture-driven
   if (m.includes("very wet")) return "Basinlands";
+
+  // General inland
+  if (!e.includes("coastal")) return "Interior";
 
   return "Mixed Elevation";
 }
 
 // ------------------------------------------------------------
-// UPDATED: Region Roles (now based on elevation tier)
+// REGION ROLES
 // ------------------------------------------------------------
 function pickRegionRole(elevationTier, biome, moisture) {
   const roles = [];
 
   // Geography-driven roles
-  if (elevationTier === "Coastal Lowlands") roles.push("Coastlands");
-  if (elevationTier === "Highlands") roles.push("Highlands");
-  if (elevationTier === "Lowlands") roles.push("Lowlands");
-  if (elevationTier === "Plateau") roles.push("Plateau Realm");
-  if (elevationTier === "Rift Valley") roles.push("Rift Zone");
-  if (elevationTier === "Basinlands") roles.push("Deep Interior");
+  if (elevationTier === "Coastal Shelf") roles.push("Near Coast");
+  if (elevationTier === "Mountains") roles.push("Frontier");
+  if (elevationTier === "Deep Interior Highlands") roles.push("Deep Interior");
+  if (elevationTier === "Lowlands") roles.push("Heartland");
+  if (elevationTier === "Interior") roles.push("Hinterlands");
 
   // Biome-driven roles
+  if (biome.includes("rainforest")) roles.push("Rainforest Expanse");
   if (biome.includes("forest")) roles.push("Wildlands");
-  if (biome.includes("tundra")) roles.push("Frontier");
   if (biome.includes("desert")) roles.push("Deep Interior");
 
   // Moisture-driven roles
   if (moisture.includes("dry")) roles.push("Deep Interior");
 
+  // Random special roles
+  const special = ["Resource Belt", "Sacred Lands", "Trade Hub"];
+  if (Math.random() < 0.15) roles.push(randomItem(special));
+
   // Fallback roles
   const fallback = [
     "Heartland",
     "Frontier",
+    "Hinterlands",
     "Wildlands",
     "Deep Interior",
-    "Lowlands",
-    "Coastlands"
+    "Near Coast"
   ];
 
   if (roles.length === 0) return randomItem(fallback);
@@ -130,7 +150,7 @@ function pickBiome(lm, we, tr, hy) {
 
 function pickElevation(tr) {
   const t = tr.primary.toLowerCase();
-  if (t.includes("mountain")) return "highland";
+  if (t.includes("mountain")) return "mountain highland";
   if (t.includes("plateau")) return "plateau";
   if (t.includes("rift")) return "rift valley";
   if (t.includes("coastal")) return "coastal lowland";
