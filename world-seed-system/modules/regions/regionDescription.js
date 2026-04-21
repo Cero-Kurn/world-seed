@@ -5,13 +5,14 @@ export function buildRegionDescription(region) {
     name,
     biome,
     elevation,
+    elevationTier,
     moisture,
     feature,
     role
   } = region;
 
   return `
-    ${name} serves as a ${role} within the larger world.
+    ${name} is part of the ${elevationTier}, serving as a ${role} within the larger world.
     It is a ${elevation} region with ${moisture} conditions.
     The dominant biome is ${biome}, and the area is known for ${feature}.
   `.trim();
