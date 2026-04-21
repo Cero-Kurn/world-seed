@@ -18,11 +18,23 @@ export function generateRegions(decoded) {
     const feature = pickFeature(sf);
 
     const elevationTier = pickElevationTier(elevation, biome, moisture, sf);
-    const role = pickRegionRole(elevationTier, biome, moisture, latitudeBand);
+    const climatePattern = pickClimatePattern(
+      latitudeBand,
+      moisture,
+      elevationTier,
+      we
+    );
+    const role = pickRegionRole(
+      elevationTier,
+      biome,
+      moisture,
+      latitudeBand
+    );
 
     const region = {
       name,
       latitudeBand,
+      climatePattern,
       biome,
       elevation,
       elevationTier,
@@ -50,6 +62,43 @@ function pickLatitudeBand(lm) {
   if ("JKL".includes(code)) return "Temperate";
   if ("MNO".includes(code)) return "Subpolar";
   return "Polar";
+}
+
+// ------------------------------------------------------------
+// CLIMATE PATTERNS
+// ------------------------------------------------------------
+function pickClimatePattern(latitudeBand, moisture, elevationTier, we) {
+  const w = we.primary.toLowerCase();
+  const m = moisture.toLowerCase();
+
+  // Latitude-driven base patterns
+  if (latitudeBand === "Equatorial") return "Equatorial Convergence";
+  if (latitudeBand === "Tropical") return "Tropical Hadley Cell";
+  if (latitudeBand === "Subtropical") return "Subtropical High";
+  if (latitudeBand === "Temperate") return "Temperate Westerlies";
+  if (latitudeBand === "Subpolar") return "Polar Easterlies";
+  if (latitudeBand === "Polar") return "Polar Easterlies";
+
+  // Monsoon override
+  if (w.includes("monsoon")) return "Monsoon Zone";
+
+  // Rain shadow
+  if (elevationTier === "Mountains" && m.includes("dry"))
+    return "Rain Shadow Zone";
+
+  // Oceanic influence
+  if (elevationTier === "Coastal Shelf" && m.includes("humid"))
+    return "Oceanic Influence";
+
+  // Continental interior
+  if (
+    elevationTier === "Interior" ||
+    elevationTier === "Deep Interior Highlands"
+  ) {
+    return "Continental Interior";
+  }
+
+  return "Temperate Westerlies";
 }
 
 // ------------------------------------------------------------
@@ -146,12 +195,20 @@ function randomItem(arr) {
 }
 
 // ------------------------------------------------------------
-// Existing helpers unchanged
+// Existing helpers
 // ------------------------------------------------------------
 function generateRegionName(index, tr, sf) {
   const baseNames = [
-    "Coast", "Highlands", "Lowlands", "Basin", "Plateau",
-    "Forest", "Steppe", "Range", "Valley", "Marches"
+    "Coast",
+    "Highlands",
+    "Lowlands",
+    "Basin",
+    "Plateau",
+    "Forest",
+    "Steppe",
+    "Range",
+    "Valley",
+    "Marches"
   ];
 
   const tectonicFlavor = tr.primary.split(" ")[0];
@@ -170,4 +227,43 @@ function pickBiome(lm, we, tr, hy, latitudeBand) {
   // Latitude-driven biomes
   if (latitudeBand === "Equatorial") return "tropical rainforest";
   if (latitudeBand === "Tropical") return "savanna";
-  if (latitudeBand === "Subtropical" && water.includes("sparse")) return
+  if (latitudeBand === "Subtropical" && water.includes("sparse"))
+    return "desert";
+  if (latitudeBand === "Temperate") return "temperate forest";
+  if (latitudeBand === "Subpolar") return "tundra";
+  if (latitudeBand === "Polar") return "polar desert";
+
+  // Existing logic fallback
+  if (climate.includes("hot")) return "tropical rainforest";
+  if (climate.includes("cold")) return "tundra";
+  if (winds.includes("monsoon")) return "monsoon forest";
+  if (water.includes("lake")) return "wetlands";
+  if (water.includes("sparse")) return "desert";
+  if (tr.primary.toLowerCase().includes("mountain")) return "alpine";
+
+  return "temperate forest";
+}
+
+function pickElevation(tr) {
+  const t = tr.primary.toLowerCase();
+  if (t.includes("mountain")) return "mountain highland";
+  if (t.includes("plateau")) return "plateau";
+  if (t.includes("rift")) return "rift valley";
+  if (t.includes("coastal")) return "coastal lowland";
+  return "mixed elevation";
+}
+
+function pickMoisture(we, hy) {
+  const w = we.primary.toLowerCase();
+  const h = hy.primary.toLowerCase();
+
+  if (w.includes("monsoon")) return "seasonally wet";
+  if (h.includes("sparse")) return "dry";
+  if (h.includes("wetland")) return "very wet";
+  if (h.includes("lake")) return "humid";
+  return "moderate moisture";
+}
+
+function pickFeature(sf) {
+  return sf.primary.toLowerCase();
+}
