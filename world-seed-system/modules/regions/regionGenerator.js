@@ -14,12 +14,18 @@ export function generateRegions(decoded) {
     const elevation = pickElevation(tr);
     const moisture = pickMoisture(we, hy);
     const feature = pickFeature(sf);
-    const role = pickRegionRole(elevation, biome);
+
+    // NEW: Elevation Tier
+    const elevationTier = pickElevationTier(elevation, biome, moisture);
+
+    // NEW: Region Role (now uses elevation tier)
+    const role = pickRegionRole(elevationTier, biome, moisture);
 
     const region = {
       name,
       biome,
       elevation,
+      elevationTier,
       moisture,
       feature,
       role
@@ -32,33 +38,54 @@ export function generateRegions(decoded) {
   return regions;
 }
 
-// --- NEW: Region Roles ---
-function pickRegionRole(elevation, biome) {
+// ------------------------------------------------------------
+// NEW: Elevation Tier System
+// ------------------------------------------------------------
+function pickElevationTier(elevation, biome, moisture) {
+  const e = elevation.toLowerCase();
+  const b = biome.toLowerCase();
+  const m = moisture.toLowerCase();
+
+  if (e.includes("coastal")) return "Coastal Lowlands";
+  if (e.includes("highland")) return "Highlands";
+  if (e.includes("plateau")) return "Plateau";
+  if (e.includes("rift")) return "Rift Valley";
+  if (b.includes("wetland")) return "Lowlands";
+  if (m.includes("very wet")) return "Basinlands";
+
+  return "Mixed Elevation";
+}
+
+// ------------------------------------------------------------
+// UPDATED: Region Roles (now based on elevation tier)
+// ------------------------------------------------------------
+function pickRegionRole(elevationTier, biome, moisture) {
   const roles = [];
 
-  // Geography-based roles
-  if (elevation.includes("coastal")) roles.push("Coastlands");
-  if (elevation.includes("highland")) roles.push("Highlands");
-  if (elevation.includes("lowland")) roles.push("Lowlands");        // NEW
-  if (elevation.includes("plateau")) roles.push("Plateau Realm");
-  if (elevation.includes("rift")) roles.push("Rift Zone");
+  // Geography-driven roles
+  if (elevationTier === "Coastal Lowlands") roles.push("Coastlands");
+  if (elevationTier === "Highlands") roles.push("Highlands");
+  if (elevationTier === "Lowlands") roles.push("Lowlands");
+  if (elevationTier === "Plateau") roles.push("Plateau Realm");
+  if (elevationTier === "Rift Valley") roles.push("Rift Zone");
+  if (elevationTier === "Basinlands") roles.push("Deep Interior");
 
-  // Biome-based roles
+  // Biome-driven roles
   if (biome.includes("forest")) roles.push("Wildlands");
   if (biome.includes("tundra")) roles.push("Frontier");
-  if (biome.includes("alpine")) roles.push("Highlands");
-  if (biome.includes("desert")) roles.push("Deep Interior");        // NEW
-  if (biome.includes("wetlands")) roles.push("Lowlands");           // NEW
+  if (biome.includes("desert")) roles.push("Deep Interior");
 
-  // If nothing matched, pick a general-purpose role
+  // Moisture-driven roles
+  if (moisture.includes("dry")) roles.push("Deep Interior");
+
+  // Fallback roles
   const fallback = [
     "Heartland",
     "Frontier",
     "Wildlands",
-    "Deep Interior",   // NEW
-    "Lowlands",        // NEW
-    "Coastlands",
-    "Plateau Realm"
+    "Deep Interior",
+    "Lowlands",
+    "Coastlands"
   ];
 
   if (roles.length === 0) return randomItem(fallback);
@@ -69,7 +96,9 @@ function randomItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// --- Existing helpers unchanged ---
+// ------------------------------------------------------------
+// Existing helpers unchanged
+// ------------------------------------------------------------
 function generateRegionName(index, tr, sf) {
   const baseNames = [
     "Coast", "Highlands", "Lowlands", "Basin", "Plateau",
