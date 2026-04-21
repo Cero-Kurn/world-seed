@@ -126,6 +126,38 @@ function renderTectonicMap(regions) {
   `).join("");
 }
 
+function renderTectonicSummary(regions) {
+  const container = document.getElementById("tectonicSummary");
+
+  const colors = {
+    CONVERGENT: "#c0392b",
+    DIVERGENT: "#8e44ad",
+    TRANSFORM: "#f1c40f",
+    CRATON: "#7f8c8d",
+    HOTSPOT: "#e67e22"
+  };
+
+  // Count how many regions use each tectonic type
+  const counts = regions.reduce((acc, r) => {
+    acc[r.tectonicType] = (acc[r.tectonicType] || 0) + 1;
+    return acc;
+  }, {});
+
+  const badges = Object.entries(counts)
+    .map(([type, count]) => `
+      <div class="tectonic-badge" style="background:${colors[type]}">
+        ${type}: ${count}
+      </div>
+    `)
+    .join("");
+
+  container.innerHTML = `
+    <h3>🌍 Tectonic Summary</h3>
+    <div class="summary-row">
+      ${badges}
+    </div>
+  `;
+}
 
 // --- MAIN ACTIONS ---
 
@@ -159,7 +191,8 @@ function processSeed(seed) {
   renderRegions(regions);
   renderTectonicMap(regions);
   renderDebugPanel(regions);
-
+  renderDebugPanel(regions);
+  
   // Heatmap
   const heatmap = generateBiomeHeatmap(decoded);
   renderBiomeHeatmap(heatmap);
