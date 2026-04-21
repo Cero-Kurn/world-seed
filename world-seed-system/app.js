@@ -73,6 +73,23 @@ function renderRegions(regions) {
   `).join("");
 }
 
+function renderDebugPanel(regions) {
+  const panel = document.getElementById("debugPanel");
+
+  panel.innerHTML = regions.map(r => `
+    <div class="debug-entry">
+      <strong>${r.name}</strong>
+      \n• Tectonics: ${r.debug.tectonic}
+      \n• Wind: ${r.debug.wind}
+      \n• Rain Shadow: ${r.debug.rainShadow}
+      \n• Elevation Tier: ${r.debug.elevationTier}
+      \n• Biome Logic: ${r.debug.biome}
+      \n• Moisture Logic: ${r.debug.moisture}
+      \n• Climate Logic: ${r.debug.climate}
+    </div>
+  `).join("");
+}
+
 function renderTectonicMap(regions) {
   const container = document.getElementById("tectonicMap");
 
