@@ -55,11 +55,22 @@ function pickElevationTier(elevation, biome, moisture, sf) {
   if (e.includes("highland")) return "Uplands";
   if (e.includes("lowland")) return "Lowlands";
 
+  // Riverlands (wet + low)
+  if (b.includes("wetlands") || m.includes("humid")) return "Riverlands";
+
+  // Badlands (dry + eroded)
+  if (e.includes("plateau") && m.includes("dry")) return "Badlands";
+  if (e.includes("mixed") && m.includes("dry")) return "Badlands";
+
   // Biome-driven elevation tiers
   if (b.includes("alpine")) return "Mountains";
   if (b.includes("wetlands")) return "Basinlands";
   if (b.includes("tundra")) return "Deep Interior Highlands";
   if (b.includes("forest") && m.includes("humid")) return "Mid Slopes";
+
+  // Rolling Hills (moderate elevation + moderate moisture)
+  if (e.includes("mixed") && !m.includes("very wet") && !b.includes("desert"))
+    return "Rolling Hills";
 
   // Feature-driven (archipelago)
   if (f.includes("archipelago")) return "Archipelago Cluster";
@@ -72,6 +83,7 @@ function pickElevationTier(elevation, biome, moisture, sf) {
 
   return "Mixed Elevation";
 }
+
 
 // ------------------------------------------------------------
 // REGION ROLES
