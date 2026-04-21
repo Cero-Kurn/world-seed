@@ -56,14 +56,22 @@ function renderRegions(regions) {
   container.innerHTML = regions.map(r => `
     <div class="card" style="background:#111; margin:0;">
       <div class="label">${r.name}</div>
+
+      <p><strong>Latitude Band:</strong> ${r.latitudeBand}</p>
+      <p><strong>Climate Pattern:</strong> ${r.climatePattern}</p>
+      <p><strong>Elevation Tier:</strong> ${r.elevationTier}</p>
+      <p><strong>Role:</strong> ${r.role}</p>
+
       <p><strong>Biome:</strong> ${r.biome}</p>
       <p><strong>Elevation:</strong> ${r.elevation}</p>
       <p><strong>Moisture:</strong> ${r.moisture}</p>
       <p><strong>Feature:</strong> ${r.feature}</p>
+
       <p>${r.description}</p>
     </div>
   `).join("");
 }
+
 
 
 // --- MAIN ACTIONS ---
