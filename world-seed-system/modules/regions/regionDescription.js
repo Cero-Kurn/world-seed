@@ -12,7 +12,7 @@ export function buildRegionDescription(region) {
   } = region;
 
   return `
-    ${name} is part of the ${elevationTier}, serving as a ${role} within the larger world.
+    ${name} lies within the ${elevationTier}, functioning as a ${role} in the wider world.
     It is a ${elevation} region with ${moisture} conditions.
     The dominant biome is ${biome}, and the area is known for ${feature}.
   `.trim();
