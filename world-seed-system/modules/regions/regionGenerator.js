@@ -1,3 +1,7 @@
+// regionGenerator.js
+
+import { buildRegionDescription } from "./regionDescription.js";
+
 export function generateRegions(decoded) {
   const { lm, we, tr, hy, sf } = decoded;
 
@@ -13,19 +17,17 @@ export function generateRegions(decoded) {
     const moisture = pickMoisture(we, hy);
     const feature = pickFeature(sf);
 
-    const description = `
-      ${name} is a ${elevation} region with ${moisture} conditions.
-      The dominant biome is ${biome}, and the area is known for ${feature}.
-    `;
-
-    regions.push({
+    const region = {
       name,
       biome,
       elevation,
       moisture,
-      feature,
-      description
-    });
+      feature
+    };
+
+    region.description = buildRegionDescription(region);
+
+    regions.push(region);
   }
 
   return regions;
