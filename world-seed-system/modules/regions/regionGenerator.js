@@ -8,11 +8,9 @@ export function generateRegions(decoded) {
   const regionCount = 8 + Math.floor(Math.random() * 5); // 8–12 regions
   const regions = [];
 
-  // Determine hemisphere from seed (simple, deterministic)
   const hemisphere = pickHemisphere(lm);
-
-  // Determine prevailing wind direction
   const prevailingWind = pickPrevailingWind(lm, we, hemisphere);
+  const tectonicType = pickTectonicType(tr);
 
   for (let i = 0; i < regionCount; i++) {
     const name = generateRegionName(i, tr, sf);
@@ -23,10 +21,24 @@ export function generateRegions(decoded) {
     let moisture = pickMoisture(we, hy);
     const feature = pickFeature(sf);
 
+    // Tectonic effects on elevation
+    elevation = applyTectonicElevation(elevation, tectonicType);
+
     let elevationTier = pickElevationTier(elevation, biome, moisture, sf);
     let climatePattern = pickClimatePattern(latitudeBand, moisture, elevationTier, we);
 
-    // --- APPLY RAIN SHADOW EFFECTS (using prevailing wind) ---
+    // Tectonic effects on climate
+    ({ moisture, biome, climatePattern } = applyTectonicClimate(
+      moisture,
+      biome,
+      climatePattern,
+      tectonicType
+    ));
+
+    // Re-evaluate elevation tier after tectonic climate changes if needed
+    elevationTier = pickElevationTier(elevation, biome, moisture, sf);
+
+    // Rain shadow using prevailing wind
     ({ moisture, climatePattern, biome } = applyRainShadow({
       moisture,
       climatePattern,
@@ -48,7 +60,8 @@ export function generateRegions(decoded) {
       feature,
       role,
       prevailingWind,
-      hemisphere
+      hemisphere,
+      tectonicType
     };
 
     region.description = buildRegionDescription(region);
@@ -67,6 +80,21 @@ function pickHemisphere(lm) {
 }
 
 // ------------------------------------------------------------
+// TECTONIC TYPE
+// ------------------------------------------------------------
+function pickTectonicType(tr) {
+  const p = tr.primary.toLowerCase();
+
+  if (p.includes("convergent")) return "CONVERGENT";
+  if (p.includes("divergent")) return "DIVERGENT";
+  if (p.includes("transform")) return "TRANSFORM";
+  if (p.includes("craton")) return "CRATON";
+  if (p.includes("hotspot")) return "HOTSPOT";
+
+  return "CRATON";
+}
+
+// ------------------------------------------------------------
 // PREVAILING WIND SIMULATION
 // ------------------------------------------------------------
 function pickPrevailingWind(lm, we, hemisphere) {
@@ -75,7 +103,6 @@ function pickPrevailingWind(lm, we, hemisphere) {
 
   let baseWind;
 
-  // Latitude-driven global wind belts
   switch (lat) {
     case "Equatorial":
     case "Tropical":
@@ -93,13 +120,11 @@ function pickPrevailingWind(lm, we, hemisphere) {
       break;
   }
 
-  // Hemisphere flip
   if (hemisphere === "Southern") {
     if (baseWind === "east") baseWind = "west";
-    else baseWind = "east";
+    else if (baseWind === "west") baseWind = "east";
   }
 
-  // Weather code influence
   if (w.includes("monsoon")) {
     baseWind = Math.random() < 0.5 ? "west" : "east";
   }
@@ -163,38 +188,97 @@ function pickClimatePattern(latitudeBand, moisture, elevationTier, we) {
 }
 
 // ------------------------------------------------------------
-// RAIN SHADOW SYSTEM (now uses prevailingWind)
+// TECTONIC EFFECTS: ELEVATION
+// ------------------------------------------------------------
+function applyTectonicElevation(elevation, tectonicType) {
+  switch (tectonicType) {
+    case "CONVERGENT":
+      return "mountain highland";
+    case "DIVERGENT":
+      return "rift valley";
+    case "TRANSFORM":
+      return "fault basin";
+    case "CRATON":
+      return "plateau";
+    case "HOTSPOT":
+      return "volcanic highland";
+    default:
+      return elevation;
+  }
+}
+
+// ------------------------------------------------------------
+// TECTONIC EFFECTS: CLIMATE
+// ------------------------------------------------------------
+function applyTectonicClimate(moisture, biome, climatePattern, tectonicType) {
+  let m = moisture;
+  let b = biome;
+  let c = climatePattern;
+
+  switch (tectonicType) {
+    case "CONVERGENT":
+      c = "Orographic Zone";
+      break;
+
+    case "DIVERGENT":
+      c = "Rift Heat Trap";
+      if (m === "moderate moisture") m = "dry";
+      if (m === "dry") m = "very dry";
+      break;
+
+    case "TRANSFORM":
+      c = "Fault Basin";
+      break;
+
+    case "CRATON":
+      c = "Continental Interior";
+      m = "dry";
+      break;
+
+    case "HOTSPOT":
+      c = "Volcanic Warm Zone";
+      if (m === "moderate moisture") m = "humid";
+      if (b.includes("forest")) b = "cloud forest";
+      break;
+  }
+
+  return { moisture: m, biome: b, climatePattern: c };
+}
+
+// ------------------------------------------------------------
+// RAIN SHADOW SYSTEM
 // ------------------------------------------------------------
 function applyRainShadow({ moisture, climatePattern, biome, elevationTier, wind }) {
-  const m = moisture.toLowerCase();
-  const b = biome.toLowerCase();
+  const m0 = moisture.toLowerCase();
+  const b0 = biome.toLowerCase();
+  let m = moisture;
+  let b = biome;
+  let c = climatePattern;
 
   if (elevationTier !== "Mountains") {
     return { moisture, climatePattern, biome };
   }
 
-  // Windward side gets wetter
   if (["west"].includes(wind)) {
-    if (m === "dry") moisture = "moderate moisture";
-    else if (m === "moderate moisture") moisture = "humid";
-    else if (m === "humid") moisture = "very wet";
+    if (m0 === "dry") m = "moderate moisture";
+    else if (m0 === "moderate moisture") m = "humid";
+    else if (m0 === "humid") m = "very wet";
 
-    if (b.includes("forest")) biome = "temperate rainforest";
+    if (b0.includes("forest")) b = "temperate rainforest";
   }
 
-  // Leeward side gets drier
   if (["east"].includes(wind)) {
-    if (m === "humid") moisture = "moderate moisture";
-    else if (m === "moderate moisture") moisture = "dry";
-    else if (m === "dry") moisture = "very dry";
+    if (m0 === "humid") m = "moderate moisture";
+    else if (m0 === "moderate moisture") m = "dry";
+    else if (m0 === "dry") m = "very dry";
 
-    climatePattern = "Rain Shadow Zone";
+    c = "Rain Shadow Zone";
 
-    if (b.includes("forest")) biome = "dry woodland";
-    if (b.includes("temperate")) biome = "steppe";
+    if (b0.includes("forest")) b = "dry woodland";
+    if (b0.includes("temperate")) b = "steppe";
   }
 
-  return { moisture, climatePattern, biome };
+  return { moisture: m, climatePattern: c, biome: b };
 }
 
 // ------------------------------------------------------------
@@ -209,6 +293,8 @@ function pickElevationTier(elevation, biome, moisture, sf) {
   if (e.includes("mountain")) return "Mountains";
   if (e.includes("plateau")) return "Plateau";
   if (e.includes("rift")) return "Rift Valley";
+  if (e.includes("fault")) return "Basinlands";
+  if (e.includes("volcanic")) return "Uplands";
   if (e.includes("coastal")) return "Coastal Shelf";
   if (e.includes("highland")) return "Uplands";
   if (e.includes("lowland")) return "Lowlands";
