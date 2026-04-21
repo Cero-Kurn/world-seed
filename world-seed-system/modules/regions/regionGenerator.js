@@ -227,8 +227,7 @@ function pickBiome(lm, we, tr, hy, latitudeBand) {
   // Latitude-driven biomes
   if (latitudeBand === "Equatorial") return "tropical rainforest";
   if (latitudeBand === "Tropical") return "savanna";
-  if (latitudeBand === "Subtropical" && water.includes("sparse"))
-    return "desert";
+  if (latitudeBand === "Subtropical" && water.includes("sparse")) return "desert";
   if (latitudeBand === "Temperate") return "temperate forest";
   if (latitudeBand === "Subpolar") return "tundra";
   if (latitudeBand === "Polar") return "polar desert";
