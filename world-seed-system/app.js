@@ -76,19 +76,37 @@ function renderRegions(regions) {
 function renderDebugPanel(regions) {
   const panel = document.getElementById("debugPanel");
 
-  panel.innerHTML = regions.map(r => `
+  panel.innerHTML = regions.map((r, i) => `
     <div class="debug-entry">
-      <strong>${r.name}</strong>
-      \n• Tectonics: ${r.debug.tectonic}
-      \n• Wind: ${r.debug.wind}
-      \n• Rain Shadow: ${r.debug.rainShadow}
-      \n• Elevation Tier: ${r.debug.elevationTier}
-      \n• Biome Logic: ${r.debug.biome}
-      \n• Moisture Logic: ${r.debug.moisture}
-      \n• Climate Logic: ${r.debug.climate}
+      <div class="debug-header" data-debug="${i}">
+        ▶ ${r.name}
+      </div>
+      <div class="debug-content" id="debug-${i}">
+        • Tectonics: ${r.debug.tectonic}
+        \n• Wind: ${r.debug.wind}
+        \n• Rain Shadow: ${r.debug.rainShadow}
+        \n• Elevation Tier: ${r.debug.elevationTier}
+        \n• Biome Logic: ${r.debug.biome}
+        \n• Moisture Logic: ${r.debug.moisture}
+        \n• Climate Logic: ${r.debug.climate}
+      </div>
     </div>
   `).join("");
+
+  // Add click listeners for collapsible behavior
+  document.querySelectorAll(".debug-header").forEach(header => {
+    header.addEventListener("click", () => {
+      const index = header.getAttribute("data-debug");
+      const content = document.getElementById(`debug-${index}`);
+
+      const isOpen = content.style.display === "block";
+      content.style.display = isOpen ? "none" : "block";
+
+      header.textContent = `${isOpen ? "▶" : "▼"} ${regions[index].name}`;
+    });
+  });
 }
+
 
 function renderTectonicMap(regions) {
   const container = document.getElementById("tectonicMap");
