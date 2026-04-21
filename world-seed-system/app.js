@@ -61,6 +61,7 @@ function renderRegions(regions) {
       <p><strong>Climate Pattern:</strong> ${r.climatePattern}</p>
       <p><strong>Elevation Tier:</strong> ${r.elevationTier}</p>
       <p><strong>Role:</strong> ${r.role}</p>
+      <hr style="border:0; border-top:1px solid #333; margin:8px 0;">
 
       <p><strong>Biome:</strong> ${r.biome}</p>
       <p><strong>Elevation:</strong> ${r.elevation}</p>
