@@ -1,7 +1,4 @@
 // regionDescription.js
-// ------------------------------------------------------------
-// Simple description builder matching the older regionGenerator
-// ------------------------------------------------------------
 
 export function buildRegionDescription(region) {
   const {
@@ -9,11 +6,13 @@ export function buildRegionDescription(region) {
     biome,
     elevation,
     moisture,
-    feature
+    feature,
+    role
   } = region;
 
   return `
-    ${name} is a ${elevation} region with ${moisture} conditions.
-    Its dominant biome is ${biome}, and it is known for ${feature}.
+    ${name} serves as a ${role} within the larger world.
+    It is a ${elevation} region with ${moisture} conditions.
+    The dominant biome is ${biome}, and the area is known for ${feature}.
   `.trim();
 }
