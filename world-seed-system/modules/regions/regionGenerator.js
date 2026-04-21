@@ -39,7 +39,7 @@ function pickRegionRole(elevation, biome) {
   // Geography-based roles
   if (elevation.includes("coastal")) roles.push("Coastlands");
   if (elevation.includes("highland")) roles.push("Highlands");
-  if (elevation.includes("lowland")) roles.push("Lowlands");
+  if (elevation.includes("lowland")) roles.push("Lowlands");        // NEW
   if (elevation.includes("plateau")) roles.push("Plateau Realm");
   if (elevation.includes("rift")) roles.push("Rift Zone");
 
@@ -47,15 +47,16 @@ function pickRegionRole(elevation, biome) {
   if (biome.includes("forest")) roles.push("Wildlands");
   if (biome.includes("tundra")) roles.push("Frontier");
   if (biome.includes("alpine")) roles.push("Highlands");
-  if (biome.includes("desert")) roles.push("Deep Interior");
-  if (biome.includes("wetlands")) roles.push("Marsh Country");
+  if (biome.includes("desert")) roles.push("Deep Interior");        // NEW
+  if (biome.includes("wetlands")) roles.push("Lowlands");           // NEW
 
   // If nothing matched, pick a general-purpose role
   const fallback = [
     "Heartland",
     "Frontier",
     "Wildlands",
-    "Deep Interior",
+    "Deep Interior",   // NEW
+    "Lowlands",        // NEW
     "Coastlands",
     "Plateau Realm"
   ];
