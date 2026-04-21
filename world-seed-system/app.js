@@ -140,7 +140,8 @@ function processSeed(seed) {
   const regions = generateRegions(decoded);
   renderRegions(regions);
   renderTectonicMap(regions);
-  
+  renderDebugPanel(regions);
+
   // Heatmap
   const heatmap = generateBiomeHeatmap(decoded);
   renderBiomeHeatmap(heatmap);
