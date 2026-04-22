@@ -30,13 +30,3 @@ export function decodeSeed(seedStr) {
     sf: decodePair(sf, SF_TABLE, "Special Features Model"),
   };
 }
-
-xxxxxxx
-
-
-
-
-
-
-
-
