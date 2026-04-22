@@ -131,6 +131,19 @@ button.secondary {
   white-space: pre-wrap;
 }
 
+.debug-panel {
+  background: #0d0d0d;
+  border: 1px solid #333;
+  padding: 12px;
+  margin-top: 20px;
+  color: #ccc;
+  font-family: monospace;
+  white-space: pre-wrap;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+
 /* GEOLOGY NARRATIVE */
 .geology-narrative {
   background: #111;
@@ -220,35 +233,22 @@ button.secondary {
   font-weight: bold;
 }
 
-/* DEBUG PANEL */
-.debug-panel {
-  background: #0d0d0d;
+
+
+/* ------------------------------
+   Volcanic Hazard
+------------------------------ */
+.volcanic-hazard {
+  background: #111;
   border: 1px solid #333;
   padding: 12px;
-  margin-top: 20px;
+  margin-bottom: 20px;
   color: #ccc;
-  font-family: monospace;
-  white-space: pre-wrap;
-  max-height: 400px;
-  overflow-y: auto;
+  font-family: sans-serif;
+  border-radius: 6px;
 }
 
-.debug-entry {
-  border-bottom: 1px solid #333;
-  padding: 8px 0;
-}
-
-.debug-header {
-  cursor: pointer;
-  color: #6cf;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.debug-content {
-  display: none;
-  padding-left: 12px;
-  color: #ccc;
-  font-family: monospace;
-  white-space: pre-wrap;
+.volcanic-hazard h3 {
+  margin: 0 0 8px 0;
+  color: #e67e22;
 }
