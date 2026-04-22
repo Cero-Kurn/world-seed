@@ -123,11 +123,11 @@ function renderTectonicMap(regions) {
   const container = document.getElementById("tectonicMap");
 
   const colors = {
-    CONVERGENT: "#c0392b",
-    DIVERGENT: "#8e44ad",
-    TRANSFORM: "#f1c40f",
-    CRATON: "#7f8c8d",
-    HOTSPOT: "#e67e22"
+    convergent: "#c0392b",
+    divergent: "#8e44ad",
+    transform: "#f1c40f",
+    craton: "#7f8c8d",
+    hotspot: "#e67e22"
   };
 
   container.innerHTML = regions.map(r => `
@@ -149,11 +149,11 @@ function renderWorldAge(regions) {
 
   const total = regions.length;
 
-  const convergent = counts.CONVERGENT || 0;
-  const divergent = counts.DIVERGENT || 0;
-  const transform = counts.TRANSFORM || 0;
-  const craton = counts.CRATON || 0;
-  const hotspot = counts.HOTSPOT || 0;
+  const convergent = counts.convergent || 0;
+  const divergent = counts.divergent || 0;
+  const transform = counts.transform || 0;
+  const craton = counts.craton || 0;
+  const hotspot = counts.hotspot || 0;
 
   const activityScore =
     (convergent * 15) +
@@ -194,11 +194,11 @@ function renderTectonicSummary(regions) {
   const container = document.getElementById("tectonicSummary");
 
   const colors = {
-    CONVERGENT: "#c0392b",
-    DIVERGENT: "#8e44ad",
-    TRANSFORM: "#f1c40f",
-    CRATON: "#7f8c8d",
-    HOTSPOT: "#e67e22"
+    convergent: "#c0392b",
+    divergent: "#8e44ad",
+    transform: "#f1c40f",
+    craton: "#7f8c8d",
+    hotspot: "#e67e22"
   };
 
   const counts = regions.reduce((acc, r) => {
@@ -234,11 +234,11 @@ function renderGeologyNarrative(regions) {
 
   const total = regions.length;
 
-  const convergent = counts.CONVERGENT || 0;
-  const divergent = counts.DIVERGENT || 0;
-  const transform = counts.TRANSFORM || 0;
-  const craton = counts.CRATON || 0;
-  const hotspot = counts.HOTSPOT || 0;
+  const convergent = counts.convergent || 0;
+  const divergent = counts.divergent || 0;
+  const transform = counts.transform || 0;
+  const craton = counts.craton || 0;
+  const hotspot = counts.hotspot || 0;
 
   const youngWorld = convergent + divergent + hotspot > total * 0.5;
   const stableWorld = craton > total * 0.5;
@@ -282,11 +282,11 @@ function renderVolcanicHazard(regions) {
 
   const total = regions.length;
 
-  const convergent = counts.CONVERGENT || 0;
-  const divergent = counts.DIVERGENT || 0;
-  const transform = counts.TRANSFORM || 0;
-  const craton = counts.CRATON || 0;
-  const hotspot = counts.HOTSPOT || 0;
+  const convergent = counts.convergent || 0;
+  const divergent = counts.divergent || 0;
+  const transform = counts.transform || 0;
+  const craton = counts.craton || 0;
+  const hotspot = counts.hotspot || 0;
 
   // Volcanic hazard score
   const hazardScore =
