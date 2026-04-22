@@ -92,17 +92,35 @@ function pickHemisphere(lm) {
 // ------------------------------------------------------------
 // TECTONIC TYPE
 // ------------------------------------------------------------
-function pickTectonicType(tr) {
-  const p = tr.primary.toLowerCase();
-  console.log("TECTONIC PRIMARY:", tr.primary);
-  if (p.includes("convergent")) return "CONVERGENT";
-  if (p.includes("divergent")) return "DIVERGENT";
-  if (p.includes("transform")) return "TRANSFORM";
-  if (p.includes("craton")) return "CRATON";
-  if (p.includes("hotspot")) return "HOTSPOT";
+function picktectonictype(tr) {
+  const p = tr.primary.tolowercase();
 
-  return "CRATON";
+  // direct keyword matches
+  if (p.includes("convergent")) return "convergent";
+  if (p.includes("subduction")) return "convergent";
+  if (p.includes("collision")) return "convergent";
+  if (p.includes("orogen")) return "convergent";
+
+  if (p.includes("divergent")) return "divergent";
+  if (p.includes("rift")) return "divergent";
+  if (p.includes("spreading")) return "divergent";
+
+  if (p.includes("transform")) return "transform";
+  if (p.includes("fault")) return "transform";
+  if (p.includes("shear")) return "transform";
+
+  if (p.includes("craton")) return "craton";
+  if (p.includes("stable")) return "craton";
+  if (p.includes("shield")) return "craton";
+
+  if (p.includes("hotspot")) return "hotspot";
+  if (p.includes("volcanic")) return "hotspot";
+  if (p.includes("plume")) return "hotspot";
+
+  // fallback
+  return "craton";
 }
+
 
 // ------------------------------------------------------------
 // PREVAILING WIND SIMULATION
