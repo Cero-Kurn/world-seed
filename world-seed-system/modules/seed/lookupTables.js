@@ -205,3 +205,40 @@ export const SF_TABLE = {
   "R": "Planetwide aurora curtains",
   "S": "GM’s choice",
 };
+
+
+export const TR_TECTONIC_TYPE = {
+  "1": "craton",                     // Flat world
+  "2": "convergent",                 // One major mountain range
+  "3": "convergent",                 // Two parallel ranges
+  "4": "convergent",                 // Coastal range
+  "5": "convergent",                 // Inland arc
+  "6": "divergent",                  // Rift valley
+  "7": "convergent",                 // Volcanic arc
+  "8": "craton",                     // Plateau world
+  "9": "convergent",                 // Fragmented highlands
+  "A": "convergent",                 // Hyper-mountainous
+  "B": "convergent",                 // Subduction-dominated
+  "C": "convergent",                 // Multiple mountain ranges
+  "D": "divergent",                  // Rift valley system
+  "E": "convergent",                 // Volcanic arcs
+  "F": "craton",                     // High plateaus
+  "G": "craton",                     // Low, eroded terrain
+  "H": "convergent",                 // Active subduction zones
+  "I": "divergent",                  // Crustal thinning
+  "J": "transform",                  // Deep chasms (fault-related)
+  "K": "hotspot",                    // Dormant supervolcano
+  "L": "transform",                  // Chaotic tectonics
+  "M": "craton",                     // Massive shield continent
+  "N": "hotspot",                    // Hyper‑active volcanic belts
+  "O": "craton",                     // Ancient uplift scars
+  "P": "transform",                  // Planetwide fault network
+  "Q": "transform",                  // Floating/fractured crust
+  "R": "transform",                  // Hidden fault lines
+  "S": "convergent",                 // Subducted microplates
+  "T": "hotspot",                    // Active magma plumes
+  "U": "transform",                  // Frequent tremors
+  "V": "hotspot",                    // High geothermal activity
+  "W": "convergent",                 // Titanic mountain roots
+  "X": "convergent",                 // Hyper‑active subduction
+  "Y": "craton",                     // GM’s choice (neutral)
