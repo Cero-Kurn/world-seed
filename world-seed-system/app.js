@@ -431,11 +431,11 @@ function processSeed(seed) {
   // Climate & biome summary
   document.getElementById("climateBiomeSummary").innerHTML =
     generateClimateBiomeSummary(decoded);
-  renderClimateNarrative(regions, decoded);
 
   
   // Regions + tectonics
   const regions = generateRegions(decoded);
+  renderClimateNarrative(regions, decoded);
   renderWorldAge(regions);
   renderVolcanicHazard(regions);
   renderGeologyNarrative(regions);
