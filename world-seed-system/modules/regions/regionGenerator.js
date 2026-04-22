@@ -6,7 +6,7 @@ export function generateRegions(decoded) {
   const regions = [];
   const hemisphere = pickHemisphere(lm);
   const prevailingWind = pickPrevailingWind(lm, we, hemisphere);
-  const tectonicType = pickTectonicType(tr);
+  const tectonicType = decoded.tr.tectonicType; 
   for (let i = 0; i < regionCount; i++) {
     const name = generateRegionName(i, tr, sf);
     const latitudeBand = pickLatitudeBand(lm);
