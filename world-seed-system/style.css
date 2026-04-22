@@ -203,8 +203,8 @@ button.secondary {
 }
 
 .tectonic-cell {
-  width: 100%;
-  padding-top: 100%;
+  width: 10%;
+  padding-top: 10%;
   position: relative;
   border-radius: 4px;
 }
