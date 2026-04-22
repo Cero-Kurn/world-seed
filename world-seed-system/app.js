@@ -107,7 +107,7 @@ function renderDebugPanel(regions) {
   });
 }
 
-
+  // Tectonic Map
 function renderTectonicMap(regions) {
   const container = document.getElementById("tectonicMap");
 
@@ -126,6 +126,63 @@ function renderTectonicMap(regions) {
   `).join("");
 }
 
+  // World Age
+function renderWorldAge(regions) {
+  const container = document.getElementById("worldAge");
+
+  const counts = regions.reduce((acc, r) => {
+    acc[r.tectonicType] = (acc[r.tectonicType] || 0) + 1;
+    return acc;
+  }, {});
+
+  const total = regions.length;
+
+  const convergent = counts.CONVERGENT || 0;
+  const divergent = counts.DIVERGENT || 0;
+  const transform = counts.TRANSFORM || 0;
+  const craton = counts.CRATON || 0;
+  const hotspot = counts.HOTSPOT || 0;
+
+  // World Age Score (0–100)
+  // Younger worlds have more active tectonics.
+  // Older worlds have more cratons.
+  const activityScore =
+    (convergent * 15) +
+    (divergent * 12) +
+    (transform * 8) +
+    (hotspot * 10);
+
+  const stabilityScore = craton * 20;
+
+  // Normalize to 0–100
+  let worldAge = 50 + stabilityScore - activityScore;
+  worldAge = Math.max(0, Math.min(100, worldAge));
+
+  // Age category
+  let ageLabel = "";
+  let ageDescription = "";
+
+  if (worldAge < 33) {
+    ageLabel = "Young World";
+    ageDescription = "This world is geologically young, with active plate collisions, rifting, and volcanic hotspots shaping its surface.";
+  } else if (worldAge < 66) {
+    ageLabel = "Mature World";
+    ageDescription = "This world shows a balanced geological history, with both active tectonics and long‑settled continental interiors.";
+  } else {
+    ageLabel = "Ancient World";
+    ageDescription = "This world is geologically old, dominated by ancient cratons and long‑eroded mountain belts.";
+  }
+
+  container.innerHTML = `
+    <h3>⏳ World Age Score</h3>
+    <p><strong>Score:</strong> ${worldAge.toFixed(0)} / 100</p>
+    <p><strong>Classification:</strong> ${ageLabel}</p>
+    <p>${ageDescription}</p>
+  `;
+}
+
+
+  // Tectonic Summary
 function renderTectonicSummary(regions) {
   const container = document.getElementById("tectonicSummary");
 
@@ -249,11 +306,13 @@ function processSeed(seed) {
 
   // Regions Tectonic
   const regions = generateRegions(decoded);
+  renderWorldAge(regions);
   renderGeologyNarrative(regions);
   renderTectonicSummary(regions);
   renderRegions(regions);
   renderTectonicMap(regions);
   renderDebugPanel(regions);
+
   
   // Heatmap
   const heatmap = generateBiomeHeatmap(decoded);
