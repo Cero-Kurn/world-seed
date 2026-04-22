@@ -70,11 +70,11 @@ export function generateRegions(decoded) {
   // ----------------------------------------------------
   function pickElevation(tectonicType) {
     switch (tectonicType) {
-      case "CONVERGENT": return "Mountains";
-      case "DIVERGENT": return "Rift Highlands";
-      case "TRANSFORM": return "Faulted Uplands";
-      case "HOTSPOT": return "Volcanic Highlands";
-      case "CRATON":
+      case "convergent": return "Mountains";
+      case "divergent": return "Rift Highlands";
+      case "transform": return "Faulted Uplands";
+      case "hotspot": return "Volcanic Highlands";
+      case "craton":
       default: return "Lowlands";
     }
   }
