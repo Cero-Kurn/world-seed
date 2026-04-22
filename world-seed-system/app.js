@@ -271,6 +271,60 @@ function renderGeologyNarrative(regions) {
   `;
 }
 
+// Volcanic Hazard
+function renderVolcanicHazard(regions) {
+  const container = document.getElementById("volcanicHazard");
+
+  const counts = regions.reduce((acc, r) => {
+    acc[r.tectonicType] = (acc[r.tectonicType] || 0) + 1;
+    return acc;
+  }, {});
+
+  const total = regions.length;
+
+  const convergent = counts.CONVERGENT || 0;
+  const divergent = counts.DIVERGENT || 0;
+  const transform = counts.TRANSFORM || 0;
+  const craton = counts.CRATON || 0;
+  const hotspot = counts.HOTSPOT || 0;
+
+  // Volcanic hazard score
+  const hazardScore =
+    (hotspot * 25) +      // hotspots = strongest volcanic activity
+    (convergent * 18) +   // subduction volcanoes
+    (divergent * 12) +    // rift volcanoes
+    (transform * 4) -     // minor volcanic activity
+    (craton * 10);        // cratons reduce hazard
+
+  // Normalize 0–100
+  const score = Math.max(0, Math.min(100, hazardScore));
+
+  // Classification
+  let label = "";
+  let description = "";
+
+  if (score < 20) {
+    label = "Low Hazard";
+    description = "Volcanic activity is rare, with only isolated geothermal zones or dormant volcanic fields.";
+  } else if (score < 50) {
+    label = "Moderate Hazard";
+    description = "Volcanism is present but localized, typically along rifts or minor hotspots.";
+  } else if (score < 80) {
+    label = "High Hazard";
+    description = "Active volcanic systems are common, including rift volcanoes and subduction arcs.";
+  } else {
+    label = "Extreme Hazard";
+    description = "The world is volcanically intense, with major hotspots, active arcs, and widespread eruptions.";
+  }
+
+  container.innerHTML = `
+    <h3>🌋 Volcanic Hazard Rating</h3>
+    <p><strong>Score:</strong> ${score.toFixed(0)} / 100</p>
+    <p><strong>Classification:</strong> ${label}</p>
+    <p>${description}</p>
+  `;
+}
+
 
 // --- MAIN ACTIONS ---
 function processSeed(seed) {
