@@ -354,13 +354,14 @@ function processSeed(seed) {
 
   // Regions + tectonics
   const regions = generateRegions(decoded);
-
   renderWorldAge(regions);
+  renderVolcanicHazard(regions);
   renderGeologyNarrative(regions);
   renderTectonicSummary(regions);
   renderRegions(regions);
   renderTectonicMap(regions);
   renderDebugPanel(regions);
+
 
   // Heatmap
   const heatmap = generateBiomeHeatmap(decoded);
