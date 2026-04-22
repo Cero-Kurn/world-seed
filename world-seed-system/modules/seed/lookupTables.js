@@ -242,3 +242,4 @@ export const TR_TECTONIC_TYPE = {
   "W": "convergent",                 // Titanic mountain roots
   "X": "convergent",                 // Hyper‑active subduction
   "Y": "craton",                     // GM’s choice (neutral)
+};
