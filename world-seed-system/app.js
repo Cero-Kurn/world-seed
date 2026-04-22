@@ -1,5 +1,4 @@
 // --- IMPORT MODULES ---
-
 // Seed engine
 import { generateRandomSeed } from "./modules/seed/seedGenerator.js";
 import { decodeSeed } from "./modules/seed/seedDecoder.js";
@@ -8,13 +7,13 @@ import { generateWorldSummary } from "./modules/seed/worldSummary.js";
 // World-scale summaries
 import { generateContinentSummary } from "./modules/world/continentSummary.js";
 import { generateClimateBiomeSummary } from "./modules/world/climateBiomeSummary.js";
+
+// Maps
 import { generateHexMap, renderHexMap } from "./modules/maps/hexMap.js";
+import { generateBiomeHeatmap, renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
 
 // Regions
 import { generateRegions } from "./modules/regions/regionGenerator.js";
-
-// Heatmap
-import { generateBiomeHeatmap, renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
 
 
 // --- UI ELEMENTS ---
@@ -25,6 +24,7 @@ const btnDecode = document.getElementById("btnDecode");
 
 // --- RENDER FUNCTIONS ---
 
+// Decoded seed block
 function renderDecoded(decoded, seedStr) {
   const container = document.getElementById("decodedOutput");
 
@@ -50,6 +50,8 @@ function renderDecoded(decoded, seedStr) {
   `;
 }
 
+
+// Region cards (now includes tectonic info)
 function renderRegions(regions) {
   const container = document.getElementById("regionSummary");
 
@@ -61,6 +63,13 @@ function renderRegions(regions) {
       <p><strong>Climate Pattern:</strong> ${r.climatePattern}</p>
       <p><strong>Elevation Tier:</strong> ${r.elevationTier}</p>
       <p><strong>Role:</strong> ${r.role}</p>
+
+      <hr style="border:0; border-top:1px solid #333; margin:8px 0;">
+
+      <p><strong>Tectonic Type:</strong> ${r.tectonicType}</p>
+      <p><strong>Prevailing Wind:</strong> ${r.prevailingWind}</p>
+      <p><strong>Hemisphere:</strong> ${r.hemisphere}</p>
+
       <hr style="border:0; border-top:1px solid #333; margin:8px 0;">
 
       <p><strong>Biome:</strong> ${r.biome}</p>
@@ -73,6 +82,8 @@ function renderRegions(regions) {
   `).join("");
 }
 
+
+// Collapsible Debug Panel
 function renderDebugPanel(regions) {
   const panel = document.getElementById("debugPanel");
 
@@ -93,21 +104,21 @@ function renderDebugPanel(regions) {
     </div>
   `).join("");
 
-  // Add click listeners for collapsible behavior
+  // Collapsible behavior
   document.querySelectorAll(".debug-header").forEach(header => {
     header.addEventListener("click", () => {
       const index = header.getAttribute("data-debug");
       const content = document.getElementById(`debug-${index}`);
-
       const isOpen = content.style.display === "block";
-      content.style.display = isOpen ? "none" : "block";
 
+      content.style.display = isOpen ? "none" : "block";
       header.textContent = `${isOpen ? "▶" : "▼"} ${regions[index].name}`;
     });
   });
 }
 
-  // Tectonic Map
+
+// Tectonic Map
 function renderTectonicMap(regions) {
   const container = document.getElementById("tectonicMap");
 
@@ -126,7 +137,8 @@ function renderTectonicMap(regions) {
   `).join("");
 }
 
-  // World Age
+
+// World Age Score
 function renderWorldAge(regions) {
   const container = document.getElementById("worldAge");
 
@@ -143,9 +155,6 @@ function renderWorldAge(regions) {
   const craton = counts.CRATON || 0;
   const hotspot = counts.HOTSPOT || 0;
 
-  // World Age Score (0–100)
-  // Younger worlds have more active tectonics.
-  // Older worlds have more cratons.
   const activityScore =
     (convergent * 15) +
     (divergent * 12) +
@@ -154,11 +163,9 @@ function renderWorldAge(regions) {
 
   const stabilityScore = craton * 20;
 
-  // Normalize to 0–100
   let worldAge = 50 + stabilityScore - activityScore;
   worldAge = Math.max(0, Math.min(100, worldAge));
 
-  // Age category
   let ageLabel = "";
   let ageDescription = "";
 
@@ -182,7 +189,7 @@ function renderWorldAge(regions) {
 }
 
 
-  // Tectonic Summary
+// Tectonic Summary
 function renderTectonicSummary(regions) {
   const container = document.getElementById("tectonicSummary");
 
@@ -194,7 +201,6 @@ function renderTectonicSummary(regions) {
     HOTSPOT: "#e67e22"
   };
 
-  // Count how many regions use each tectonic type
   const counts = regions.reduce((acc, r) => {
     acc[r.tectonicType] = (acc[r.tectonicType] || 0) + 1;
     return acc;
@@ -216,6 +222,8 @@ function renderTectonicSummary(regions) {
   `;
 }
 
+
+// Geological Narrative
 function renderGeologyNarrative(regions) {
   const container = document.getElementById("geologyNarrative");
 
@@ -232,7 +240,6 @@ function renderGeologyNarrative(regions) {
   const craton = counts.CRATON || 0;
   const hotspot = counts.HOTSPOT || 0;
 
-  // Determine world character
   const youngWorld = convergent + divergent + hotspot > total * 0.5;
   const stableWorld = craton > total * 0.5;
   const fracturedWorld = transform > total * 0.3;
@@ -249,24 +256,13 @@ function renderGeologyNarrative(regions) {
     tone = "This world shows a balanced mix of tectonic forces, neither overly young nor fully settled.";
   }
 
-  // Add details
   const details = [];
 
-  if (convergent > 0) {
-    details.push(`• ${convergent} convergent zones create major mountain belts and strong rain shadows.`);
-  }
-  if (divergent > 0) {
-    details.push(`• ${divergent} divergent zones form rift valleys, heat traps, and linear lakes.`);
-  }
-  if (transform > 0) {
-    details.push(`• ${transform} transform faults carve deep basins and canyon systems.`);
-  }
-  if (craton > 0) {
-    details.push(`• ${craton} cratonic regions anchor the continents with stable, ancient bedrock.`);
-  }
-  if (hotspot > 0) {
-    details.push(`• ${hotspot} hotspot regions fuel volcanic uplands and isolated island chains.`);
-  }
+  if (convergent > 0) details.push(`• ${convergent} convergent zones create major mountain belts and strong rain shadows.`);
+  if (divergent > 0) details.push(`• ${divergent} divergent zones form rift valleys, heat traps, and linear lakes.`);
+  if (transform > 0) details.push(`• ${transform} transform faults carve deep basins and canyon systems.`);
+  if (craton > 0) details.push(`• ${craton} cratonic regions anchor the continents with stable, ancient bedrock.`);
+  if (hotspot > 0) details.push(`• ${hotspot} hotspot regions fuel volcanic uplands and isolated island chains.`);
 
   container.innerHTML = `
     <h3>🪨 Geological Narrative</h3>
@@ -276,9 +272,7 @@ function renderGeologyNarrative(regions) {
 }
 
 
-
 // --- MAIN ACTIONS ---
-
 function processSeed(seed) {
   let decoded;
 
@@ -304,8 +298,9 @@ function processSeed(seed) {
   document.getElementById("climateBiomeSummary").innerHTML =
     generateClimateBiomeSummary(decoded);
 
-  // Regions Tectonic
+  // Regions + tectonics
   const regions = generateRegions(decoded);
+
   renderWorldAge(regions);
   renderGeologyNarrative(regions);
   renderTectonicSummary(regions);
@@ -313,7 +308,6 @@ function processSeed(seed) {
   renderTectonicMap(regions);
   renderDebugPanel(regions);
 
-  
   // Heatmap
   const heatmap = generateBiomeHeatmap(decoded);
   renderBiomeHeatmap(heatmap);
@@ -321,12 +315,10 @@ function processSeed(seed) {
   // Hex map
   const hexMap = generateHexMap(decoded);
   renderHexMap(hexMap);
-
 }
 
 
 // --- BUTTON HANDLERS ---
-
 btnGenerate.addEventListener("click", () => {
   const seed = generateRandomSeed();
   seedInput.value = seed;
