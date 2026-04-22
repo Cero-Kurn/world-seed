@@ -431,7 +431,9 @@ function processSeed(seed) {
   // Climate & biome summary
   document.getElementById("climateBiomeSummary").innerHTML =
     generateClimateBiomeSummary(decoded);
+  renderClimateNarrative(regions, decoded);
 
+  
   // Regions + tectonics
   const regions = generateRegions(decoded);
   renderWorldAge(regions);
