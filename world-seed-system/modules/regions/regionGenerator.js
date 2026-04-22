@@ -94,7 +94,7 @@ function pickHemisphere(lm) {
 // ------------------------------------------------------------
 function pickTectonicType(tr) {
   const p = tr.primary.toLowerCase();
-
+  console.log("TECTONIC PRIMARY:", tr.primary);
   if (p.includes("convergent")) return "CONVERGENT";
   if (p.includes("divergent")) return "DIVERGENT";
   if (p.includes("transform")) return "TRANSFORM";
