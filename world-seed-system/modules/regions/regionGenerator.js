@@ -101,7 +101,6 @@ function pickTectonicType(tr) {
   if (p.includes("craton")) return "CRATON";
   if (p.includes("hotspot")) return "HOTSPOT";
 
-  return "CRATON";
 }
 
 // ------------------------------------------------------------
