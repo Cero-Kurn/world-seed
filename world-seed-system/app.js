@@ -603,35 +603,35 @@ function renderClimateAnomalies(regions, decoded) {
   // TECTONIC CLIMATE ANOMALIES
   // ----------------------------------------------------
   switch (tectonic) {
-    case "CONVERGENT":
+    case "convergent":
       anomalies.push({
         name: "Orographic Climate Walls",
         desc: "Massive mountain ranges split climates into wet windward zones and dry leeward basins."
       });
       break;
 
-    case "DIVERGENT":
+    case "divergent":
       anomalies.push({
         name: "Rift‑Valley Heat Basins",
         desc: "Low‑lying rift zones trap heat and moisture, creating unique thermal micro‑climates."
       });
       break;
 
-    case "TRANSFORM":
+    case "transform":
       anomalies.push({
         name: "Fault‑Driven Microclimates",
         desc: "Broken terrain disrupts airflow, producing patchy temperature and moisture anomalies."
       });
       break;
 
-    case "HOTSPOT":
+    case "hotspot":
       anomalies.push({
         name: "Volcanic Thermal Anomalies",
         desc: "Hotspot volcanism generates warm updrafts, localized storms, and geothermal climate pockets."
       });
       break;
 
-    case "CRATON":
+    case "craton":
       anomalies.push({
         name: "Stable Climate Shields",
         desc: "Ancient cratonic interiors resist climatic extremes and maintain long‑term stability."
@@ -832,7 +832,7 @@ function renderRegionalClimateExtremes(regions, decoded) {
     // ----------------------------------------------------
     // RIFT‑VALLEY HEAT BASINS
     // ----------------------------------------------------
-    if (r.tectonicType === "DIVERGENT") {
+    if (r.tectonicType === "divergent") {
       tags.push("Rift‑Valley Heat Basin");
       notes.push("Rift depressions trap heat and moisture, amplifying temperature swings.");
     }
@@ -840,7 +840,7 @@ function renderRegionalClimateExtremes(regions, decoded) {
     // ----------------------------------------------------
     // VOLCANIC THERMAL SURGES
     // ----------------------------------------------------
-    if (r.tectonicType === "HOTSPOT") {
+    if (r.tectonicType === "hotspot") {
       tags.push("Volcanic Thermal Surges");
       notes.push("Volcanic activity periodically releases heat, altering local climates.");
     }
@@ -848,7 +848,7 @@ function renderRegionalClimateExtremes(regions, decoded) {
     // ----------------------------------------------------
     // FAULT‑DRIVEN WIND SHEAR
     // ----------------------------------------------------
-    if (r.tectonicType === "TRANSFORM") {
+    if (r.tectonicType === "transform") {
       tags.push("Fault‑Driven Wind Shear");
       notes.push("Broken terrain channels winds into violent gusts and turbulence.");
     }
@@ -895,7 +895,7 @@ function renderRegionalDisasters(regions, decoded) {
     // ----------------------------------------------------
     // EARTHQUAKES (Transform + Convergent)
     // ----------------------------------------------------
-    if (r.tectonicType === "TRANSFORM" || r.tectonicType === "CONVERGENT") {
+    if (r.tectonicType === "transform" || r.tectonicType === "convergent") {
       events.push("Earthquake Risk");
       notes.push("Active fault systems may produce occasional seismic activity.");
     }
@@ -903,7 +903,7 @@ function renderRegionalDisasters(regions, decoded) {
     // ----------------------------------------------------
     // VOLCANIC ERUPTIONS (Hotspot + Convergent arcs)
     // ----------------------------------------------------
-    if (r.tectonicType === "HOTSPOT" || r.tectonicType === "CONVERGENT") {
+    if (r.tectonicType === "hotspot" || r.tectonicType === "convergent") {
       events.push("Volcanic Activity");
       notes.push("Volcanic systems may experience periodic eruptions or ash emissions.");
     }
@@ -945,7 +945,7 @@ function renderRegionalDisasters(regions, decoded) {
     // ----------------------------------------------------
     // RIFT COLLAPSES (Divergent)
     // ----------------------------------------------------
-    if (r.tectonicType === "DIVERGENT") {
+    if (r.tectonicType === "divergent") {
       events.push("Rift Instability");
       notes.push("Rift zones may experience ground deformation or sudden shifts.");
     }
@@ -953,7 +953,7 @@ function renderRegionalDisasters(regions, decoded) {
     // ----------------------------------------------------
     // ASHFALL SEASONS (Hotspot)
     // ----------------------------------------------------
-    if (r.tectonicType === "HOTSPOT") {
+    if (r.tectonicType === "hotspot") {
       events.push("Ashfall Season");
       notes.push("Volcanic plumes may occasionally deposit ash across the region.");
     }
@@ -997,7 +997,7 @@ function renderRegionalHistory(regions, decoded) {
     // ----------------------------------------------------
     // MOUNTAIN REGIONS (Convergent)
     // ----------------------------------------------------
-    if (r.tectonicType === "CONVERGENT") {
+    if (r.tectonicType === "convergent") {
       themes.push("Mountain Strongholds");
       notes.push("Steep terrain encouraged fortified settlements and independent highland cultures.");
     }
@@ -1005,7 +1005,7 @@ function renderRegionalHistory(regions, decoded) {
     // ----------------------------------------------------
     // RIFT REGIONS (Divergent)
     // ----------------------------------------------------
-    if (r.tectonicType === "DIVERGENT") {
+    if (r.tectonicType === "divergent") {
       themes.push("Rift‑Valley Trade Routes");
       notes.push("Lowland rift corridors became natural pathways for travel and exchange.");
     }
@@ -1013,7 +1013,7 @@ function renderRegionalHistory(regions, decoded) {
     // ----------------------------------------------------
     // VOLCANIC REGIONS (Hotspot)
     // ----------------------------------------------------
-    if (r.tectonicType === "HOTSPOT") {
+    if (r.tectonicType === "hotspot") {
       themes.push("Volcanic Island Navigators");
       notes.push("Communities adapted to geothermal landscapes and developed strong navigation traditions.");
     }
@@ -1021,15 +1021,15 @@ function renderRegionalHistory(regions, decoded) {
     // ----------------------------------------------------
     // FAULT REGIONS (Transform)
     // ----------------------------------------------------
-    if (r.tectonicType === "TRANSFORM") {
+    if (r.tectonicType === "transform") {
       themes.push("Fault‑Line Adaptation");
       notes.push("Societies built flexible infrastructure and relied on dispersed settlements.");
     }
 
     // ----------------------------------------------------
-    // CRATON REGIONS (Stable)
+    // craton REGIONS (Stable)
     // ----------------------------------------------------
-    if (r.tectonicType === "CRATON") {
+    if (r.tectonicType === "craton") {
       themes.push("Ancient Heartland Civilizations");
       notes.push("Stable terrain supported long‑lasting agricultural and cultural centers.");
     }
@@ -1210,35 +1210,35 @@ function renderOceanCurrents(regions, decoded) {
   // TECTONIC INFLUENCE
   // ----------------------------------------------------
   switch (tectonic) {
-    case "CONVERGENT":
+    case "convergent":
       currents.push({
         name: "Trench‑Driven Current Deflection",
         desc: "Deep ocean trenches redirect major currents, creating complex eddies and storm‑fueling warm pools."
       });
       break;
 
-    case "DIVERGENT":
+    case "divergent":
       currents.push({
         name: "Mid‑Ocean Ridge Upwelling",
         desc: "Ridge systems push warm water upward, altering current paths and enhancing storm formation."
       });
       break;
 
-    case "HOTSPOT":
+    case "hotspot":
       currents.push({
         name: "Volcanic Island Current Disruption",
         desc: "Chains of volcanic islands break up currents, creating swirling eddies and localized warm zones."
       });
       break;
 
-    case "TRANSFORM":
+    case "transform":
       currents.push({
         name: "Fault‑Line Current Shear",
         desc: "Undersea fault systems create abrupt changes in seafloor depth, altering current speed and direction."
       });
       break;
 
-    case "CRATON":
+    case "craton":
       currents.push({
         name: "Stable Continental Shelf Currents",
         desc: "Wide, stable shelves support predictable coastal currents and long‑term climate stability."
