@@ -1417,7 +1417,7 @@ function renderBiomeLegend() {
     "Alpine": "High‑elevation cold biomes.",
     "Wetlands": "Water‑saturated ecosystems.",
     "Mediterranean": "Dry summers, mild wet winters.",
-    "Monsoon Forest": "#3cb371",
+    "Monsoon Forest": "",
     "Ocean": "",
     "Coast": "",
     "Lake": "",
