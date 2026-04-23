@@ -1023,6 +1023,7 @@ function processSeed(seed) {
   renderRegionalClimateExtremes(regions, decoded);
   renderRegionalWeather(regions, decoded);
   renderRegionalDisasters(regions, decoded);
+  renderSeasonalVariability(regions, decoded);
   renderWorldAge(regions);
   renderVolcanicHazard(regions);
   renderGeologyNarrative(regions);
