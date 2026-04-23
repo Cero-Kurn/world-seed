@@ -1277,7 +1277,7 @@ function processSeed(seed) {
 
   // Render decoded seed
   renderDecoded(decoded, seed);
-
+  
   // World summary
   document.getElementById("worldSummary").innerHTML =
     generateWorldSummary(decoded);
@@ -1290,34 +1290,32 @@ function processSeed(seed) {
   document.getElementById("climateBiomeSummary").innerHTML =
     generateClimateBiomeSummary(decoded);
 
-  
   // Regions + tectonics
   const regions = generateRegions(decoded);
+    // 🌍 GLOBAL CLIMATE SYSTEMS
   renderClimateNarrative(regions, decoded);
   renderOceanCurrents(regions, decoded);
   renderClimateAnomalies(regions, decoded);
+  // 🌱 REGIONAL CLIMATE SYSTEMS
   renderMicroClimates(regions, decoded);
-  renderRegionalClimateExtremes(regions, decoded);
   renderRegionalWeather(regions, decoded);
+  renderRegionalClimateExtremes(regions, decoded);
   renderRegionalDisasters(regions, decoded);
   renderSeasonalVariability(regions, decoded);
   renderRegionalHistory(regions, decoded);
+  // 🪨 GEOLOGY SYSTEMS
   renderWorldAge(regions);
   renderVolcanicHazard(regions);
   renderGeologyNarrative(regions);
   renderTectonicSummary(regions);
+  // 🗺 REGION + MAP OUTPUT
   renderRegions(regions);
   renderTectonicMap(regions);
   renderDebugPanel(regions);
-
-
-  // Heatmap
-  const heatmap = generateBiomeHeatmap(decoded);
-  renderBiomeHeatmap(heatmap);
-
-  // Hex map
-  const hexMap = generateHexMap(decoded);
-  renderHexMap(hexMap);
+  
+  // MAPS
+  renderBiomeHeatmap(generateBiomeHeatmap(decoded));
+  renderHexMap(generateHexMap(decoded));
 }
 
 
