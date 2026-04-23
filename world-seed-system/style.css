@@ -348,3 +348,28 @@ button.secondary {
   background: #181818;
   border-radius: 4px;
 }
+
+/* Regional Weather */
+.regional-weather {
+  background: #111;
+  border: 1px solid #333;
+  padding: 12px;
+  margin-bottom: 20px;
+  color: #ccc;
+  font-family: sans-serif;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+.regional-weather h3 {
+  margin: 0 0 8px 0;
+  color: #1abc9c;
+}
+
+.regional-weather .weather-entry {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-left: 3px solid #1abc9c;
+  background: #181818;
+  border-radius: 4px;
+}
