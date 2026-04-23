@@ -73,6 +73,7 @@ function renderRegions(regions) {
       <hr style="border:0; border-top:1px solid #333; margin:8px 0;">
 
       <p><strong>Biome:</strong> ${r.biome}</p>
+      <p><strong>Biome Role:</strong> ${r.biomeRole}</p>
       <p><strong>Elevation:</strong> ${r.elevation}</p>
       <p><strong>Moisture:</strong> ${r.moisture}</p>
       <p><strong>Feature:</strong> ${r.feature}</p>
