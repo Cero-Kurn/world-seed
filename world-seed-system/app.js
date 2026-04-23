@@ -15,12 +15,16 @@ import { generateBiomeHeatmap, renderBiomeHeatmap } from "./modules/maps/biomeHe
 // Regions
 import { generateRegions } from "./modules/regions/regionGenerator.js";
 
-
 // --- UI ELEMENTS ---
 const seedInput = document.getElementById("seedInput");
 const btnGenerate = document.getElementById("btnGenerate");
 const btnDecode = document.getElementById("btnDecode");
 
+// --- CLIMATE MODULES ---
+import { renderClimateAnomalies } from "./modules/climate/climateAnomalies.js";
+import { renderMicroClimates } from "./modules/climate/microClimates.js";
+
+// --- BIOME MODULES ---
 
 // --- RENDER FUNCTIONS ---
 
