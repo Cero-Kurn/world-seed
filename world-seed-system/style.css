@@ -299,3 +299,28 @@ button.secondary {
   background: #181818;
   border-radius: 4px;
 }
+
+/* Climate Anomalies*/
+.climate-anomalies {
+  background: #111;
+  border: 1px solid #333;
+  padding: 12px;
+  margin-bottom: 20px;
+  color: #ccc;
+  font-family: sans-serif;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+.climate-anomalies h3 {
+  margin: 0 0 8px 0;
+  color: #e74c3c;
+}
+
+.climate-anomalies .anomaly-entry {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-left: 3px solid #e74c3c;
+  background: #181818;
+  border-radius: 4px;
+}
