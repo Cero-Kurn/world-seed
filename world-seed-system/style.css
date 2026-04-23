@@ -400,6 +400,7 @@ button.secondary {
 }
 
 /*Seasonal Variability*/
+
 .seasonal-variability {
   background: #111;
   border: 1px solid #333;
@@ -444,6 +445,31 @@ button.secondary {
   margin-bottom: 10px;
   padding: 8px;
   border-left: 3px solid #9b59b6;
+  background: #181818;
+  border-radius: 4px;
+}
+
+/* Ocean Currents */
+.ocean-currents {
+  background: #111;
+  border: 1px solid #333;
+  padding: 12px;
+  margin-bottom: 20px;
+  color: #ccc;
+  font-family: sans-serif;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+.ocean-currents h3 {
+  margin: 0 0 8px 0;
+  color: #2980b9;
+}
+
+.ocean-currents .current-entry {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-left: 3px solid #2980b9;
   background: #181818;
   border-radius: 4px;
 }
