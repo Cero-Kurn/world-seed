@@ -1,8 +1,7 @@
 // ---CLIMATE ANOMALIES ---
 export function renderClimateAnomalies(regions, decoded) ///{ ... }
-//function renderClimateAnomalies(regions, decoded) {
+  //function renderClimateAnomalies(regions, decoded) {
   const container = document.getElementById("climateAnomalies");
-
   const lat = decoded.lm.primary.toLowerCase();
   const wind = decoded.we.primary.toLowerCase();
   const hydro = decoded.hy.primary.toLowerCase();
