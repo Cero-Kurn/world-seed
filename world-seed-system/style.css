@@ -398,3 +398,28 @@ button.secondary {
   background: #181818;
   border-radius: 4px;
 }
+
+/*Seasonal Variability*/
+.seasonal-variability {
+  background: #111;
+  border: 1px solid #333;
+  padding: 12px;
+  margin-bottom: 20px;
+  color: #ccc;
+  font-family: sans-serif;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+.seasonal-variability h3 {
+  margin: 0 0 8px 0;
+  color: #f1c40f;
+}
+
+.seasonal-variability .sv-entry {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-left: 3px solid #f1c40f;
+  background: #181818;
+  border-radius: 4px;
+}
