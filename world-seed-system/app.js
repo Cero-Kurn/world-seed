@@ -687,6 +687,7 @@ function processSeed(seed) {
   const regions = generateRegions(decoded);
   renderClimateNarrative(regions, decoded);
   renderMicroClimates(regions, decoded);
+  renderClimateAnomalies(regions, decoded);
   renderWorldAge(regions);
   renderVolcanicHazard(regions);
   renderGeologyNarrative(regions);
