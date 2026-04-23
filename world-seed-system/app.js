@@ -1382,6 +1382,92 @@ function renderOceanCurrents(regions, decoded) {
   `;
 }
 
+// ---Biome Legend ---
+function renderBiomeLegend() {
+  const container = document.getElementById("biomeLegend");
+
+  const biomeColors = {
+    "Tropical Rainforest": "#1abc9c",
+    "Savanna": "#f1c40f",
+    "Desert": "#e67e22",
+    "Temperate Forest": "#2ecc71",
+    "Grassland": "#f39c12",
+    "Taiga": "#16a085",
+    "Tundra": "#95a5a6",
+    "Alpine": "#bdc3c7",
+    "Wetlands": "#3498db",
+    "Mediterranean": "#d35400"
+  };
+
+  const descriptions = {
+    "Tropical Rainforest": "Hot, wet, and densely vegetated.",
+    "Savanna": "Warm grasslands with scattered trees.",
+    "Desert": "Dry, sparse vegetation, extreme temperatures.",
+    "Temperate Forest": "Mild climate with seasonal forests.",
+    "Grassland": "Open plains with seasonal rainfall.",
+    "Taiga": "Cold coniferous forests.",
+    "Tundra": "Cold, low vegetation, short summers.",
+    "Alpine": "High‑elevation cold biomes.",
+    "Wetlands": "Water‑saturated ecosystems.",
+    "Mediterranean": "Dry summers, mild wet winters."
+  };
+
+  const rows = Object.entries(biomeColors).map(([biome, color]) => `
+    <div class="legend-row">
+      <div class="legend-color" style="background:${color}"></div>
+      <div><strong>${biome}</strong> — ${descriptions[biome]}</div>
+    </div>
+  `).join("");
+
+  container.innerHTML = `
+    <h3>🌿 Biome Legend</h3>
+    ${rows}
+  `;
+}
+
+// --- Biome Tendencies and Roles---
+function renderBiomeTendencies(regions) {
+  const container = document.getElementById("biomeTendencies");
+
+  const counts = regions.reduce((acc, r) => {
+    acc[r.biome] = (acc[r.biome] || 0) + 1;
+    return acc;
+  }, {});
+
+  const total = regions.length;
+
+  const rows = Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([biome, count]) => {
+      const pct = ((count / total) * 100).toFixed(1);
+      return `<div><strong>${biome}</strong>: ${pct}%</div>`;
+    })
+    .join("");
+
+  container.innerHTML = `
+    <h3>🌍 Biome Tendencies</h3>
+    <p>This world leans toward the following biome distribution:</p>
+    ${rows}
+  `;
+}
+function assignBiomeRoles(regions) {
+  const roles = {
+    "Desert": "Caravan Corridor",
+    "Savanna": "Migration Plains",
+    "Grassland": "Agricultural Belt",
+    "Temperate Forest": "Resource Heartland",
+    "Tropical Rainforest": "Biodiversity Core",
+    "Taiga": "Frontier Forests",
+    "Tundra": "Nomadic Range",
+    "Alpine": "Highland Bastion",
+    "Wetlands": "River Kingdoms",
+    "Mediterranean": "Trade Coast"
+  };
+
+  regions.forEach(r => {
+    r.biomeRole = roles[r.biome] || "Regional Hub";
+  });
+}
 
 
 // --- MAIN ACTIONS ---
@@ -1430,10 +1516,13 @@ function processSeed(seed) {
   renderTectonicSummary(regions);
   // 🗺 REGION + MAP OUTPUT
   renderRegions(regions);
+  assignBiomeRoles(regions);
   renderTectonicMap(regions);
   renderDebugPanel(regions);
-  
+  renderBiomeTendencies(regions);
+
   // MAPS
+  renderBiomeLegend();
   renderBiomeHeatmap(generateBiomeHeatmap(decoded));
   renderHexMap(generateHexMap(decoded));
 }
