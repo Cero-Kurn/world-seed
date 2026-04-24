@@ -27,7 +27,7 @@ export function renderBiomeLegend() {
   };
     
   const descriptions = {
-   // "Atmosphere": 	 "",
+   // "Atmosphere": "",
     //"Mixed": "",
     //"Other": "",
     //"Space": "",
