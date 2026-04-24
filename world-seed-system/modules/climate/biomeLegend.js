@@ -3,16 +3,16 @@ export function renderBiomeLegend() {
   const container = document.getElementById("biomeLegend");
 
   const biomeColors = {
-    "Tropical Rainforest": "#1b8a3d",
+    "Tropical Rainforest": "#1abc9c",
     "Savanna": "#f1c40f",
-    "Desert": "#e9c46a",
-    "Temperate Forest": "#2e9c5d",
+    "Desert": "#e67e22",
+    "Temperate Forest": "#2ecc71",
     "Grassland": "#f39c12",
     "Taiga": "#16a085",
-    "Tundra": "#d8e3e7",
-    "Alpine": "#bfc0c0",
-    "Wetlands": "#a0a832",
-    "Mediterranean": "#d35400",
+    "Tundra": "#95a5a6",
+    "Alpine": "#bdc3c7",
+    "Wetlands": "#3498db",
+    "Mediterranean": "#d35400"
     "Monsoon Forest": "#3cb371",
     "Ocean": "#003f5c",
     "Coast": "#2f4b7c",
