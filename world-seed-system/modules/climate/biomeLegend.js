@@ -12,7 +12,7 @@ export function renderBiomeLegend() {
     "Tundra": "#95a5a6",
     "Alpine": "#bdc3c7",
     "Wetlands": "#3498db",
-    "Mediterranean": "#d35400"
+    "Mediterranean": "#d35400",
     "Monsoon Forest": "#3cb371",
     "Ocean": "#003f5c",
     "Coast": "#2f4b7c",
