@@ -1,6 +1,5 @@
-export function renderSeasonalVariability(regions, decoded) { ... }
 // --- Seasonal Variability
-function renderSeasonalVariability(regions, decoded) {
+export function renderSeasonalVariability(regions, decoded) {
   const container = document.getElementById("seasonalVariability");
 
   const wind = decoded.we.primary.toLowerCase();
