@@ -3,22 +3,27 @@ export function renderBiomeLegend() {
   const container = document.getElementById("biomeLegend");
 
   const biomeColors = {
-    "Tropical Rainforest": "#1abc9c",
+    "Tropical Rainforest": "#3cb371",
     "Savanna": "#f1c40f",
     "Desert": "#e67e22",
-    "Temperate Forest": "#2ecc71",
-    "Grassland": "#f39c12",
-    "Taiga": "#16a085",
-    "Tundra": "#95a5a6",
-    "Alpine": "#bdc3c7",
-    "Wetlands": "#3498db",
-    "Mediterranean": "#d35400",
+    "Temperate Forest": "#1abc9c",
+    "Grassland": "#0dd617",
+    "Taiga": "#0b380a",
+    "Tundra": "#d8e3e7",
+    "Alpine": "#3b423b",
+    "Wetlands": "#a0a832", 
+    "Mediterranean": "#a6940c",
     "Monsoon Forest": "#3cb371",
     "Ocean": "#003f5c",
-    "Coast": "#2f4b7c",
+    "Coast": "#e9c46a",
     "Lake": "#4cc9f0",
     "Inland Sea": "#2f7fc1",
-    //"Mixed": "#999999"
+    "Geothermal": "#c22525",
+    "Subsurface": "000000",
+    //"Atmosphere": "#",
+    //"Space": "#",
+    //"Other": "#",
+    //"Mixed": "#"
   };
     
   const descriptions = {
