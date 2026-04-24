@@ -21,10 +21,21 @@ const btnGenerate = document.getElementById("btnGenerate");
 const btnDecode = document.getElementById("btnDecode");
 
 // --- CLIMATE MODULES ---
+import { renderClimateNarrative } from "./modules/climate/climateNarrative.js";
+import { renderOceanCurrents } from "./modules/climate/oceanCurrents.js";
 import { renderClimateAnomalies } from "./modules/climate/climateAnomalies.js";
 import { renderMicroClimates } from "./modules/climate/microClimates.js";
+import { renderRegionalWeather } from "./modules/climate/regionalWeather.js";
+import { renderRegionalClimateExtremes } from "./modules/climate/regionalClimateExtremes.js";
+import { renderRegionalDisasters } from "./modules/climate/regionalDisasters.js";
+import { renderSeasonalVariability } from "./modules/climate/seasonalVariability.js";
+import { renderRegionalHistory } from "./modules/climate/regionalHistory.js";
 
 // --- BIOME MODULES ---
+import { renderBiomeLegend } from "./modules/climate/biomeLegend.js";
+import { renderBiomeTendencies } from "./modules/climate/biomeTendencies.js";
+import { assignBiomeRoles } from "./modules/climate/biomeRoles.js";
+
 
 // --- RENDER FUNCTIONS ---
 
