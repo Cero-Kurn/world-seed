@@ -16,14 +16,14 @@ export function renderBiomeLegend() {
     "Lake": "#4cc9f0",
     "Alpine": "#99a797",
     "Wetlands": "#a0a832", 
-    "Mediterranean": "#a6940c",
+    "Mediterranean": "#9e7a39",
     "Geothermal": "#c22525",
     "Grassland": "#C6cc51",
     "Tundra": "#d8e3e7",
-    "Coast": "#e9c46a",
+    "Coast": "#f39c12",
     "Desert": "#e9c46a",
     "Savanna": "#f1c40f",
-    "Tropical Rainforest": "#f39c12"
+    "Tropical Rainforest": "#4cbb17"
   };
     
   const descriptions = {
