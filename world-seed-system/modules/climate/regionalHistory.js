@@ -1,6 +1,5 @@
-export function renderRegionalHistory(regions, decoded) { ... }
 // --- Regional History
-function renderRegionalHistory(regions, decoded) {
+export function renderRegionalHistory(regions, decoded) {
   const container = document.getElementById("regionalHistory");
 
   function generateHistory(r) {
