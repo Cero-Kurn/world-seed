@@ -8,7 +8,7 @@ export function renderBiomeLegend() {
     //"Mixed": "",
     //"Other": "",
     //"Space": "",
-    "Tropical Rainforest 336155": "#019f7d",
+    "Tropical Rainforest": "#019f7d",
     "Ocean": "#1c2842",
     "Grassland": "#97C14B",
     "Taiga": "#477747",
@@ -48,7 +48,7 @@ export function renderBiomeLegend() {
     "Tundra": "Cold, low vegetation, short summers.",
     "Geothermal": "",
     "Mediterranean": "Dry summers, mild wet winters.",
-    "Coast": "",
+    "Coast": ""
   };
 
 
