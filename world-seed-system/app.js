@@ -7,6 +7,7 @@ import { generateWorldSummary } from "./modules/seed/worldSummary.js";
 // World-scale summaries
 import { generateContinentSummary } from "./modules/world/continentSummary.js";
 import { generateClimateBiomeSummary } from "./modules/world/climateBiomeSummary.js";
+import { renderWorldFormation } from "./modules/climate/worldFormation.js";
 
 // Maps
 import { generateHexMap, renderHexMap } from "./modules/maps/hexMap.js";
@@ -400,7 +401,8 @@ function processSeed(seed) {
   renderRegionalDisasters(regions, decoded);
   renderSeasonalVariability(regions, decoded);
   renderRegionalHistory(regions, decoded);
-  
+  renderWorldFormation(regions, decoded);
+
   const tm = generateTradeAndMigration(regions);
   renderTradeMigration(tm);
   
