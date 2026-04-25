@@ -519,3 +519,21 @@ button.secondary {
   margin: 0 0 8px 0;
   color: #8e44ad;
 }
+
+/*TRADE MIGRATION*/
+.trade-migration {
+  background: #111;
+  border: 1px solid #333;
+  padding: 12px;
+  margin-bottom: 20px;
+  color: #ccc;
+  border-radius: 6px;
+}
+
+.trade-migration .tm-entry {
+  margin-bottom: 10px;
+  padding: 8px;
+  background: #181818;
+  border-left: 3px solid #3498db;
+  border-radius: 4px;
+}
