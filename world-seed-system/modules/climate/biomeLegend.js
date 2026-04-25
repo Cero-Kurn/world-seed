@@ -24,6 +24,29 @@ export function renderBiomeLegend() {
     "Desert": "#e9c46a",
     "Savanna": "#f1c40f",
     "Tropical Rainforest": "#4cbb17"
+    <B>Another Opinion</b>
+    // "Atmosphere":	 "",
+    //"Mixed": "",
+    //"Other": "",
+    //"Space": "",
+    "Ocean":	"#1c2842",
+    "Temperate Forest": "#5fa777",
+    "Subsurface": "#b1b1b1",
+    "Monsoon Forest":	 "#b9ce87",
+    "Taiga": "#477747",
+    "Inland Sea": "#687072",
+    "Lake": "#4da6b2",
+    "Alpine": "#abb289",
+    "Wetlands": "#4f6848",
+    "Mediterranean": "#F5DF07",
+    "Geothermal": "#db3a28",
+    "Grassland": "#419249",
+    "Tundra": "#d8e3e7",
+    "Coast": "#f9e6be",
+    "Desert": "#d4b680",
+    "Savanna": "#d1a36e",
+    "Tropical Rainforest 336155": "#019f7d",
+
   };
     
   const descriptions = {
