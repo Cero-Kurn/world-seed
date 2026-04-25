@@ -22,7 +22,7 @@ function latitudeFromRow(r, rows) {
 
 const COAST_THRESHOLD = 0.42;
 
-  const HEX_COLORS = {
+const HEX_COLORS = {
   "Alpine": "#abb289",
   //"Atmosphere":"",
   "Coast": "#f9e6be"
