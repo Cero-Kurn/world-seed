@@ -23,18 +23,27 @@ function latitudeFromRow(r, rows) {
 const COAST_THRESHOLD = 0.42;
 
 const HEX_COLORS = {
-  "tropical rainforest": "#1b8a3d",
-  "temperate forest": "#2e9c5d",
-  "monsoon forest": "#3cb371",
-  "wetlands": "#a0a832",
-  "tundra": "#d8e3e7",
-  "desert": "#e9c46a",
-  "alpine": "#bfc0c0",
-  //"mixed": "#999999",
-  "ocean": "#003f5c",
-  "coast": "#2f4b7c",
-  "lake": "#4cc9f0",
-  "inland sea": "#2f7fc1"
+    // "Atmosphere":"",
+    //"Mixed": "",
+    //"Other": "",
+    //"Space": "",
+    "Tropical Rainforest": "#019f7d",
+    "Ocean": "#1c2842",
+    "Grassland": "#97C14B",
+    "Taiga": "#477747",
+    "Lake": "#4da6b2",
+    "Wetlands": "#a0a832",
+    "Temperate Forest": "#5fa777",
+    "Inland Sea": "#4da6b2",
+    "Alpine": "#abb289",
+    "Subsurface": "#000000",
+    "Monsoon Forest": "#b9ce87",
+    "Savanna": "#d1a36e",
+    "Desert": "#d4b680",
+    "Tundra": "#d8e3e7",
+    "Geothermal": "#db3a28",
+    "Mediterranean": "#F5DF07",
+    "Coast": "#f9e6be"
 };
 
 // -----------------------------
