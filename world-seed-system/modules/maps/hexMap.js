@@ -25,7 +25,7 @@ const COAST_THRESHOLD = 0.42;
 const HEX_COLORS = {
   "Alpine": "#abb289",
   //"Atmosphere":"",
-  "Coast": "#f9e6be"
+  "Coast": "#f9e6be",
   "Desert": "#d4b680",
   "Geothermal": "#db3a28",
   "Grassland": "#97C14B",
@@ -43,7 +43,7 @@ const HEX_COLORS = {
   "Temperate Forest": "#5fa777",
   "Tropical Rainforest": "#019f7d",
   "Tundra": "#d8e3e7",
-  "Wetlands": "#a0a832",
+  "Wetlands": "#a0a832"
 };
 
 // -----------------------------
