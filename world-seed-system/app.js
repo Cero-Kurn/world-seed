@@ -32,6 +32,7 @@ import { renderSeasonalVariability } from "./modules/climate/seasonalVariability
 import { renderRegionalHistory } from "./modules/climate/regionalHistory.js";
 
 // --- BIOME MODULES ---
+import { smoothBiomes } from "./modules/climate/biomeSmoothing.js";
 import { renderBiomeLegend } from "./modules/climate/biomeLegend.js";
 import { renderBiomeTendencies } from "./modules/climate/biomeTendencies.js";
 import { assignBiomeRoles } from "./modules/climate/biomeRoles.js";
@@ -378,6 +379,9 @@ function processSeed(seed) {
   
   // --- REGIONS ---
   const regions = generateRegions(decoded);
+
+  // BIOME TRANSITION SMOOTHING
+  smoothBiomes(regions);
   
   // --- BIOME ROLES ---
   assignBiomeRoles(regions);
