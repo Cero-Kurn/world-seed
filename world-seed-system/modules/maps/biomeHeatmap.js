@@ -1,7 +1,7 @@
 // Biome → color mapping
 const BIOME_COLORS = {
     "Alpine": "#abb289",
-    "Atmosphere":"",
+    //"Atmosphere":"",
     "Coast": "#f9e6be"
     "Desert": "#d4b680",
     "Geothermal": "#db3a28",
@@ -9,12 +9,12 @@ const BIOME_COLORS = {
     "Inland Sea": "#4da6b2",
     "Lake": "#4da6b2",
     "Mediterranean": "#F5DF07",
-    "Mixed": "",
+    //"Mixed": "",
     "Monsoon Forest": "#b9ce87",
     "Ocean": "#1c2842",
-    "Other": "",
+    //"Other": "",
     "Savanna": "#d1a36e",
-    "Space": "",
+    //"Space": "",
     "Subsurface": "#000000",
     "Taiga": "#477747",
     "Temperate Forest": "#5fa777",
