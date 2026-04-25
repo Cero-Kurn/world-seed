@@ -24,7 +24,7 @@ export function renderBiomeLegend() {
     "Desert": "#e9c46a",
     "Savanna": "#f1c40f",
     "Tropical Rainforest": "#4cbb17",
-    "===Another Option===",
+    "Another Option": "",
     // "Atmosphere":	"",
     //"Mixed": "",
     //"Other": "",
