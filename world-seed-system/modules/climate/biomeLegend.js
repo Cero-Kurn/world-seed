@@ -3,8 +3,8 @@ export function renderBiomeLegend() {
   const container = document.getElementById("biomeLegend");
 
   const biomeColors = {
-    "Another Option": "",
-    // "Atmosphere":	"",
+
+    // "Atmosphere":"",
     //"Mixed": "",
     //"Other": "",
     //"Space": "",
@@ -32,24 +32,25 @@ export function renderBiomeLegend() {
     //"Mixed": "",
     //"Other": "",
     //"Space": "",
+    "Tropical Rainforest": "Hot, wet, and densely vegetated.",
     "Ocean": "",
+    "Grassland": "Open plains with seasonal rainfall.",
+    "Taiga": "Cold coniferous forests.",
+    "Lake": "",
+    "Wetlands": "Water saturated ecosystems.",
     "Temperate Forest": "Mild climate with seasonal forests.",
+    "Inland Sea": "",
+    "Alpine": "High elevation cold biomes.",
     "Subsurface": "",
     "Monsoon Forest": "",
-    "Taiga": "Cold coniferous forests.",
-    "Inland Sea": "",
-    "Lake": "",
-    "Alpine": "High elevation cold biomes.",
-    "Wetlands": "Water saturated ecosystems.",
-    "Mediterranean": "Dry summers, mild wet winters.",
-    "Geothermal": "",
-    "Grassland": "Open plains with seasonal rainfall.",
-    "Tundra": "Cold, low vegetation, short summers.",
-    "Coast": "",
-    "Desert": "Dry, sparse vegetation, extreme temperatures.",
     "Savanna": "Warm grasslands with scattered trees.",
-    "Tropical Rainforest": "Hot, wet, and densely vegetated.",
+    "Desert": "Dry, sparse vegetation, extreme temperatures.",
+    "Tundra": "Cold, low vegetation, short summers.",
+    "Geothermal": "",
+    "Mediterranean": "Dry summers, mild wet winters.",
+    "Coast": "",
   };
+
 
   const rows = Object.entries(biomeColors).map(([biome, color]) => `
     <div class="legend-row">
