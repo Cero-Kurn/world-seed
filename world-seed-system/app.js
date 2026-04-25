@@ -14,6 +14,8 @@ import { generateBiomeHeatmap, renderBiomeHeatmap } from "./modules/maps/biomeHe
 
 // Regions
 import { generateRegions } from "./modules/regions/regionGenerator.js";
+import { generateTradeAndMigration } from "./modules/climate/tradeMigration.js";
+import { renderTradeMigration } from "./modules/climate/renderTradeMigration.js";
 
 // --- UI ELEMENTS ---
 const seedInput = document.getElementById("seedInput");
@@ -398,6 +400,9 @@ function processSeed(seed) {
   renderRegionalDisasters(regions, decoded);
   renderSeasonalVariability(regions, decoded);
   renderRegionalHistory(regions, decoded);
+  
+  const tm = generateTradeAndMigration(regions);
+  renderTradeMigration(tm);
   
   // --- BIOME PANELS ---
   renderBiomeLegend();
