@@ -23,27 +23,27 @@ function latitudeFromRow(r, rows) {
 const COAST_THRESHOLD = 0.42;
 
 const HEX_COLORS = {
-    // "Atmosphere":"",
-    //"Mixed": "",
-    //"Other": "",
-    //"Space": "",
-    "Tropical Rainforest": "#019f7d",
-    "Ocean": "#1c2842",
-    "Grassland": "#97C14B",
-    "Taiga": "#477747",
-    "Lake": "#4da6b2",
-    "Wetlands": "#a0a832",
-    "Temperate Forest": "#5fa777",
-    "Inland Sea": "#4da6b2",
-    "Alpine": "#abb289",
-    "Subsurface": "#000000",
-    "Monsoon Forest": "#b9ce87",
-    "Savanna": "#d1a36e",
-    "Desert": "#d4b680",
-    "Tundra": "#d8e3e7",
-    "Geothermal": "#db3a28",
-    "Mediterranean": "#F5DF07",
-    "Coast": "#f9e6be"
+  // "Atmosphere":"",
+  //"Mixed": "",
+  //"Other": "",
+  //"Space": "",
+  "Tropical Rainforest": "#019f7d",
+  "Ocean": "#1c2842",
+  "Grassland": "#97C14B",
+  "Taiga": "#477747",
+  "Lake": "#4da6b2",
+  "Wetlands": "#a0a832",
+  "Temperate Forest": "#5fa777",
+  "Inland Sea": "#4da6b2",
+  "Alpine": "#abb289",
+  "Subsurface": "#000000",
+  "Monsoon Forest": "#b9ce87",
+  "Savanna": "#d1a36e",
+  "Desert": "#d4b680",
+  "Tundra": "#d8e3e7",
+  "Geothermal": "#db3a28",
+  "Mediterranean": "#F5DF07",
+  "Coast": "#f9e6be"
 };
 
 // -----------------------------
