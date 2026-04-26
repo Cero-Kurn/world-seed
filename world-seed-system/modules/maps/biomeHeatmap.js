@@ -1,27 +1,26 @@
 // Biome → color mapping
 const BIOME_COLORS = {
-  "alpine": "#abb289",
-  //"atmosphere":"",
-  "coast": "#f9e6be",
-  "desert": "#d4b680",
-  "geothermal": "#db3a28",
-  "grassland": "#97c14b",
-  "inland sea": "#4da6b2",
-  "lake": "#4da6b2",
-  "mediterranean": "#f5df07",
+  // "atmosphere":"",
   //"mixed": "",
-  "monsoon forest": "#b9ce87",
-  "ocean": "#1c2842",
   //"other": "",
-  "savanna": "#d1a36e",
   //"space": "",
   "subsurface": "#000000",
-  "taiga": "#477747",
-  "temperate forest": "#5fa777",
   "tropical rainforest": "#019f7d",
+  "ocean": "#1c2842",
+  "taiga": "#477747",
+  "lake": "#4da6b2",
+  "inland sea": "#4da6b2",
+  "temperate forest": "#5fa777",
+  "grassland": "#97c14b",
+  "wetlands": "#a0a832",
+  "alpine": "#abb289",
+  "monsoon forest": "#b9ce87",
+  "savanna": "#d1a36e",
+  "desert": "#d4b680",
   "tundra": "#d8e3e7",
-  "wetlands": "#a0a832"
-
+  "geothermal": "#db3a28",
+  "mediterranean": "#f5df07",
+  "coast": "#f9e6be"
 };
 
 // Simple biome picker for the heatmap (smooth, not noisy)
