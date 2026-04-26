@@ -1,26 +1,27 @@
 // Biome → color mapping
 const BIOME_COLORS = {
-  "Alpine": "#abb289",
-  //"Atmosphere":"",
-  "Coast": "#f9e6be",
-  "Desert": "#d4b680",
-  "Geothermal": "#db3a28",
-  "Grassland": "#97C14B",
-  "Inland Sea": "#4da6b2",
-  "Lake": "#4da6b2",
-  "Mediterranean": "#F5DF07",
-  //"Mixed": "",
-  "Monsoon Forest": "#b9ce87",
-  "Ocean": "#1c2842",
-  //"Other": "",
-  "Savanna": "#d1a36e",
-  //"Space": "",
-  "Subsurface": "#000000",
-  "Taiga": "#477747",
-  "Temperate Forest": "#5fa777",
-  "Tropical Rainforest": "#019f7d",
-  "Tundra": "#d8e3e7",
-  "Wetlands": "#a0a832"
+  "alpine": "#abb289",
+  //"atmosphere":"",
+  "coast": "#f9e6be",
+  "desert": "#d4b680",
+  "geothermal": "#db3a28",
+  "grassland": "#97c14b",
+  "inland sea": "#4da6b2",
+  "lake": "#4da6b2",
+  "mediterranean": "#f5df07",
+  //"mixed": "",
+  "monsoon forest": "#b9ce87",
+  "ocean": "#1c2842",
+  //"other": "",
+  "savanna": "#d1a36e",
+  //"space": "",
+  "subsurface": "#000000",
+  "taiga": "#477747",
+  "temperate forest": "#5fa777",
+  "tropical rainforest": "#019f7d",
+  "tundra": "#d8e3e7",
+  "wetlands": "#a0a832"
+
 };
 
 // Simple biome picker for the heatmap (smooth, not noisy)
