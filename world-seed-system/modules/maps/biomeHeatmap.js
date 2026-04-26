@@ -9,7 +9,7 @@ const BIOME_COLORS = {
   "inland sea": "#4da6b2",
   "lake": "#4da6b2",
   "mediterranean": "#f5df07",
-  //"mixed": "",
+  "mixed": "",
   "monsoon forest": "#b9ce87",
   "ocean": "#1c2842",
   //"other": "",
