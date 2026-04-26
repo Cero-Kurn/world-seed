@@ -297,9 +297,9 @@ function isWaterBiome(biome) {
 export function generateHexMap(decoded) {
   const { lm, we, tr, hy } = decoded;
 
-  const cols = [];
-  const rows = [];
-  const hexes = 400;
+  const cols = 200;
+  const rows = ]200;
+  const hexes = [];
 
   // FIRST PASS: base elevation + landmass
   for (let r = 0; r < rows; r++) {
