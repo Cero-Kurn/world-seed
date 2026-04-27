@@ -28,7 +28,7 @@ export function renderChecklistPanel() {
         ["map canvas that draws shapes based on the seed", "missing"],
         ["Map export (PNG/SVG)", "missing"],
         ["map linked version (regions highlight when hovered)", "missing"],
-      ]
+     ]
     },
     {
       title: "Biomes & Ecology",
@@ -82,7 +82,6 @@ export function renderChecklistPanel() {
         ["Derived from elevation + moisture + seed latitude", "partial"],
         ["Distance from coast", "missing"],
         ["Planetary Heat Budget", "missing"]
-
       ]
     },
     {
@@ -97,7 +96,6 @@ export function renderChecklistPanel() {
         ["Sub Features (Terrain Details)", "partial"],
         ["Landmarks panel full of named places", "missing"]
         ["Named Landmark Generator", "missing"],
-
       ]
     },
     {
@@ -121,7 +119,6 @@ export function renderChecklistPanel() {
         ["Region based creatures", "missing"],
         ["World history timeline", "missing"]
         ["Worldbook export", "missing"]
-
       ]
     },
     {
@@ -138,7 +135,6 @@ export function renderChecklistPanel() {
         ["polished UI with tabs", "missing"],
         ["Save/load seeds", "partial"],
         ["Tabbed interface", "missing"]
-
       ]
     },
     {
