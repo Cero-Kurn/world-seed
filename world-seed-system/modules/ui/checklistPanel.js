@@ -128,12 +128,12 @@ export function renderChecklistPanel() {
         ["Modular climate system", "complete"],
         ["Tabs or collapsible sections", "complete"],
         ["combined panels (climate + geology + history)", "partial"],
-        ["downloadable world summary", "missing"],
         ["Export summaries", "partial"],
-        ["full atlas UI", "missing"],
         ["Local storage for world history", "partial"],
-        ["polished UI with tabs", "missing"],
         ["Save/load seeds", "partial"],
+        ["downloadable world summary", "missing"],
+        ["full atlas UI", "missing"],
+        ["polished UI with tabs", "missing"],
         ["Tabbed interface", "missing"]
       ]
     },
