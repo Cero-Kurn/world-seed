@@ -33,25 +33,6 @@ regions.forEach(region => {
   region.landmark = generateLandmarkName(region);
 });
 
-  const regionNames = [
-    "Northwest Expanse",
-    "Northern Range",
-    "Northeast Frontier",
-    "Western Heartland",
-    "Central Basin",
-    "Eastern Verge",
-    "Southwest Reaches",
-    "Southern Crest",
-    "Southeast Wilds",
-    "Equatorial Belt",
-    "High Plateau",
-    "Great Rift",
-    "Volcanic Chain",
-    "Craton Shield",
-    "Island Arc",
-    "Polar Shelf"
-  ];
-
   // ----------------------------------------------------
   // HEMISPHERE
   // ----------------------------------------------------
