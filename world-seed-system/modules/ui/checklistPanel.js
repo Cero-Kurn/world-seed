@@ -10,7 +10,7 @@ export function renderChecklistPanel() {
       items: [
         ["7‑region hex world", "complete"],
         ["Biome heatmap preview", "complete"],
-        ["Break the continent into 6–20 regions", "complete"]
+        ["Break the continent into 6–20 regions", "complete"],
         ["Canvas‑based hex renderer", "complete"],
         ["Hex map generator", "complete"],
         ["Region generator", "complete"],
@@ -24,10 +24,10 @@ export function renderChecklistPanel() {
         ["latitude‑based biome bands to the hex map", "partial"],
         ["Mountain Density Score", "partial"],
         ["Region adjacency smoothing", "partial"],
-        ["Continent shape generator", "missing"]
+        ["Continent shape generator", "missing"],
         ["map canvas that draws shapes based on the seed", "missing"],
         ["Map export (PNG/SVG)", "missing"],
-        ["map linked version (regions highlight when hovered)", "missing"],
+        ["map linked version (regions highlight when hovered)", "missing"]
      ]
     },
     {
@@ -43,13 +43,13 @@ export function renderChecklistPanel() {
         ["biome variations (could be expanded)", "partial"],
         ["Bestiary generator", "missing"],
         ["Biome Driven Fauna & Flora Generator", "missing"],
-        ["Biome Heatmap with more visual interest", "missing"]
+        ["Biome Heatmap with more visual interest", "missing"],
         ["Biome Linked Settlement Patterns", "missing"],
         ["Biome Linked Trade Goods", "missing"],
         ["biome specific features", "missing"],
-        ["Biome‑driven culture generator", "missing"]
+        ["Biome‑driven culture generator", "missing"],
         ["Biome‑Driven Culture Generator", "missing"],
-        ["fauna + flora tables", "missing"],
+        ["fauna + flora tables", "missing"]
       ]
     },
     {
@@ -64,7 +64,7 @@ export function renderChecklistPanel() {
         ["elevation specific features", "missing"],
         ["Elevation tier refinement", "missing"],
         ["erosion + sediment deposition", "missing"],
-        ["Full plate simulation", "missing"]
+        ["Full plate simulation", "missing"],
         ["Hydrology‑driven modifiers", "missing"],
         ["start on coastline generation", "missing"],
         ["Volcanic Province Generator", "missing"]
@@ -94,8 +94,8 @@ export function renderChecklistPanel() {
         ["Make regions more structured", "partial"],
         ["special Feature variations", "partial"],
         ["Sub Features (Terrain Details)", "partial"],
-        ["Landmarks panel full of named places", "missing"]
-        ["Named Landmark Generator", "missing"],
+        ["Landmarks panel full of named places", "missing"],
+        ["Named Landmark Generator", "missing"]
       ]
     },
     {
@@ -117,7 +117,7 @@ export function renderChecklistPanel() {
         ["Magical anomaly creatures", "missing"],
         ["Myths", "missing"],
         ["Region based creatures", "missing"],
-        ["World history timeline", "missing"]
+        ["World history timeline", "missing"],
         ["Worldbook export", "missing"]
       ]
     },
@@ -131,7 +131,7 @@ export function renderChecklistPanel() {
         ["downloadable world summary", "missing"],
         ["Export summaries", "partial"],
         ["full atlas UI", "missing"],
-        ["Local storage for world history", "partial"]
+        ["Local storage for world history", "partial"],
         ["polished UI with tabs", "missing"],
         ["Save/load seeds", "partial"],
         ["Tabbed interface", "missing"]
