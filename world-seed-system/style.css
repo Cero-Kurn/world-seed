@@ -598,3 +598,17 @@ button.secondary {
 .status-complete { color: #2ecc71; }
 .status-partial { color: #f1c40f; }
 .status-missing { color: #e74c3c; }
+.next-feature-box {
+  background: #1a1a1a;
+  border: 1px solid #444;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  color: #eee;
+}
+
+.next-feature-box .next-feature-section {
+  font-size: 0.85em;
+  color: #888;
+  margin-top: 4px;
+}
