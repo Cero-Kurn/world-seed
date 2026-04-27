@@ -77,6 +77,37 @@ export function renderChecklistPanel() {
     }
   ];
 
+  // --- FIND NEXT SUGGESTED FEATURE ---
+  let nextFeature = null;
+
+  for (const section of sections) {
+    for (const [label, status] of section.items) {
+      if (status === "missing" || status === "partial") {
+        nextFeature = { label, status, section: section.title };
+        break;
+      }
+    }
+    if (nextFeature) break;
+  }
+
+  const suggestionHTML = nextFeature
+    ? `
+      <div class="next-feature-box">
+        <strong>Next Suggested Feature:</strong><br>
+        <span class="status-${nextFeature.status}">
+          ${nextFeature.status === "partial" ? "➕" : "✚"}
+        </span>
+        ${nextFeature.label}
+        <div class="next-feature-section">(${nextFeature.section})</div>
+      </div>
+    `
+    : `
+      <div class="next-feature-box">
+        <strong>All features complete!</strong>
+      </div>
+    `;
+
+  // --- BUILD CHECKLIST HTML ---
   const html = sections.map((section, index) => `
     <div class="checklist-section">
       <div class="checklist-header" data-checklist="${index}">
@@ -97,6 +128,7 @@ export function renderChecklistPanel() {
 
   container.innerHTML = `
     <h3>📋 Project Checklist</h3>
+    ${suggestionHTML}
     ${html}
   `;
 
