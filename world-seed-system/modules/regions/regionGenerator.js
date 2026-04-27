@@ -1,5 +1,7 @@
 // regionGenerator.js
 import { buildRegionDescription } from "./regionDescription.js";
+import { generateRegionName } from "../naming/regionNames.js";
+import { generateLandmarkName } from "../naming/landmarkNames.js";
 
 export function generateRegions(decoded) {
   const regions = [];
@@ -27,8 +29,7 @@ export function generateRegions(decoded) {
   // ----------------------------------------------------
   // REGION NAMES (placeholder list)
   // ----------------------------------------------------
-import { generateRegionName } from "../naming/regionNames.js";
-import { generateLandmarkName } from "../naming/landmarkNames.js";
+
 
 region.name = generateRegionName(region);
 region.landmark = generateLandmarkName(region);
