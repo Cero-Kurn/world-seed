@@ -27,10 +27,12 @@ export function generateRegions(decoded) {
   // ----------------------------------------------------
   // REGION NAMES (placeholder list)
   // ----------------------------------------------------
-import { generateLandmarkName } from "./modules/naming/landmarkNames.js";
+import { generateRegionName } from "../naming/regionNames.js";
+import { generateLandmarkName } from "../naming/landmarkNames.js";
 
-regions.forEach(region => {
-  region.landmark = generateLandmarkName(region);
+region.name = generateRegionName(region);
+region.landmark = generateLandmarkName(region);
+
 });
 
   // ----------------------------------------------------
