@@ -150,15 +150,15 @@ export function renderChecklistPanel() {
   // --- NEXT SUGGESTED FEATURE ---
   let nextFeature = null;
 
-  for (const section of sections) {
-    for (const [label, status] of section.items) {
+  sections.forEach(section => {
+    if (nextFeature) return;
+    section.items.forEach(([label, status]) => {
+      if (nextFeature) return;
       if (status === "missing" || status === "partial") {
         nextFeature = { label, status, section: section.title };
-        break;
       }
-    }
-    if (nextFeature) break;
-  }
+    });
+  });
 
   const suggestionHTML = nextFeature
     ? `
@@ -178,23 +178,27 @@ export function renderChecklistPanel() {
     `;
 
   // --- BUILD CHECKLIST HTML ---
-  const html = sections.map((section, index) => `
-    <div class="checklist-section">
-      <div class="checklist-header" data-checklist="${index}">
-        ▶ ${section.title}
+  const html = sections.map((section, index) => {
+    const itemsHTML = section.items.map(([label, status]) => `
+      <div class="checklist-item">
+        <span class="status-${status}">
+          ${status === "complete" ? "✔" : status === "partial" ? "➕" : "✚"}
+        </span>
+        ${label}
       </div>
-      <div class="checklist-content" id="checklist-${index}">
-        ${section.items.map(([label, status]) => `
-          <div class="checklist-item">
-            <span class="status-${status}">
-              ${status === "complete" ? "✔" : status === "partial" ? "➕" : "✚"}
-            </span>
-            ${label}
-          </div>
-        `).join("")}
+    `).join("");
+
+    return `
+      <div class="checklist-section">
+        <div class="checklist-header" data-checklist="${index}">
+          ▶ ${section.title}
+        </div>
+        <div class="checklist-content" id="checklist-${index}">
+          ${itemsHTML}
+        </div>
       </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 
   container.innerHTML = `
     <h3>📋 Project Checklist</h3>
