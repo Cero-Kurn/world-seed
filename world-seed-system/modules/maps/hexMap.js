@@ -457,7 +457,7 @@ export function renderHexMap(hexMap) {
     for (let q = 0; q < cols; q++) {
       const hex = hexes[r][q];
       console.log(`Checking biome: "${hex.biome}". Found color: ${HEX_COLORS[hex.biome]}`);
-      const color = HEX_COLORS[hex.biome] || "#555";
+      const color = HEX_COLORS[hex.biome] || "#c334eb";
 
       // Correct axial → pixel conversion for pointy-top
       const x = size * Math.sqrt(3) * q + size * Math.sqrt(3) / 2 * r + size * 2;
