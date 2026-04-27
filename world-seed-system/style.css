@@ -598,6 +598,7 @@ button.secondary {
 .status-complete { color: #2ecc71; }
 .status-partial { color: #f1c40f; }
 .status-missing { color: #e74c3c; }
+}
 .next-feature-box {
   background: #1a1a1a;
   border: 1px solid #444;
