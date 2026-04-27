@@ -43,7 +43,7 @@ import { assignBiomeRoles } from "./modules/climate/biomeRoles.js";
 
 
 // --- RENDER FUNCTIONS ---
-
+renderChecklistPanel();
 // Decoded seed block
 function renderDecoded(decoded, seedStr) {
   const container = document.getElementById("decodedOutput");
