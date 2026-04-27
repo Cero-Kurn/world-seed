@@ -27,6 +27,12 @@ export function generateRegions(decoded) {
   // ----------------------------------------------------
   // REGION NAMES (placeholder list)
   // ----------------------------------------------------
+import { generateLandmarkName } from "./modules/naming/landmarkNames.js";
+
+regions.forEach(region => {
+  region.landmark = generateLandmarkName(region);
+});
+
   const regionNames = [
     "Northwest Expanse",
     "Northern Range",
