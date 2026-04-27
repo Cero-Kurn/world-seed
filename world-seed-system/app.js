@@ -19,6 +19,7 @@ import { generateTradeAndMigration } from "./modules/climate/tradeMigration.js";
 import { renderTradeMigration } from "./modules/climate/renderTradeMigration.js";
 
 // --- UI ELEMENTS ---
+import { renderChecklistPanel } from "./modules/ui/checklistPanel.js";
 const seedInput = document.getElementById("seedInput");
 const btnGenerate = document.getElementById("btnGenerate");
 const btnDecode = document.getElementById("btnDecode");
