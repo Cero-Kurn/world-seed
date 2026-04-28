@@ -13,7 +13,10 @@ import { renderWorldFormation } from "./modules/climate/worldFormation.js";
 import { generateHexMap, renderHexMap } from "./modules/maps/hexMap.js";
 import { generateBiomeHeatmap, renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
 
-// Regions (old generator replaced by simulateWorld)
+// NEW: Canvas Renderer
+import { initCanvasRenderer, renderHexWorld } from "./modules/maps/canvasRenderer.js";
+
+// World Engine
 import { simulateWorld } from "./modules/world/worldSimulation.js";
 import { exportWorld } from "./modules/world/worldExport.js";
 
@@ -42,8 +45,9 @@ import { renderRegionalHistory } from "./modules/climate/regionalHistory.js";
 import { renderBiomeLegend } from "./modules/climate/biomeLegend.js";
 import { renderBiomeTendencies } from "./modules/climate/biomeTendencies.js";
 
-// --- RENDER FUNCTIONS ---
+// --- INITIALIZE UI ---
 renderChecklistPanel();
+initCanvasRenderer("hexCanvas");
 
 
 // ------------------------------------------------------------
@@ -385,6 +389,10 @@ function processSeed(seed) {
   // --- BIOME MAPS ---
   renderBiomeHeatmap(generateBiomeHeatmap(decoded));
   renderHexMap(generateHexMap(decoded));
+
+  // --- NEW: CANVAS HEX WORLD ---
+  const hexMap = generateHexMap(decoded);
+  renderHexWorld(hexMap, regions);
 }
 
 
