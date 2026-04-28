@@ -10,7 +10,7 @@ import { generateContinentSummary } from "./modules/world/continentSummary.js";
 import { renderWorldFormation } from "./modules/climate/worldFormation.js";
 
 // Maps
-import { generateHexMap, renderHexMap } from "./modules/maps/hexMap.js";
+import { renderHexMap } from "./modules/maps/hexMap.js";
 import { renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
 
 
@@ -389,7 +389,7 @@ function processSeed(seed) {
 
   // --- BIOME MAPS ---
   renderBiomeHeatmap(regions);
-  renderHexMap(generateHexMap(decoded));
+  renderHexMap(regions);
 
   // --- NEW: CANVAS HEX WORLD ---
   const hexMap = generateHexMap(decoded);
