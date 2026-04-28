@@ -1,11 +1,13 @@
 // modules/ui/checklistPanel.js
+import { simulateWorld } from "../world/worldSimulation.js";
+import { exportWorld } from "../world/worldExport.js";
 
-export function renderChecklistPanel() {
+export function renderChecklistPanel(decodedSeed) {
   const world = simulateWorld(decodedSeed);
   const json = exportWorld(world, { pretty: true });
   const container = document.getElementById("checklistPanel");
 
-  // --- MASTER CHECKLIST DATA ---
+  // --- MASTER CHECKLIST DATA (UPDATED STATUSES) ---
   const sections = [
     {
       title: "Map / Canvas / Hex Systems",
@@ -21,16 +23,16 @@ export function renderChecklistPanel() {
         ["canvas has responsive scaling, larger maps, dynamic resizing", "partial"],
         ["Canvas maps (optional)", "partial"],
         ["Canvas‑Based (drawing API)", "partial"],
-        ["Elevation noise", "partial"],
-        ["elevation variations", "partial"],
+        ["Elevation noise", "complete"],
+        ["elevation variations", "complete"],
         ["latitude‑based biome bands to the hex map", "partial"],
         ["Mountain Density Score", "partial"],
-        ["Region adjacency smoothing", "partial"],
+        ["Region adjacency smoothing", "complete"],
         ["Continent shape generator", "missing"],
         ["map canvas that draws shapes based on the seed", "missing"],
         ["Map export (PNG/SVG)", "missing"],
         ["map linked version (regions highlight when hovered)", "missing"]
-     ]
+      ]
     },
     {
       title: "Biomes & Ecology",
@@ -40,8 +42,8 @@ export function renderChecklistPanel() {
         ["Biome legend panel", "complete"],
         ["Biome roles", "complete"],
         ["Biome tendencies", "complete"],
-        ["biome blending", "partial"],
-        ["Biome transition smoothing", "partial"],
+        ["biome blending", "complete"],
+        ["Biome transition smoothing", "complete"],
         ["biome variations (could be expanded)", "partial"],
         ["Bestiary generator", "missing"],
         ["Biome Driven Fauna & Flora Generator", "missing"],
@@ -89,8 +91,8 @@ export function renderChecklistPanel() {
     {
       title: "Regions & Features",
       items: [
-        ["Feature name variety", "partial"],
-        ["Landform & feature generator", "partial"],
+        ["Feature name variety", "complete"],
+        ["Landform & feature generator", "complete"],
         ["Make regions more detailed", "partial"],
         ["Make regions more procedural", "partial"],
         ["Make regions more structured", "partial"],
@@ -149,7 +151,7 @@ export function renderChecklistPanel() {
     }
   ];
 
-  // --- NEXT SUGGESTED FEATURE ---
+  // --- NEXT SUGGESTED FEATURE (UPDATED) ---
   let nextFeature = null;
 
   sections.forEach(section => {
