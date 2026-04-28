@@ -7,104 +7,99 @@
 </head>
 
 <body>
-  <div id="checklistPanel" class="checklist-panel"></div>
-  <h1>World Seed System</h1>
-  <p>Generate or enter a seed, then decode it into world parameters.</p>
 
-  <!-- SEED INPUT PANEL -->
-  <div class="card">
-    <h2>Seed</h2>
-    <label for="seedInput">Seed (format: CC-LM-WE-TR-HY-SF)</label>
-    <input id="seedInput" type="text" placeholder="e.g. 6A-2B-51-3A-4C-09" />
-    <div style="margin-top:0.75rem;">
-      <button id="btnGenerate">Generate Random Seed</button>
-      <button id="btnDecode" class="secondary">Decode Seed</button>
+  <div id="app">
+
+    <!-- SEED INPUT -->
+    <div id="seedControls">
+      <input id="seedInput" type="text" placeholder="Enter seed..." />
+      <button id="btnGenerate">Generate</button>
+      <button id="btnDecode">Decode</button>
     </div>
-  </div>
 
-  <!-- DECODED SEED PANEL -->
-  <div class="card">
+    <!-- CHECKLIST PANEL -->
+    <div id="checklistPanel"></div>
+
+    <!-- DECODED SEED BLOCK -->
     <h2>Decoded Seed</h2>
-    <div id="decodedOutput">No seed decoded yet.</div>
-  </div>
+    <div id="decodedOutput"></div>
 
-  <!-- WORLD SUMMARY PANEL -->
-  <div class="card">
+    <!-- WORLD SUMMARIES -->
     <h2>World Summary</h2>
-    <div id="worldSummary">No summary yet.</div>
-  </div>
+    <div id="worldSummary"></div>
 
-  <!-- CONTINENT SUMMARY PANEL -->
-  <div class="card">
     <h2>Continent Summary</h2>
-    <div id="continentSummary">No summary yet.</div>
-  </div>
-  
-  <!-- GEOLOGY NARRATIVE PANEL -->
-  <div id="geologyNarrative" class="geology-narrative"></div>
+    <div id="continentSummary"></div>
 
-  <!-- TECTONIC SUMMARY PANEL -->
-  <div id="tectonicSummary" class="tectonic-summary"></div>
-
-  <!-- WORLD AGE -->
-  <div id="worldAge" class="world-age"></div>
-  <div id="worldFormation" class="world-formation"></div>
-
-  <!-- CLIMATE BIOME SUMMARY PANEL -->
-  <div class="card">
+    <!-- CLIMATE + BIOME SUMMARY -->
     <h2>Climate & Biome Summary</h2>
-  <!-- CLIMATE NARRATIVE -->
-    <div id="climateNarrative" class="climate-narrative"></div>
-    <div id="oceanCurrents" class="ocean-currents"></div>
-    <div id="climateAnomalies" class="climate-anomalies"></div>
-    <div id="microClimate" class="micro-climate"></div>    
-    <div id="regionalWeather" class="regional-weather"></div>
-    <div id="regionalClimateExtremes" class="regional-climate-extremes"></div>
-    <div id="regionalDisasters" class="regional-disasters"></div>
-    <div id="seasonalVariability" class="seasonal-variability"></div>
-    <div id="regionalHistory" class="regional-history"></div>
-    <div id="climateBiomeSummary">No summary yet.</div>
-    <div id="biomeTendencies" class="biome-tendencies"></div>
+    <div id="climateBiomeSummary"></div>
 
-  </div>
-  
-  <!-- REGION SUMMARY PANEL -->
-  <div class="card">
-    <h2>Regions</h2>
-    <div id="regionSummary">No regions generated yet.</div>
-    <div id="tradeMigration" class="trade-migration"></div>
-    <div><strong>Landmark:</strong> ${region.landmark}</div>
+    <!-- CLIMATE SYSTEMS -->
+    <h2>Global Climate Systems</h2>
+    <div id="climateNarrative"></div>
+    <div id="oceanCurrents"></div>
+    <div id="climateAnomalies"></div>
 
-  </div>
-  
-  <!-- HEAT MAP PANEL -->
-  <div class="card">
-    <h2>Biome Heatmap</h2>
-    <div id="biomeHeatmap" style="min-height: 340px;">No heatmap yet.</div>
-  </div>
+    <h2>Regional Climate Systems</h2>
+    <div id="microClimates"></div>
+    <div id="regionalWeather"></div>
+    <div id="regionalClimateExtremes"></div>
+    <div id="regionalDisasters"></div>
+    <div id="seasonalVariability"></div>
+    <div id="regionalHistory"></div>
+    <div id="worldFormation"></div>
 
-  <!-- HEX MAP PANEL -->
-  <div class="card">
-    <h2>Hex Map</h2>
-    <canvas id="hexMapCanvas" width="600" height="400" style="background:#000;"></canvas>
-    <div id="biomeLegend" class="biome-legend"></div>
-  </div>
+    <!-- GEOLOGY -->
+    <h2>World Age</h2>
+    <div id="worldAge"></div>
 
-  <!-- TECTONIC MAP -->  
-  <div class="card">
-    <h2>Tectonic Map</h2>
-    <div id="tectonicMap" class="tectonic-map"></div>
-  </div>
-
-  <!-- VOLACNIC HAZARD -->  
-  <div class="card">
     <h2>Volcanic Hazard</h2>
-    <div id="volcanicHazard" class="volcanic-hazard"></div>
-  </div>
-  
-<canvas id="hexCanvas"></canvas>
+    <div id="volcanicHazard"></div>
 
-  <!-- MAIN APP SCRIPT -->
+    <h2>Geological Narrative</h2>
+    <div id="geologyNarrative"></div>
+
+    <h2>Tectonic Summary</h2>
+    <div id="tectonicSummary"></div>
+
+    <!-- TECTONIC MAP -->
+    <h2>Tectonic Map</h2>
+    <div id="tectonicMap" class="tectonic-grid"></div>
+
+    <!-- BIOME PANELS -->
+    <h2>Biome Legend</h2>
+    <div id="biomeLegend"></div>
+
+    <h2>Biome Tendencies</h2>
+    <div id="biomeTendencies"></div>
+
+    <!-- REGION CARDS -->
+    <h2>Regions</h2>
+    <div id="regionSummary" class="region-grid"></div>
+
+    <!-- BIOME HEATMAP -->
+    <h2>Biome Heatmap</h2>
+    <div id="biomeHeatmap"></div>
+
+    <!-- HEX MAP (SVG version) -->
+    <h2>Hex Map</h2>
+    <div id="hexMap"></div>
+
+    <!-- NEW: CANVAS HEX MAP -->
+    <h2>Canvas Hex Map</h2>
+    <div id="hexCanvasContainer">
+      <canvas id="hexCanvas"></canvas>
+    </div>
+
+    <!-- TRADE & MIGRATION -->
+    <h2>Trade & Migration</h2>
+    <div id="tradeMigration"></div>
+
+  </div>
+
+  <!-- MAIN SCRIPT -->
   <script type="module" src="app.js"></script>
+
 </body>
 </html>
