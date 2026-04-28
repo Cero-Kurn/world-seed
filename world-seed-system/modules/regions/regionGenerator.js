@@ -1,51 +1,36 @@
-  // ----------------------------------------------------
-  // REGION NAMES (placeholder list)
-  // ----------------------------------------------------
+// modules/regions/regionGenerator.js
+// ------------------------------------------------------------
+// Region Generator (Clean, Modern Rewrite)
+// ------------------------------------------------------------
+
+import { buildRegionDescription } from "./regionDescription.js";
 import { generateRegionName } from "../naming/regionNames.js";
 import { generateLandmarkName } from "../naming/landmarkNames.js";
 
-  region.name = generateRegionName(region);
-  region.landmark = generateLandmarkName(region);
-
-// regionGenerator.js
-import { buildRegionDescription } from "./regionDescription.js";
 export function generateRegions(decoded) {
   const regions = [];
 
-  // ----------------------------------------------------
-  // TECTONIC TYPE (from seed decoder)
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
+  // MODELS FROM SEED DECODER
+  // ------------------------------------------------------------
   const tectonicType = decoded.tr.tectonicType;
-
-  // ----------------------------------------------------
-  // PREVAILING WIND SIMULATION
-  // ----------------------------------------------------
   const windModel = decoded.we.primary;
-
-  // ----------------------------------------------------
-  // LATITUDE MODEL
-  // ----------------------------------------------------
   const latitudeModel = decoded.lm.primary;
-
-  // ----------------------------------------------------
-  // HYDROLOGY MODEL
-  // ----------------------------------------------------
   const hydrologyModel = decoded.hy.primary;
+  const specialFeature = decoded.sf.primary;
 
-
-
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
   // HEMISPHERE
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
   function pickHemisphere(index) {
     if (index < 5) return "Northern";
     if (index < 10) return "Equatorial";
     return "Southern";
   }
 
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
   // LATITUDE BANDS
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
   function pickLatitudeBand(hemisphere, index) {
     if (hemisphere === "Equatorial") return "Tropical";
     if (index % 3 === 0) return "Temperate";
@@ -53,9 +38,9 @@ export function generateRegions(decoded) {
     return "Polar";
   }
 
-  // ----------------------------------------------------
-  // TECTONIC EFFECTS: ELEVATION
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
+  // TECTONIC EFFECTS → ELEVATION
+  // ------------------------------------------------------------
   function pickElevation(tectonicType) {
     switch (tectonicType) {
       case "convergent": return "Mountains";
@@ -67,9 +52,9 @@ export function generateRegions(decoded) {
     }
   }
 
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
   // MOISTURE MODEL (wind + hydrology)
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
   function pickMoisture(wind, hydro) {
     const w = wind.toLowerCase();
     const h = hydro.toLowerCase();
@@ -79,9 +64,9 @@ export function generateRegions(decoded) {
     return "Moderate";
   }
 
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
   // CLIMATE PATTERNS
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
   function pickClimate(lat, moisture, elevation) {
     if (elevation === "High Mountains") return "Alpine Cold";
     if (lat === "Tropical" && moisture === "Wet") return "Humid Tropical";
@@ -92,9 +77,9 @@ export function generateRegions(decoded) {
     return "Mixed Climate";
   }
 
-  // ----------------------------------------------------
-  // BIOME SELECTION
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
+  // BIOME SELECTION (legacy → canonical mapping happens later)
+  // ------------------------------------------------------------
   function pickBiome(lat, moisture, elevation) {
     if (elevation === "High Mountains") return "Alpine";
     if (elevation === "Mountains") return "Montane Forest";
@@ -125,19 +110,17 @@ export function generateRegions(decoded) {
     return "Mixed Terrain";
   }
 
-  // ----------------------------------------------------
-  // REGION ROLES (placeholder)
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
+  // REGION ROLE (placeholder)
+  // ------------------------------------------------------------
   function pickRole() {
     return "General Region";
   }
 
-  // ----------------------------------------------------
+  // ------------------------------------------------------------
   // MAIN REGION GENERATION LOOP
-  // ----------------------------------------------------
-  for (let i = 0; i < regionNames.length; i++) {
-    const name = regionNames[i];
-
+  // ------------------------------------------------------------
+  for (let i = 0; i < 15; i++) {
     const hemisphere = pickHemisphere(i);
     const latitudeBand = pickLatitudeBand(hemisphere, i);
 
@@ -147,7 +130,6 @@ export function generateRegions(decoded) {
     const biome = pickBiome(latitudeBand, moisture, elevation);
 
     const region = {
-      name,
       hemisphere,
       latitudeBand,
       tectonicType,
@@ -156,24 +138,30 @@ export function generateRegions(decoded) {
       climatePattern,
       biome,
       role: pickRole(),
-      feature: decoded.sf.primary,
+      specialFeature,
 
       // ------------------------------------------------
-      // REGION DESCRIPTION (optional external generator)
+      // PROCEDURAL NAMING
+      // ------------------------------------------------
+      name: null,      // assigned below
+      landmark: null,  // assigned below
+
+      // ------------------------------------------------
+      // REGION DESCRIPTION
       // ------------------------------------------------
       description: buildRegionDescription
         ? buildRegionDescription({
-            name,
-            tectonicType,
+            biome,
             elevation,
             climatePattern,
-            biome,
-            hemisphere
+            hemisphere,
+            latitudeBand,
+            tectonicType
           })
-        : `${name} is shaped by ${tectonicType.toLowerCase()} tectonics, with ${elevation.toLowerCase()} and a ${climatePattern.toLowerCase()} climate.`,
+        : `A region shaped by ${tectonicType.toLowerCase()} tectonics, with ${elevation.toLowerCase()} and a ${climatePattern.toLowerCase()} climate.`,
 
       // ------------------------------------------------
-      // DEBUG PANEL OUTPUT
+      // DEBUG PANEL
       // ------------------------------------------------
       debug: {
         tectonic: `Tectonic type "${tectonicType}" determined from TR seed.`,
@@ -187,6 +175,12 @@ export function generateRegions(decoded) {
         climate: `Climate pattern derived from latitude "${latitudeBand}", moisture "${moisture}", and elevation "${elevation}".`
       }
     };
+
+    // ------------------------------------------------
+    // PROCEDURAL NAMES (AFTER REGION OBJECT EXISTS)
+    // ------------------------------------------------
+    region.name = generateRegionName(region);
+    region.landmark = generateLandmarkName(region);
 
     regions.push(region);
   }
