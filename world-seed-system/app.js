@@ -39,7 +39,7 @@ import { renderRegionalHistory } from "./modules/climate/regionalHistory.js";
 import { smoothBiomes } from "./modules/climate/biomeSmoothing.js";
 import { renderBiomeLegend } from "./modules/climate/biomeLegend.js";
 import { renderBiomeTendencies } from "./modules/climate/biomeTendencies.js";
-import { assignBiomeRoles } from "./modules/climate/biomeRoles.js";
+import { assignBiomeRoles } from "./modules/climate/biomeRoles.js"
 
 
 // --- RENDER FUNCTIONS ---
