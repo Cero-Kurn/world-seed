@@ -1,49 +1,138 @@
 // modules/climate/biomeSmoothing.js
-export function smoothBiomes(regions) {
-  // Adjacency for a 7‑hex "flower" layout:
-  // 0 is center, 1–6 are ring.
-  const neighbors = {
-    0: [1, 2, 3, 4, 5, 6],
-    1: [0, 2, 6],
-    2: [0, 1, 3],
-    3: [0, 2, 4],
-    4: [0, 3, 5],
-    5: [0, 4, 6],
-    6: [0, 5, 1]
-  };
+// ------------------------------------------------------------
+// Biome Smoothing Rules (canonical adjacency)
+// ------------------------------------------------------------
+//
+// These rules define which biomes can reasonably border each
+// other. They prevent contradictions (e.g., Tundra next to
+// Tropical Forests) and help climate modules produce smooth,
+// believable transitions.
+//
+// This is used by climate smoothing, region blending, and
+// narrative consistency modules.
+//
 
-  // Copy original biomes so smoothing is based on the old state
-  const originalBiomes = regions.map(r => r.biome);
+export const BIOME_ADJACENCY = {
+  "Tundra": [
+    "Alpine",
+    "Taiga Forests",
+    "Wetlands"
+  ],
 
-  regions.forEach((r, i) => {
-    const nIdx = neighbors[i] || [];
-    if (nIdx.length === 0) return;
+  "Alpine": [
+    "Tundra",
+    "Taiga Forests",
+    "Temperate Forests"
+  ],
 
-    const counts = {};
-    nIdx.forEach(j => {
-      const b = originalBiomes[j];
-      counts[b] = (counts[b] || 0) + 1;
-    });
+  "Taiga Forests": [
+    "Tundra",
+    "Alpine",
+    "Temperate Forests",
+    "Grassland",
+    "Wetlands"
+  ],
 
-    // Find dominant neighbor biome
-    let dominantBiome = r.biome;
-    let maxCount = 0;
+  "Temperate Forests": [
+    "Taiga Forests",
+    "Grassland",
+    "Shrubland",
+    "Wetlands"
+  ],
 
-    Object.entries(counts).forEach(([biome, count]) => {
-      if (count > maxCount) {
-        maxCount = count;
-        dominantBiome = biome;
-      }
-    });
+  "Tropical Forests": [
+    "Savanna",
+    "Wetlands",
+    "Shrubland"
+  ],
 
-    // Only smooth if:
-    // - dominant neighbor biome appears at least twice
-    // - and current biome is different
-    if (dominantBiome !== r.biome && maxCount >= 2) {
-      r.biome = dominantBiome;
-      r.description += " Neighboring biomes gradually blend here, softening the transition.";
-    }
-  });
+  "Grassland": [
+    "Temperate Forests",
+    "Taiga Forests",
+    "Savanna",
+    "Shrubland",
+    "Wetlands"
+  ],
 
-  return regions;
+  "Savanna": [
+    "Grassland",
+    "Tropical Forests",
+    "Shrubland",
+    "Desert"
+  ],
+
+  "Shrubland": [
+    "Grassland",
+    "Savanna",
+    "Temperate Forests",
+    "Desert"
+  ],
+
+  "Wetlands": [
+    "Grassland",
+    "Temperate Forests",
+    "Taiga Forests",
+    "Tropical Forests",
+    "Freshwater",
+    "Coastal"
+  ],
+
+  "Desert": [
+    "Shrubland",
+    "Savanna",
+    "Grassland"
+  ],
+
+  "Coastal": [
+    "Temperate Forests",
+    "Tropical Forests",
+    "Grassland",
+    "Wetlands",
+    "Freshwater",
+    "Marine"
+  ],
+
+  "Freshwater": [
+    "Wetlands",
+    "Grassland",
+    "Temperate Forests",
+    "Coastal"
+  ],
+
+  "Marine": [
+    "Coastal"
+  ],
+
+  "Geothermal": [
+    "Shrubland",
+    "Desert",
+    "Grassland",
+    "Alpine"
+  ],
+
+  "Subsurface": [
+    // Subsurface can border anything because it is *below* the surface.
+    "Tundra",
+    "Alpine",
+    "Taiga Forests",
+    "Temperate Forests",
+    "Tropical Forests",
+    "Grassland",
+    "Savanna",
+    "Shrubland",
+    "Wetlands",
+    "Desert",
+    "Coastal",
+    "Freshwater",
+    "Marine",
+    "Geothermal"
+  ]
+};
+
+// ------------------------------------------------------------
+// Helper: check if two biomes can border each other
+// ------------------------------------------------------------
+export function canBiomesTouch(a, b) {
+  if (!BIOME_ADJACENCY[a]) return false;
+  return BIOME_ADJACENCY[a].includes(b);
 }
