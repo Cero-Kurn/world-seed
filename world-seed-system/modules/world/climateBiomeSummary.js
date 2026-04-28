@@ -13,7 +13,7 @@
 // - climate UI overlays
 //
 
-import { getBiomeRole } from "./biomeRoles.js";
+import { getBiomeRole } from "../climate/biomeRoles.js";
 
 export function generateClimateBiomeSummary(region) {
   const {
