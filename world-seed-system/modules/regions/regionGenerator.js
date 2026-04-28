@@ -4,8 +4,8 @@
 import { generateRegionName } from "../naming/regionNames.js";
 import { generateLandmarkName } from "../naming/landmarkNames.js";
 
-region.name = generateRegionName(region);
-region.landmark = generateLandmarkName(region);
+  region.name = generateRegionName(region);
+  region.landmark = generateLandmarkName(region);
 
 // regionGenerator.js
 import { buildRegionDescription } from "./regionDescription.js";
