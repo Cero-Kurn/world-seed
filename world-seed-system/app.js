@@ -44,7 +44,7 @@ import { renderRegionalHistory } from "./modules/climate/regionalHistory.js";
 
 // --- BIOME MODULES ---
 import { renderBiomeLegend } from "./modules/climate/biomeLegend.js";
-import { renderBiomeTendencies } from "./modules/climate/biomeTendencies.js";
+import { renderBiomeTendencies } from "./modules/climate/renderBiomeTendencies.js";
 
 // --- INITIALIZE UI ---
 renderChecklistPanel();
