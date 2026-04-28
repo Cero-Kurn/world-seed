@@ -1,3 +1,12 @@
+  // ----------------------------------------------------
+  // REGION NAMES (placeholder list)
+  // ----------------------------------------------------
+import { generateRegionName } from "../naming/regionNames.js";
+import { generateLandmarkName } from "../naming/landmarkNames.js";
+
+region.name = generateRegionName(region);
+region.landmark = generateLandmarkName(region);
+
 // regionGenerator.js
 import { buildRegionDescription } from "./regionDescription.js";
 export function generateRegions(decoded) {
@@ -23,14 +32,7 @@ export function generateRegions(decoded) {
   // ----------------------------------------------------
   const hydrologyModel = decoded.hy.primary;
 
-  // ----------------------------------------------------
-  // REGION NAMES (placeholder list)
-  // ----------------------------------------------------
-import { generateRegionName } from "../naming/regionNames.js";
-import { generateLandmarkName } from "../naming/landmarkNames.js";
 
-region.name = generateRegionName(region);
-region.landmark = generateLandmarkName(region);
 
   // ----------------------------------------------------
   // HEMISPHERE
