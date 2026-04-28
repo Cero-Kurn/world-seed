@@ -252,9 +252,10 @@ function pickRole() {
 export function generateRegions(decoded) {
   const regions = [];
 
-  const tectonicType = decoded.tr.tectonicType;
+  // NEW — tectonics are no longer seed‑based
+  // They are generated per‑region
   const windModel = decoded.we.primary;
-  const latitudeModel = decoded.lm?.primary || ""; // reserved for future nuance
+  const latitudeModel = decoded.lm?.primary || "";
   const hydrologyModel = decoded.hy.primary;
   const specialFeature = decoded.sf?.primary || "";
 
@@ -263,6 +264,9 @@ export function generateRegions(decoded) {
   for (let i = 0; i < REGION_COUNT; i++) {
     const hemisphere = pickHemisphere(i);
     const latitudeBand = pickLatitudeBand(hemisphere, i);
+
+    // NEW — tectonic type is generated here
+    const tectonicType = pickTectonicType(latitudeBand, i);
 
     const elevation = pickElevation(tectonicType);
     const moisture = pickMoisture(windModel, hydrologyModel);
@@ -278,18 +282,6 @@ export function generateRegions(decoded) {
     });
 
     const landform = classifyLandform(specialFeature);
-
-    const region = {
-      hemisphere,
-      latitudeBand,
-      tectonicType,
-      elevation,
-      moisture,
-      climatePattern,
-      biome,
-      role: pickRole(),
-      specialFeature,
-      landform,
 
       // Names (assigned after core properties)
       name: null,
