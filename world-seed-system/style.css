@@ -241,3 +241,42 @@ h2 {
 ::-webkit-scrollbar-thumb:hover {
   background: #444;
 }
+
+/* ------------------------------------------------------------
+  BIOME TENDENCIES
+------------------------------------------------------------ */
+.biome-tendencies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.biome-tendencies-card {
+  background: #111;
+  border: 1px solid #333;
+  padding: 12px;
+  border-radius: 4px;
+}
+
+.bt-title {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.bt-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 0;
+}
+
+.bt-label {
+  color: #aaa;
+}
+
+.bt-value {
+  color: #fff;
+  font-weight: 600;
+}
