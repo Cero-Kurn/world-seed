@@ -2,6 +2,7 @@
 
 export function renderChecklistPanel() {
   const world = simulateWorld(decodedSeed);
+  const json = exportWorld(world, { pretty: true });
   const container = document.getElementById("checklistPanel");
 
   // --- MASTER CHECKLIST DATA ---
