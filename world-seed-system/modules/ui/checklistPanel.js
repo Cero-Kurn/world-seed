@@ -1,6 +1,7 @@
 // modules/ui/checklistPanel.js
 
 export function renderChecklistPanel() {
+  const world = simulateWorld(decodedSeed);
   const container = document.getElementById("checklistPanel");
 
   // --- MASTER CHECKLIST DATA ---
