@@ -1,4 +1,5 @@
 // --- IMPORT MODULES ---
+
 // Seed engine
 import { generateRandomSeed } from "./modules/seed/seedGenerator.js";
 import { decodeSeed } from "./modules/seed/seedDecoder.js";
@@ -6,15 +7,17 @@ import { generateWorldSummary } from "./modules/seed/worldSummary.js";
 
 // World-scale summaries
 import { generateContinentSummary } from "./modules/world/continentSummary.js";
-import { generateClimateBiomeSummary } from "./modules/world/climateBiomeSummary.js";
 import { renderWorldFormation } from "./modules/climate/worldFormation.js";
 
 // Maps
 import { generateHexMap, renderHexMap } from "./modules/maps/hexMap.js";
 import { generateBiomeHeatmap, renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
 
-// Regions
-import { generateRegions } from "./modules/regions/regionGenerator.js";
+// Regions (old generator replaced by simulateWorld)
+import { simulateWorld } from "./modules/world/worldSimulation.js";
+import { exportWorld } from "./modules/world/worldExport.js";
+
+// Trade & migration
 import { generateTradeAndMigration } from "./modules/climate/tradeMigration.js";
 import { renderTradeMigration } from "./modules/climate/renderTradeMigration.js";
 
@@ -36,15 +39,16 @@ import { renderSeasonalVariability } from "./modules/climate/seasonalVariability
 import { renderRegionalHistory } from "./modules/climate/regionalHistory.js";
 
 // --- BIOME MODULES ---
-import { smoothBiomes } from "./modules/climate/biomeSmoothing.js";
 import { renderBiomeLegend } from "./modules/climate/biomeLegend.js";
 import { renderBiomeTendencies } from "./modules/climate/biomeTendencies.js";
-import { assignBiomeRoles } from "./modules/climate/biomeRoles.js"
-
 
 // --- RENDER FUNCTIONS ---
 renderChecklistPanel();
-// Decoded seed block
+
+
+// ------------------------------------------------------------
+// SEED DECODED BLOCK
+// ------------------------------------------------------------
 function renderDecoded(decoded, seedStr) {
   const container = document.getElementById("decodedOutput");
 
@@ -71,7 +75,9 @@ function renderDecoded(decoded, seedStr) {
 }
 
 
-// Region cards (now includes tectonic info)
+// ------------------------------------------------------------
+// REGION CARDS (updated for new world model)
+// ------------------------------------------------------------
 function renderRegions(regions) {
   const container = document.getElementById("regionSummary");
 
@@ -79,24 +85,22 @@ function renderRegions(regions) {
     <div class="card" style="background:#111; margin:0;">
       <div class="label">${r.name}</div>
 
+      <p><strong>Landmark:</strong> ${r.landmark}</p>
       <p><strong>Latitude Band:</strong> ${r.latitudeBand}</p>
       <p><strong>Climate Pattern:</strong> ${r.climatePattern}</p>
-      <p><strong>Elevation Tier:</strong> ${r.elevationTier}</p>
-      <p><strong>Role:</strong> ${r.role}</p>
+      <p><strong>Elevation:</strong> ${r.elevation}</p>
+      <p><strong>Moisture:</strong> ${r.moisture}</p>
 
       <hr style="border:0; border-top:1px solid #333; margin:8px 0;">
 
       <p><strong>Tectonic Type:</strong> ${r.tectonicType}</p>
-      <p><strong>Prevailing Wind:</strong> ${r.prevailingWind}</p>
       <p><strong>Hemisphere:</strong> ${r.hemisphere}</p>
 
       <hr style="border:0; border-top:1px solid #333; margin:8px 0;">
 
       <p><strong>Biome:</strong> ${r.biome}</p>
-      <p><strong>Biome Role:</strong> ${r.biomeRole}</p>
-      <p><strong>Elevation:</strong> ${r.elevation}</p>
-      <p><strong>Moisture:</strong> ${r.moisture}</p>
-      <p><strong>Feature:</strong> ${r.feature}</p>
+      <p><strong>Landform:</strong> ${r.landform}</p>
+      <p><strong>Special Feature:</strong> ${r.specialFeature}</p>
 
       <p>${r.description}</p>
     </div>
@@ -104,42 +108,9 @@ function renderRegions(regions) {
 }
 
 
-// Collapsible Debug Panel
-function renderDebugPanel(regions) {
-  const panel = document.getElementById("debugPanel");
-
-  panel.innerHTML = regions.map((r, i) => `
-    <div class="debug-entry">
-      <div class="debug-header" data-debug="${i}">
-        ▶ ${r.name}
-      </div>
-      <div class="debug-content" id="debug-${i}">
-        • Tectonics: ${r.debug.tectonic}
-        \n• Wind: ${r.debug.wind}
-        \n• Rain Shadow: ${r.debug.rainShadow}
-        \n• Elevation Tier: ${r.debug.elevationTier}
-        \n• Biome Logic: ${r.debug.biome}
-        \n• Moisture Logic: ${r.debug.moisture}
-        \n• Climate Logic: ${r.debug.climate}
-      </div>
-    </div>
-  `).join("");
-
-  // Collapsible behavior
-  document.querySelectorAll(".debug-header").forEach(header => {
-    header.addEventListener("click", () => {
-      const index = header.getAttribute("data-debug");
-      const content = document.getElementById(`debug-${index}`);
-      const isOpen = content.style.display === "block";
-
-      content.style.display = isOpen ? "none" : "block";
-      header.textContent = `${isOpen ? "▶" : "▼"} ${regions[index].name}`;
-    });
-  });
-}
-
-
-// Tectonic Map
+// ------------------------------------------------------------
+// TECTONIC MAP
+// ------------------------------------------------------------
 function renderTectonicMap(regions) {
   const container = document.getElementById("tectonicMap");
 
@@ -159,7 +130,9 @@ function renderTectonicMap(regions) {
 }
 
 
-// World Age Score
+// ------------------------------------------------------------
+// WORLD AGE
+// ------------------------------------------------------------
 function renderWorldAge(regions) {
   const container = document.getElementById("worldAge");
 
@@ -210,7 +183,9 @@ function renderWorldAge(regions) {
 }
 
 
-// Tectonic Summary
+// ------------------------------------------------------------
+// TECTONIC SUMMARY
+// ------------------------------------------------------------
 function renderTectonicSummary(regions) {
   const container = document.getElementById("tectonicSummary");
 
@@ -244,7 +219,9 @@ function renderTectonicSummary(regions) {
 }
 
 
-// Geological Narrative
+// ------------------------------------------------------------
+// GEOLOGY NARRATIVE
+// ------------------------------------------------------------
 function renderGeologyNarrative(regions) {
   const container = document.getElementById("geologyNarrative");
 
@@ -292,7 +269,10 @@ function renderGeologyNarrative(regions) {
   `;
 }
 
-// Volcanic Hazard
+
+// ------------------------------------------------------------
+// VOLCANIC HAZARD
+// ------------------------------------------------------------
 function renderVolcanicHazard(regions) {
   const container = document.getElementById("volcanicHazard");
 
@@ -301,26 +281,21 @@ function renderVolcanicHazard(regions) {
     return acc;
   }, {});
 
-  const total = regions.length;
-
   const convergent = counts.convergent || 0;
   const divergent = counts.divergent || 0;
   const transform = counts.transform || 0;
   const craton = counts.craton || 0;
   const hotspot = counts.hotspot || 0;
 
-  // Volcanic hazard score
   const hazardScore =
-    (hotspot * 25) +      // hotspots = strongest volcanic activity
-    (convergent * 18) +   // subduction volcanoes
-    (divergent * 12) +    // rift volcanoes
-    (transform * 4) -     // minor volcanic activity
-    (craton * 10);        // cratons reduce hazard
+    (hotspot * 25) +
+    (convergent * 18) +
+    (divergent * 12) +
+    (transform * 4) -
+    (craton * 10);
 
-  // Normalize 0–100
   const score = Math.max(0, Math.min(100, hazardScore));
 
-  // Classification
   let label = "";
   let description = "";
 
@@ -347,9 +322,9 @@ function renderVolcanicHazard(regions) {
 }
 
 
-
-
-// --- MAIN ACTIONS ---
+// ------------------------------------------------------------
+// MAIN PROCESSING PIPELINE (NEW WORLD ENGINE)
+// ------------------------------------------------------------
 function processSeed(seed) {
   let decoded;
 
@@ -360,10 +335,9 @@ function processSeed(seed) {
     return;
   }
 
-
   // --- DECODE ---
   renderDecoded(decoded, seed);
-  
+
   // World summary
   document.getElementById("worldSummary").innerHTML =
     generateWorldSummary(decoded);
@@ -372,30 +346,16 @@ function processSeed(seed) {
   document.getElementById("continentSummary").innerHTML =
     generateContinentSummary(decoded);
 
-  // Climate & biome summary
-  document.getElementById("climateBiomeSummary").innerHTML =
-    generateClimateBiomeSummary(decoded);
-  
-  // --- SUMMARIES ---
-  //worldSummary...
-  //continentSummary...
-  //climateBiomeSummary...
-  
-  // --- REGIONS ---
-  const regions = generateRegions(decoded);
+  // --- WORLD SIMULATION (NEW PIPELINE) ---
+  const world = simulateWorld(decoded);
+  const regions = world.regions;
 
-  // BIOME TRANSITION SMOOTHING
-  smoothBiomes(regions);
-  
-  // --- BIOME ROLES ---
-  assignBiomeRoles(regions);
-  
-      // 🌍 GLOBAL CLIMATE SYSTEMS
+  // --- CLIMATE SYSTEMS ---
   renderClimateNarrative(regions, decoded);
   renderOceanCurrents(regions, decoded);
   renderClimateAnomalies(regions, decoded);
-  
-    // 🌱 REGIONAL CLIMATE SYSTEMS
+
+  // --- REGIONAL CLIMATE ---
   renderMicroClimates(regions, decoded);
   renderRegionalWeather(regions, decoded);
   renderRegionalClimateExtremes(regions, decoded);
@@ -404,34 +364,33 @@ function processSeed(seed) {
   renderRegionalHistory(regions, decoded);
   renderWorldFormation(regions, decoded);
 
+  // --- TRADE & MIGRATION ---
   const tm = generateTradeAndMigration(regions);
   renderTradeMigration(tm);
-  
+
   // --- BIOME PANELS ---
   renderBiomeLegend();
   renderBiomeTendencies(regions);
-  
-    // 🪨 GEOLOGY SYSTEMS
+
+  // --- GEOLOGY ---
   renderWorldAge(regions);
   renderVolcanicHazard(regions);
   renderGeologyNarrative(regions);
   renderTectonicSummary(regions);
-  
-    // 🗺 REGION CARDS + MAP
+
+  // --- REGIONS + MAPS ---
   renderRegions(regions);
   renderTectonicMap(regions);
-  renderDebugPanel(regions);
-  
+
   // --- BIOME MAPS ---
   renderBiomeHeatmap(generateBiomeHeatmap(decoded));
   renderHexMap(generateHexMap(decoded));
-
-
-
 }
 
 
-// --- BUTTON HANDLERS ---
+// ------------------------------------------------------------
+// BUTTON HANDLERS
+// ------------------------------------------------------------
 btnGenerate.addEventListener("click", () => {
   const seed = generateRandomSeed();
   seedInput.value = seed;
