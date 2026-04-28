@@ -1,83 +1,73 @@
-// Biome → color mapping
+// modules/maps/biomeHeatmap.js
+// ------------------------------------------------------------
+// Biome Heatmap Renderer (canonical biome colors)
+// ------------------------------------------------------------
+
+import { BIOMES } from "../data/biomes.js";
+
+// ------------------------------------------------------------
+// BIOME → COLOR MAP (canonical only)
+// ------------------------------------------------------------
 const BIOME_COLORS = {
-  "alpine": "#abb289",
-  //"atmosphere":"",
-  "coast": "#f9e6be",
-  "desert": "#d4b680",
-  "geothermal": "#db3a28",
-  "grassland": "#97c14b",
-  "inland sea": "#4da6b2",
-  "lake": "#4da6b2",
-  "mediterranean": "#f5df07",
-  "mixed": "",
-  "monsoon forest": "#b9ce87",
-  "ocean": "#1c2842",
-  //"other": "",
-  "savanna": "#d1a36e",
-  //"space": "",
-  "subsurface": "#000000",
-  "taiga": "#477747",
-  "temperate forest": "#5fa777",
-  "tropical rainforest": "#019f7d",
-  "tundra": "#d8e3e7",
-  "wetlands": "#a0a832"
+  "Tundra": "#C9D6D5",
+  "Alpine": "#A9B8C9",
+  "Taiga Forests": "#4A6B4F",
+  "Temperate Forests": "#6FAF6F",
+  "Tropical Forests": "#2E8B57",
+  "Grassland": "#C7D36F",
+  "Savanna": "#D9C77E",
+  "Shrubland": "#BFAF7A",
+  "Wetlands": "#7FB8A4",
+  "Desert": "#E8D18B",
+  "Geothermal": "#D97F30",
+  "Coastal": "#A7D0E3",
+  "Freshwater": "#7EC8E3",
+  "Marine": "#3A6EA5",
+  "Subsurface": "#6E5F57"
 };
 
-// Simple biome picker for the heatmap (smooth, not noisy)
-function pickBiome(lm, we, tr, hy) {
-  const climate = lm.primary.toLowerCase();
-  const winds = we.primary.toLowerCase();
-  const water = hy.primary.toLowerCase();
-  const tect = tr.primary.toLowerCase();
+// ------------------------------------------------------------
+// SAFE COLOR PICKER
+// ------------------------------------------------------------
+function getBiomeColor(biome) {
+  if (BIOME_COLORS[biome]) return BIOME_COLORS[biome];
 
-  if (climate.includes("hot")) return "tropical rainforest";
-  if (climate.includes("cold")) return "tundra";
-  if (winds.includes("monsoon")) return "monsoon forest";
-  if (water.includes("wetland")) return "wetlands";
-  if (water.includes("sparse")) return "desert";
-  if (tect.includes("mountain")) return "alpine";
-
-  return "temperate forest";
+  console.warn(`Unknown biome "${biome}" in heatmap — using fallback color.`);
+  return "#999999"; // neutral fallback
 }
 
-// Generate a 20×20 biome grid
-export function generateBiomeHeatmap(decoded) {
-  const { lm, we, tr, hy } = decoded;
+// ------------------------------------------------------------
+// HEATMAP RENDERER
+// ------------------------------------------------------------
+export function renderBiomeHeatmap(canvas, regions, hexGrid) {
+  const ctx = canvas.getContext("2d");
 
-  const size = 20;
-  const grid = [];
+  for (let i = 0; i < hexGrid.length; i++) {
+    const hex = hexGrid[i];
+    const region = regions[hex.regionIndex];
 
-  for (let y = 0; y < size; y++) {
-    const row = [];
-    for (let x = 0; x < size; x++) {
-      const biome = pickBiome(lm, we, tr, hy);
-      row.push(biome);
-    }
-    grid.push(row);
+    if (!region) continue;
+
+    const color = getBiomeColor(region.biome);
+
+    ctx.fillStyle = color;
+    drawHeatHex(ctx, hex.x, hex.y, hex.size);
   }
-
-  return grid;
 }
 
-// Render the grid as colored squares
-export function renderBiomeHeatmap(grid) {
-  const container = document.getElementById("biomeHeatmap");
-  container.innerHTML = ""; // clear previous
+// ------------------------------------------------------------
+// BASIC HEX DRAWING (heatmap style)
+// ------------------------------------------------------------
+function drawHeatHex(ctx, x, y, size) {
+  const angle = Math.PI / 3;
 
-  const size = grid.length;
-
-  container.style.display = "grid";
-  container.style.gridTemplateColumns = `repeat(${size}, 16px)`;
-  container.style.gridTemplateRows = `repeat(${size}, 16px)`;
-  container.style.gap = "1px";
-
-  for (const row of grid) {
-    for (const biome of row) {
-      const cell = document.createElement("div");
-      cell.style.width = "16px";
-      cell.style.height = "16px";
-      cell.style.background = BIOME_COLORS[biome] || "#555";
-      container.appendChild(cell);
-    }
+  ctx.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const px = x + size * Math.cos(angle * i);
+    const py = y + size * Math.sin(angle * i);
+    if (i === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
   }
+  ctx.closePath();
+  ctx.fill();
 }
