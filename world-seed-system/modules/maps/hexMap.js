@@ -1,506 +1,73 @@
-import { BIOME_COLORS } from "../data/biomes.js";
+// modules/maps/hexMap.js
+// ------------------------------------------------------------
+// Hex Map Renderer (canonical biome colors)
+// ------------------------------------------------------------
 
-// -----------------------------
-// Noise Functions
-// -----------------------------
+import { BIOMES } from "../data/biomes.js";
 
-function noise(q, r) {
-  const n = Math.sin(q * 12.9898 + r * 78.233) * 43758.5453;
-  return n - Math.floor(n);
-}
-
-function landNoise(q, r) {
-  const n = Math.sin(q * 7.123 + r * 3.331) * 9999.1337;
-  return n - Math.floor(n);
-}
-
-function latitudeFromRow(r, rows) {
-  return (r / (rows - 1)) * 2 - 1;
-}
-
-// -----------------------------
-// Constants
-// -----------------------------
-
-const COAST_THRESHOLD = 0.42;
-
-const HEX_COLORS = {
-  "alpine": "#abb289",
-  //"atmosphere":"",
-  "coast": "#f9e6be",
-  "desert": "#d4b680",
-  "geothermal": "#db3a28",
-  "grassland": "#97c14b",
-  "inland sea": "#4da6b2",
-  "lake": "#4da6b2",
-  "mediterranean": "#f5df07",
-  "mixed": "",
-  "monsoon forest": "#b9ce87",
-  "ocean": "#1c2842",
-  //"other": "",
-  "savanna": "#d1a36e",
-  //"space": "",
-  "subsurface": "#000000",
-  "taiga": "#477747",
-  "temperate forest": "#5fa777",
-  "tropical rainforest": "#019f7d",
-  "tundra": "#d8e3e7",
-  "wetlands": "#a0a832"
+// ------------------------------------------------------------
+// BIOME → COLOR MAP (canonical only)
+// ------------------------------------------------------------
+const BIOME_COLORS = {
+  "Tundra": "#C9D6D5",
+  "Alpine": "#A9B8C9",
+  "Taiga Forests": "#4A6B4F",
+  "Temperate Forests": "#6FAF6F",
+  "Tropical Forests": "#2E8B57",
+  "Grassland": "#C7D36F",
+  "Savanna": "#D9C77E",
+  "Shrubland": "#BFAF7A",
+  "Wetlands": "#7FB8A4",
+  "Desert": "#E8D18B",
+  "Geothermal": "#D97F30",
+  "Coastal": "#A7D0E3",
+  "Freshwater": "#7EC8E3",
+  "Marine": "#3A6EA5",
+  "Subsurface": "#6E5F57"
 };
 
-// -----------------------------
-// Hex Grid Helpers (Axial)
-// -----------------------------
+// ------------------------------------------------------------
+// SAFE COLOR PICKER
+// ------------------------------------------------------------
+function getBiomeColor(biome) {
+  if (BIOME_COLORS[biome]) return BIOME_COLORS[biome];
 
-const HEX_DIRS = [
-  { q: +1, r: 0 },
-  { q: +1, r: -1 },
-  { q: 0, r: -1 },
-  { q: -1, r: 0 },
-  { q: -1, r: +1 },
-  { q: 0, r: +1 }
-];
-
-function getNeighbors(q, r, cols, rows) {
-  const neighbors = [];
-  for (const d of HEX_DIRS) {
-    const nq = q + d.q;
-    const nr = r + d.r;
-    if (nq >= 0 && nq < cols && nr >= 0 && nr < rows) {
-      neighbors.push({ q: nq, r: nr });
-    }
-  }
-  return neighbors;
+  console.warn(`Unknown biome "${biome}" — using fallback color.`);
+  return "#888888"; // neutral fallback
 }
 
-// -----------------------------
-// Elevation Classification
-// -----------------------------
-
-function classifyElevation(e) {
-  if (e < 0.25) return "ocean";
-  if (e < COAST_THRESHOLD) return "coast";
-  if (e < 0.6) return "plains";
-  if (e < 0.8) return "hills";
-  return "mountains";
-}
-
-// -----------------------------
-// Tectonic Plates
-// -----------------------------
-
-function generatePlateCenters(cols, rows, count = 6) {
-  const plates = [];
-  for (let i = 0; i < count; i++) {
-    plates.push({
-      id: i,
-      q: Math.floor(Math.random() * cols),
-      r: Math.floor(Math.random() * rows),
-      type: Math.random() < 0.6 ? "continental" : "oceanic"
-    });
-  }
-  return plates;
-}
-
-function assignPlates(hexes, plates, cols, rows) {
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      let best = null;
-      let bestDist = Infinity;
-
-      for (const p of plates) {
-        const dq = p.q - q;
-        const dr = p.r - r;
-        const dist = dq * dq + dr * dr;
-
-        if (dist < bestDist) {
-          bestDist = dist;
-          best = p;
-        }
-      }
-
-      hexes[r][q].plate = best.id;
-      hexes[r][q].plateType = best.type;
-    }
-  }
-}
-
-function detectBoundaries(hexes, cols, rows) {
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      const hex = hexes[r][q];
-      const neighbors = getNeighbors(q, r, cols, rows);
-
-      hex.boundary = "none";
-
-      for (const n of neighbors) {
-        const other = hexes[n.r][n.q];
-
-        if (other.plate !== hex.plate) {
-          if (hex.plateType === "continental" && other.plateType === "continental") {
-            hex.boundary = "convergent";
-          } else if (hex.plateType !== other.plateType) {
-            hex.boundary = "divergent";
-          } else {
-            hex.boundary = "transform";
-          }
-        }
-      }
-    }
-  }
-}
-
-function applyTectonics(hexes, cols, rows) {
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      const hex = hexes[r][q];
-
-      if (hex.boundary === "convergent") {
-        hex.elevationValue = Math.min(1, hex.elevationValue + 0.35);
-      }
-
-      if (hex.boundary === "divergent") {
-        hex.elevationValue = Math.max(0, hex.elevationValue - 0.25);
-      }
-
-      if (hex.boundary === "transform") {
-        hex.elevationValue += (noise(q, r) - 0.5) * 0.1;
-      }
-    }
-  }
-}
-
-// -----------------------------
-// Biome Selection
-// -----------------------------
-
-function pickBiome(lm, we, tr, hy, q, r, rows, elevationBand) {
-  const climate = lm.primary.toLowerCase();
-  const water = hy.primary.toLowerCase();
-  const tect = tr.primary.toLowerCase();
-
-  const n = noise(q + 100, r + 200);
-  const lat = latitudeFromRow(r, rows);
-
-  if (elevationBand === "ocean") return "ocean";
-  if (elevationBand === "coast") {
-    if (lat > -0.25 && lat < 0.25) return "wetlands";
-    return "temperate forest";
-  }
-
-  let biome;
-  if (lat > 0.75 || lat < -0.75) biome = n < 0.5 ? "tundra" : "alpine";
-  else if (lat > 0.55 || lat < -0.55) biome = n < 0.4 ? "tundra" : "temperate forest";
-  else if (lat > 0.25 || lat < -0.25) biome = n < 0.5 ? "temperate forest" : "mixed";
-  else biome = n < 0.6 ? "tropical rainforest" : "monsoon forest";
-
-  if (climate.includes("hot")) biome = "tropical rainforest";
-  if (climate.includes("cold")) biome = "tundra";
-  if (climate.includes("ice")) biome = "tundra";
-  if (climate.includes("greenhouse")) biome = "tropical rainforest";
-
-  if (elevationBand === "mountains") biome = "alpine";
-  if (elevationBand === "hills" && biome === "temperate forest" && n > 0.5)
-    biome = "mixed";
-
-  if (water.includes("sparse") && n > 0.4) biome = "desert";
-  if (water.includes("wetland") && n < 0.7) biome = "wetlands";
-
-  if (tect.includes("mountain") && elevationBand === "mountains") biome = "alpine";
-  if (tect.includes("rift") && elevationBand === "plains" && n > 0.6) biome = "desert";
-
-  return biome;
-}
-
-// -----------------------------
-// River Simulation
-// -----------------------------
-
-function findDownhill(q, r, hexes, cols, rows) {
-  const current = hexes[r][q];
-  let lowest = current;
-  let target = null;
-
-  const neighbors = getNeighbors(q, r, cols, rows);
-
-  for (const n of neighbors) {
-    const neighbor = hexes[n.r][n.q];
-    if (neighbor.elevationValue < lowest.elevationValue) {
-      lowest = neighbor;
-      target = neighbor;
-    }
-  }
-
-  return target;
-}
-
-// -----------------------------
-// Lake Detection Helpers
-// -----------------------------
-
-function drainsToOcean(q, r, hexes, cols, rows, visited = new Set()) {
-  const key = `${q},${r}`;
-  if (visited.has(key)) return false;
-  visited.add(key);
-
-  const hex = hexes[r][q];
-
-  if (hex.elevation === "ocean" || hex.elevation === "coast") {
-    return true;
-  }
-
-  const neighbors = getNeighbors(q, r, cols, rows);
-
-  for (const n of neighbors) {
-    const next = hexes[n.r][n.q];
-    if (next.elevationValue < hex.elevationValue) {
-      if (drainsToOcean(n.q, n.r, hexes, cols, rows, visited)) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
-
-function floodFillBasin(q, r, hexes, cols, rows, threshold = 0.55) {
-  const stack = [{ q, r }];
-  const basin = [];
-  const visited = new Set();
-
-  while (stack.length > 0) {
-    const { q, r } = stack.pop();
-    const key = `${q},${r}`;
-    if (visited.has(key)) continue;
-    visited.add(key);
-
-    const hex = hexes[r][q];
-    if (hex.elevationValue > threshold) continue;
-
-    basin.push(hex);
-
-    const neighbors = getNeighbors(q, r, cols, rows);
-    for (const n of neighbors) {
-      stack.push({ q: n.q, r: n.r });
-    }
-  }
-
-  return basin;
-}
-
-function isWaterBiome(biome) {
-  return biome === "ocean" || biome === "wetlands";
-}
-
-// -----------------------------
-// Main Map Generation
-// -----------------------------
-
-export function generateHexMap(decoded) {
-  const { lm, we, tr, hy } = decoded;
-
-  const cols = 50;
-  const rows = 35;
-  const hexes = [];
-
-  // FIRST PASS: base elevation + landmass
-  for (let r = 0; r < rows; r++) {
-    const row = [];
-    for (let q = 0; q < cols; q++) {
-      const e = noise(q * 1.37, r * 2.11);
-      const ln = landNoise(q * 0.7, r * 0.7);
-      const blended = (e * 0.6) + (ln * 0.4);
-
-      row.push({
-        q,
-        r,
-        elevationValue: blended,
-        plate: null,
-        plateType: null,
-        boundary: "none",
-        river: 0,
-        biome: "mixed",
-        elevation: "plains"
-      });
-    }
-    hexes.push(row);
-  }
-
-  // SECOND PASS: tectonics
-  const plates = generatePlateCenters(cols, rows);
-  assignPlates(hexes, plates, cols, rows);
-  detectBoundaries(hexes, cols, rows);
-  applyTectonics(hexes, cols, rows);
-
-  // THIRD PASS: classify elevation + biome
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      const hex = hexes[r][q];
-
-      const elevationBand = classifyElevation(hex.elevationValue);
-      hex.elevation = elevationBand;
-
-      hex.biome = pickBiome(lm, we, tr, hy, q, r, rows, elevationBand);
-    }
-  }
-
-  // FOURTH PASS: rivers
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      const hex = hexes[r][q];
-
-      if (hex.elevation === "hills" || hex.elevation === "mountains") {
-        let current = hex;
-        current.river = (current.river || 0) + 1;
-
-        while (true) {
-          const next = findDownhill(current.q, current.r, hexes, cols, rows);
-          if (!next) break;
-
-          next.river = (next.river || 0) + 1;
-
-          if (next.elevation === "ocean" || next.elevation === "coast") break;
-
-          current = next;
-        }
-      }
-    }
-  }
-
-  // FIFTH PASS: lakes & inland seas
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      const hex = hexes[r][q];
-
-      if (hex.elevation === "ocean" || hex.elevation === "coast") continue;
-
-      if (drainsToOcean(q, r, hexes, cols, rows)) continue;
-
-      const basin = floodFillBasin(q, r, hexes, cols, rows);
-
-      // Base classification
-      if (basin.length > 20) {
-        for (const h of basin) h.biome = "ocean"; // inland sea
-      } else if (basin.length > 6) {
-        for (const h of basin) h.biome = "wetlands";
-      } else {
-        for (const h of basin) h.biome = "wetlands"; // small lakes
-      }
-
-      // Hydrology influence
-      if (hy.primary.includes("Lake")) {
-        if (basin.length > 4) for (const h of basin) h.biome = "wetlands";
-      }
-
-      if (hy.primary.includes("Inland")) {
-        if (basin.length > 10) for (const h of basin) h.biome = "ocean";
-      }
-
-      if (hy.primary.includes("Wetland")) {
-        for (const h of basin) h.biome = "wetlands";
-      }
-    }
-  }
-
-  // SIXTH PASS: lake & inland sea shorelines
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      const hex = hexes[r][q];
-
-      if (isWaterBiome(hex.biome)) continue;
-
-      const neighbors = getNeighbors(q, r, cols, rows);
-      let touchesWater = false;
-
-      for (const n of neighbors) {
-        const nb = hexes[n.r][n.q];
-        if (isWaterBiome(nb.biome)) {
-          touchesWater = true;
-          break;
-        }
-      }
-
-      if (touchesWater) {
-        if (hex.biome === "tropical rainforest") hex.biome = "wetlands";
-        else if (hex.biome === "temperate forest") hex.biome = "mixed";
-        else if (hex.biome === "desert") hex.biome = "mixed";
-        else if (hex.biome === "tundra") hex.biome = "wetlands";
-        else hex.biome = "mixed";
-      }
-    }
-  }
-
-  return { cols, rows, hexes };
-}
-
-// -----------------------------
-// Rendering
-// -----------------------------
-
-export function renderHexMap(hexMap) {
-  const canvas = document.getElementById("hexMapCanvas");
-  if (!canvas) return;
-
+// ------------------------------------------------------------
+// MAIN RENDER FUNCTION
+// ------------------------------------------------------------
+export function renderHexMap(canvas, regions, hexGrid) {
   const ctx = canvas.getContext("2d");
-  const { cols, rows, hexes } = hexMap;
 
-  const size = 18;
+  for (let i = 0; i < hexGrid.length; i++) {
+    const hex = hexGrid[i];
+    const region = regions[hex.regionIndex];
 
-  // Correct canvas size for pointy-top axial hexes
-  canvas.width = size * Math.sqrt(3) * (cols + rows / 2 + 2);
-  canvas.height = size * 1.5 * (rows + 2);
+    if (!region) continue;
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = "#222";
+    const color = getBiomeColor(region.biome);
 
-  // Draw hex biomes
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      const hex = hexes[r][q];
-      console.log(`Checking biome: "${hex.biome}". Found color: ${HEX_COLORS[hex.biome]}`);
-      const color = HEX_COLORS[hex.biome] || "#c334eb";
-
-      // Correct axial → pixel conversion for pointy-top
-      const x = size * Math.sqrt(3) * q + size * Math.sqrt(3) / 2 * r + size * 2;
-      const y = size * 1.5 * r + size * 2;
-
-      drawHex(ctx, x, y, size, color);
-    }
-  }
-
-  // Draw rivers
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      const hex = hexes[r][q];
-      if (hex.river && hex.river > 1) {
-        const x = size * Math.sqrt(3) * q + size * Math.sqrt(3) / 2 * r + size * 2;
-        const y = size * 1.5 * r + size * 2;
-
-        ctx.beginPath();
-        ctx.fillStyle = hex.river > 3 ? "#1e90ff" : "#4cc9f0";
-        ctx.arc(x, y, Math.min(4, hex.river), 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
+    ctx.fillStyle = color;
+    drawHex(ctx, hex.x, hex.y, hex.size);
   }
 }
 
-// -----------------------------
-// NEW drawHex() — correct pointy-top geometry
-// -----------------------------
+// ------------------------------------------------------------
+// BASIC HEX DRAWING
+// ------------------------------------------------------------
+function drawHex(ctx, x, y, size) {
+  const angle = Math.PI / 3;
 
-function drawHex(ctx, x, y, size, fill) {
   ctx.beginPath();
   for (let i = 0; i < 6; i++) {
-    const angle = (Math.PI / 180) * (60 * i - 30); // -30° for pointy-top
-    const px = x + size * Math.cos(angle);
-    const py = y + size * Math.sin(angle);
+    const px = x + size * Math.cos(angle * i);
+    const py = y + size * Math.sin(angle * i);
     if (i === 0) ctx.moveTo(px, py);
     else ctx.lineTo(px, py);
   }
   ctx.closePath();
-  ctx.fillStyle = fill;
   ctx.fill();
-  ctx.stroke();
 }
