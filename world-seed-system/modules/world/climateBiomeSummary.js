@@ -1,49 +1,141 @@
-export function generateClimateBiomeSummary(decoded) {
-  const { lm, we, tr, hy } = decoded;
+// modules/climate/climateBiomeSummary.js
+// ------------------------------------------------------------
+// Climate + Biome Summary Generator (canonical biomes)
+// ------------------------------------------------------------
+//
+// Produces readable summaries describing how climate, elevation,
+// moisture, and tectonics shape each region's biome.
+//
+// Used by:
+// - region panels
+// - world encyclopedia
+// - narrative modules
+// - climate UI overlays
+//
 
-  // Short labels
-  const climate = lm.primary.toLowerCase();
-  const winds = we.primary.toLowerCase();
-  const tectonics = tr.primary.toLowerCase();
-  const water = hy.primary.toLowerCase();
+import { getBiomeRole } from "./biomeRoles.js";
 
-  // Climate interpretation
-  let climatePattern = "";
-  if (lm.primary.includes("Earth")) climatePattern = "a familiar Earth-like temperature gradient";
-  else if (lm.primary.includes("Hot")) climatePattern = "expanded tropical zones and reduced polar regions";
-  else if (lm.primary.includes("Cold")) climatePattern = "expanded tundra and compressed temperate zones";
-  else if (lm.primary.includes("Asymmetric")) climatePattern = "one hemisphere warmer than the other";
-  else if (lm.primary.includes("Ice")) climatePattern = "glacial expansion and widespread cold biomes";
-  else if (lm.primary.includes("Greenhouse")) climatePattern = "humid, warm conditions across most latitudes";
-  else climatePattern = climate;
+export function generateClimateBiomeSummary(region) {
+  const {
+    biome,
+    elevation,
+    moisture,
+    climatePattern,
+    hemisphere,
+    latitudeBand,
+    tectonicType
+  } = region;
 
-  // Wind interpretation
-  let windPattern = "";
-  if (we.primary.includes("West")) windPattern = "moisture carried from west to east";
-  else if (we.primary.includes("East")) windPattern = "moisture carried from east to west";
-  else if (we.primary.includes("North")) windPattern = "cold air pushed southward";
-  else if (we.primary.includes("South")) windPattern = "warm air pushed northward";
-  else if (we.primary.includes("Monsoon")) windPattern = "strong seasonal monsoon cycles";
-  else windPattern = winds;
+  const role = getBiomeRole(biome);
 
-  // Biome tendencies
-  let biomeTendencies = `
-    <ul>
-      <li><strong>Climate:</strong> ${climatePattern}</li>
-      <li><strong>Wind & Moisture:</strong> ${windPattern}</li>
-      <li><strong>Tectonic Influence:</strong> ${tectonics}</li>
-      <li><strong>Hydrology:</strong> ${water}</li>
-    </ul>
-  `;
+  // ------------------------------------------------------------
+  // Build summary components
+  // ------------------------------------------------------------
 
-  // Narrative summary
-  const narrative = `
-    <p>
-      The world’s climate is shaped by ${climatePattern}, with ${windPattern}.
-      Tectonic activity (${tectonics}) influences rain shadows and highland biomes,
-      while hydrology (${water}) determines the distribution of wetlands, rivers, and dry basins.
-    </p>
-  `;
+  const climateLine = `${climatePattern} conditions dominate this part of the ${hemisphere.toLowerCase()} hemisphere.`;
 
-  return biomeTendencies + narrative;
+  const latitudeLine = `Situated in a ${latitudeBand.toLowerCase()} latitude band, the region experiences ${describeLatitude(latitudeBand)}.`;
+
+  const elevationLine = describeElevation(elevation);
+
+  const moistureLine = describeMoisture(moisture);
+
+  const biomeLine = describeBiome(biome, role);
+
+  const tectonicLine = describeTectonics(tectonicType);
+
+  // ------------------------------------------------------------
+  // Final summary paragraph
+  // ------------------------------------------------------------
+  return [
+    biomeLine,
+    climateLine,
+    latitudeLine,
+    elevationLine,
+    moistureLine,
+    tectonicLine
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
+// ------------------------------------------------------------
+// Helper: latitude description
+// ------------------------------------------------------------
+function describeLatitude(lat) {
+  switch (lat) {
+    case "Tropical":
+      return "warm temperatures and strong seasonal rainfall patterns";
+    case "Subtropical":
+      return "warm seasons with moderate rainfall";
+    case "Temperate":
+      return "balanced seasons with moderate temperature swings";
+    case "Polar":
+      return "long winters, short summers, and low solar energy";
+    default:
+      return "a climate typical for its latitude";
+  }
+}
+
+// ------------------------------------------------------------
+// Helper: elevation description
+// ------------------------------------------------------------
+function describeElevation(elev) {
+  if (elev.includes("Mountain"))
+    return "High elevations create cooler temperatures and strong wind exposure.";
+
+  if (elev.includes("Highlands"))
+    return "Elevated terrain moderates temperatures and shapes local weather patterns.";
+
+  if (elev.includes("Uplands"))
+    return "Upland terrain introduces mild elevation effects on climate.";
+
+  return "Lowland terrain allows climate patterns to express fully.";
+}
+
+// ------------------------------------------------------------
+// Helper: moisture description
+// ------------------------------------------------------------
+function describeMoisture(moist) {
+  switch (moist) {
+    case "Wet":
+      return "Abundant moisture supports lush vegetation and high biodiversity.";
+    case "Moderate":
+      return "Moderate moisture levels support a balanced ecological mix.";
+    case "Dry":
+      return "Limited moisture restricts vegetation and favors drought-adapted species.";
+    default:
+      return "Moisture levels vary across the region.";
+  }
+}
+
+// ------------------------------------------------------------
+// Helper: biome description
+// ------------------------------------------------------------
+function describeBiome(biome, role) {
+  return `${biome} dominate the landscape, characterized by ${role.notes.toLowerCase()}`;
+}
+
+// ------------------------------------------------------------
+// Helper: tectonic description
+// ------------------------------------------------------------
+function describeTectonics(type) {
+  const t = type.toLowerCase();
+
+  if (t === "convergent")
+    return "Convergent tectonic forces uplift the land and create rugged terrain.";
+
+  if (t === "divergent")
+    return "Divergent tectonics stretch the crust, forming rifts and highlands.";
+
+  if (t === "transform")
+    return "Transform boundaries fracture the land into faulted uplands.";
+
+  if (t === "hotspot")
+    return "A volcanic hotspot fuels geothermal activity and reshapes the landscape.";
+
+  if (t === "craton")
+    return "Ancient cratonic bedrock provides long-term geological stability.";
+
+  return "Tectonic forces subtly influence the region's long-term evolution.";
 }
