@@ -11,7 +11,8 @@ import { renderWorldFormation } from "./modules/climate/worldFormation.js";
 
 // Maps
 import { generateHexMap, renderHexMap } from "./modules/maps/hexMap.js";
-import { generateBiomeHeatmap, renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
+import { renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
+
 
 // NEW: Canvas Renderer
 import { initCanvasRenderer, renderHexWorld } from "./modules/maps/canvasRenderer.js";
@@ -387,7 +388,7 @@ function processSeed(seed) {
   renderTectonicMap(regions);
 
   // --- BIOME MAPS ---
-  renderBiomeHeatmap(generateBiomeHeatmap(decoded));
+  renderBiomeHeatmap(regions);
   renderHexMap(generateHexMap(decoded));
 
   // --- NEW: CANVAS HEX WORLD ---
