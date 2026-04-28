@@ -1,64 +1,105 @@
 // modules/naming/regionNames.js
 // ------------------------------------------------------------
-// Procedural region naming engine
+// Region Name Generator (canonical biomes + landforms)
+// ------------------------------------------------------------
+//
+// Generates evocative region names based on biome, landform,
+// climate, and tectonic context. Designed to be modular,
+// lore-friendly, and consistent with the world engine.
+//
+
+// ------------------------------------------------------------
+// WORD POOLS
 // ------------------------------------------------------------
 
-import { BIOME_DESCRIPTORS, BIOME_NOUNS } from "../data/biomes.js";
+const BIOME_TITLES = {
+  "Tundra": ["Frostlands", "Pale Expanse", "Glacier Reach"],
+  "Alpine": ["High Peaks", "Skybound Range", "Silver Heights"],
+  "Taiga Forests": ["Pinewilds", "Needlewood", "Frostpine Expanse"],
+  "Temperate Forests": ["Greenwood", "Leafshade", "Verdant Reach"],
+  "Tropical Forests": ["Emerald Canopy", "Deepwild", "Jade Thicket"],
+  "Grassland": ["Open Plains", "Windsteppe", "Golden Fields"],
+  "Savanna": ["Sunplains", "Liongrass Expanse", "Amber Savanna"],
+  "Shrubland": ["Scrublands", "Drybrush Expanse", "Thornwild"],
+  "Wetlands": ["Mirelands", "Reedmarsh", "Fenreach"],
+  "Desert": ["Dunesea", "Sunwaste", "Golden Barrens"],
+  "Coastal": ["Shorelands", "Saltwind Coast", "Tidebound Reach"],
+  "Freshwater": ["Riverlands", "Lakeward Expanse", "Delta Plains"],
+  "Marine": ["Blue Expanse", "Open Sea", "Deepwater Reach"],
+  "Geothermal": ["Fireplains", "Ashen Rise", "Steamwild"],
+  "Subsurface": ["Underdeep", "Hollowlands", "Cavern Expanse"]
+};
 
-const twists = [
-  "of the First Dawn",
-  "of the Silent Wind",
-  "of the Old World",
-  "of Forgotten Kings",
-  "of the Deep Earth",
-  "of the Last Tide",
-  "of the Ancient Sky"
-];
+const LANDFORM_TITLES = {
+  mountain: ["Range", "Highlands", "Crest", "Spine"],
+  canyon: ["Chasm", "Gorge", "Rift", "Breaks"],
+  forest: ["Woods", "Wilds", "Timberlands"],
+  desert: ["Wastes", "Dunes", "Barrens"],
+  wetland: ["Marsh", "Fen", "Boglands"],
+  coast: ["Coast", "Shore", "Strand"],
+  marine: ["Sea", "Waters", "Deeps"],
+  geothermal: ["Vents", "Firelands", "Ashfields"],
+  subsurface: ["Depths", "Hollows", "Underlands"],
+  generic: ["Reach", "Expanse", "Territory"]
+};
 
-function pick(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+const HEMISPHERE_PREFIX = {
+  Northern: ["North", "Northern", "Frostbound"],
+  Equatorial: ["Equatorial", "Sunbelt", "Midworld"],
+  Southern: ["South", "Southern", "Starbound"]
+};
+
+const LATITUDE_DESCRIPTORS = {
+  Tropical: ["Tropic", "Suncrest", "Warmwind"],
+  Subtropical: ["Sunward", "Brightwind", "Mildreach"],
+  Temperate: ["Greenwind", "Middlereach", "Seasonal"],
+  Polar: ["Frost", "Icebound", "Chillwind"]
+};
+
+// ------------------------------------------------------------
+// UTILITY
+// ------------------------------------------------------------
+function pick(list) {
+  return list[Math.floor(Math.random() * list.length)];
 }
 
+// ------------------------------------------------------------
+// MAIN NAME GENERATOR
+// ------------------------------------------------------------
 export function generateRegionName(region) {
-  const biome = region.biome;
-  const elevation = region.elevation || "";
-  const climate = region.climatePattern || "";
-  const latitude = region.latitude || "";
-  const tectonics = region.tectonics || "";
+  const {
+    biome,
+    landform,
+    hemisphere,
+    latitudeBand
+  } = region;
+
+  // 1. Biome-based core title
+  const biomeTitle = pick(BIOME_TITLES[biome] || ["Unknown Lands"]);
+
+  // 2. Landform-based suffix
+  const landformTitle = pick(LANDFORM_TITLES[landform] || LANDFORM_TITLES.generic);
+
+  // 3. Hemisphere prefix
+  const hemiPrefix = pick(HEMISPHERE_PREFIX[hemisphere] || []);
+
+  // 4. Latitude descriptor
+  const latDescriptor = pick(LATITUDE_DESCRIPTORS[latitudeBand] || []);
 
   // ------------------------------------------------------------
-  // Descriptor pool
+  // Name assembly logic
   // ------------------------------------------------------------
-  const descriptorPool = BIOME_DESCRIPTORS[biome] || ["Ancient", "Hollow", "Eternal"];
-  let descriptor = pick(descriptorPool);
 
-  // Elevation modifiers
-  if (elevation.includes("High")) descriptor = "High " + descriptor;
-  if (elevation.includes("Low")) descriptor = "Low " + descriptor;
+  // Pattern A: Hemisphere + Biome Title
+  if (Math.random() < 0.33) {
+    return `${hemiPrefix} ${biomeTitle}`;
+  }
 
-  // Climate modifiers
-  if (climate.includes("Arid")) descriptor = "Dry " + descriptor;
-  if (climate.includes("Humid")) descriptor = "Green " + descriptor;
+  // Pattern B: Latitude Descriptor + Landform Title
+  if (Math.random() < 0.5) {
+    return `${latDescriptor} ${landformTitle}`;
+  }
 
-  // Latitude modifiers
-  if (latitude < -40) descriptor = "Southern " + descriptor;
-  if (latitude > 40) descriptor = "Northern " + descriptor;
-
-  // Tectonic modifiers
-  if (tectonics.includes("Convergent")) descriptor = "Rifted " + descriptor;
-  if (tectonics.includes("Divergent")) descriptor = "Sundered " + descriptor;
-
-  // ------------------------------------------------------------
-  // Noun pool
-  // ------------------------------------------------------------
-  const nounPool = BIOME_NOUNS[biome] || ["Reach", "Crown", "Spires"];
-  const noun = pick(nounPool);
-
-  // ------------------------------------------------------------
-  // Optional twist
-  // ------------------------------------------------------------
-  const twist = Math.random() < 0.35 ? " " + pick(twists) : "";
-
-  return `The ${descriptor} ${noun}${twist}`;
+  // Pattern C: Biome Title + Landform Title
+  return `${biomeTitle} ${landformTitle}`;
 }
-
