@@ -1,87 +1,90 @@
 // modules/data/biomes.js
 // ------------------------------------------------------------
-// Canonical biome definitions, colors, descriptors, nouns
-// Used by: regionNames, landmarkNames, hexMap, cultures, fauna/flora
+// Canonical Biome Definitions (single source of truth)
 // ------------------------------------------------------------
+//
+// This module defines the 15 canonical biomes used across the
+// entire world engine. All other modules reference this file
+// for biome names, colors, descriptors, and nouns.
+//
 
-export const BIOMES = {
-  TUNDRA: "Tundra",
-  ALPINE: "Alpine",
-  TAIGA: "Taiga Forests",
-  TEMPERATE_FOREST: "Temperate Forests",
-  TROPICAL_FOREST: "Tropical Forests",
-  GRASSLAND: "Grassland",
-  SAVANNA: "Savanna",
-  SHRUBLAND: "Shrubland",
-  DESERT: "Desert",
-  WETLANDS: "Wetlands",
-  FRESHWATER: "Freshwater",
-  COASTAL: "Coastal",
-  MARINE: "Marine",
-  GEOTHERMAL: "Geothermal",
-  SUBSURFACE: "Subsurface"
-};
+export const BIOMES = [
+  "Tundra",
+  "Alpine",
+  "Taiga Forests",
+  "Temperate Forests",
+  "Tropical Forests",
+  "Grassland",
+  "Savanna",
+  "Shrubland",
+  "Wetlands",
+  "Desert",
+  "Coastal",
+  "Freshwater",
+  "Marine",
+  "Geothermal",
+  "Subsurface"
+];
 
 // ------------------------------------------------------------
-// Biome Colors (Hexmap)
+// BIOME COLORS (canonical)
 // ------------------------------------------------------------
 export const BIOME_COLORS = {
-  Tundra: "#d8e6f0",
-  Alpine: "#bfcbd6",
-  "Taiga Forests": "#4b6b47",
-  "Temperate Forests": "#6fa96f",
-  "Tropical Forests": "#2e8b57",
-  Grassland: "#c7d46d",
-  Savanna: "#d9c36a",
-  Shrubland: "#bfa76a",
-  Desert: "#e8d28b",
-  Wetlands: "#4a7f6a",
-  Freshwater: "#6bb7ff",
-  Coastal: "#8fd3ff",
-  Marine: "#1f6fb2",
-  Geothermal: "#d65f3d",
-  Subsurface: "#4a3f4f"
+  "Tundra": "#C9D6D5",
+  "Alpine": "#A9B8C9",
+  "Taiga Forests": "#4A6B4F",
+  "Temperate Forests": "#6FAF6F",
+  "Tropical Forests": "#2E8B57",
+  "Grassland": "#C7D36F",
+  "Savanna": "#D9C77E",
+  "Shrubland": "#BFAF7A",
+  "Wetlands": "#7FB8A4",
+  "Desert": "#E8D18B",
+  "Coastal": "#A7D0E3",
+  "Freshwater": "#7EC8E3",
+  "Marine": "#3A6EA5",
+  "Geothermal": "#D97F30",
+  "Subsurface": "#6E5F57"
 };
 
 // ------------------------------------------------------------
-// Biome Descriptors (Naming)
+// BIOME DESCRIPTORS (used for naming + flavor text)
 // ------------------------------------------------------------
 export const BIOME_DESCRIPTORS = {
-  Tundra: ["Frostglass", "Pale", "Silent", "Ice‑bitten", "Glacial"],
-  Alpine: ["High", "Storm‑forged", "Rifted", "Stone‑crowned"],
-  "Taiga Forests": ["Shadowed", "Whispering", "Pine‑bound", "Frostwood"],
-  "Temperate Forests": ["Verdant", "Emerald", "Rootbound", "Greenreach"],
-  "Tropical Forests": ["Jade", "Canopy", "Sun‑dappled", "Deepwood"],
-  Grassland: ["Golden", "Widewind", "Open", "Horizon"],
-  Savanna: ["Amberwind", "Lion’s", "Redgrass", "Drought‑forged"],
-  Shrubland: ["Scrubwind", "Drybrush", "Sage‑crowned"],
-  Desert: ["Sun‑scorched", "Amber", "Dust‑forged", "Shattered"],
-  Wetlands: ["Mireborn", "Reed‑crowned", "Sodden", "Bog‑shrouded"],
-  Freshwater: ["Riverborn", "Lake‑crowned", "Crystal", "Stillwater"],
-  Coastal: ["Saltwind", "Shorebound", "Tide‑kissed"],
-  Marine: ["Coral", "Deepwater", "Tide‑shattered"],
-  Geothermal: ["Ember", "Ashen", "Fumarole", "Fireglass"],
-  Subsurface: ["Hollow", "Underdeep", "Stone‑veined", "Night‑crowned"]
+  "Tundra": ["frozen", "windswept", "bleak"],
+  "Alpine": ["high", "craggy", "skybound"],
+  "Taiga Forests": ["pine‑laden", "frosted", "needle‑covered"],
+  "Temperate Forests": ["leafy", "verdant", "seasonal"],
+  "Tropical Forests": ["lush", "humid", "dense"],
+  "Grassland": ["open", "wind‑swept", "golden"],
+  "Savanna": ["sun‑baked", "amber", "scattered‑tree"],
+  "Shrubland": ["dry", "thorny", "scrub‑covered"],
+  "Wetlands": ["marshy", "waterlogged", "reed‑filled"],
+  "Desert": ["arid", "sun‑scorched", "sandy"],
+  "Coastal": ["salt‑sprayed", "tidal", "shoreline"],
+  "Freshwater": ["river‑fed", "lake‑dotted", "deltaic"],
+  "Marine": ["deep‑blue", "open‑water", "tidal"],
+  "Geothermal": ["steam‑vented", "ash‑stained", "volcanic"],
+  "Subsurface": ["shadowed", "hollow", "underground"]
 };
 
 // ------------------------------------------------------------
-// Biome Nouns (Naming)
+// BIOME NOUNS (used for naming + procedural text)
 // ------------------------------------------------------------
 export const BIOME_NOUNS = {
-  Tundra: ["Expanse", "Fields", "Crown", "Frost", "Reach"],
-  Alpine: ["Peaks", "Spires", "Crown", "Ridge"],
-  "Taiga Forests": ["Woods", "Grove", "Thicket", "Hollows"],
-  "Temperate Forests": ["Forest", "Glen", "Vale", "Spire"],
-  "Tropical Forests": ["Jungle", "Canopy", "Wilds", "Basin"],
-  Grassland: ["Steppe", "Plains", "Horizon", "Reach"],
-  Savanna: ["Savanna", "Redlands", "Grasslands", "Plateau"],
-  Shrubland: ["Scrublands", "Brush", "Heath"],
-  Desert: ["Dunes", "Teeth", "Crown", "Wastes"],
-  Wetlands: ["Marsh", "Fen", "Bog", "Pools"],
-  Freshwater: ["Shoals", "Reaches", "Waters", "Falls"],
-  Coastal: ["Shores", "Coast", "Strand", "Cliffs"],
-  Marine: ["Reef", "Depths", "Shoals", "Sea"],
-  Geothermal: ["Fields", "Vents", "Lava Flats", "Caldera"],
-  Subsurface: ["Caverns", "Depths", "Hollows", "Underways"]
+  "Tundra": ["expanse", "reach", "plain"],
+  "Alpine": ["heights", "range", "spires"],
+  "Taiga Forests": ["woods", "wilds", "timberlands"],
+  "Temperate Forests": ["grove", "forest", "greenwood"],
+  "Tropical Forests": ["jungle", "canopy", "deepwild"],
+  "Grassland": ["plains", "fields", "steppe"],
+  "Savanna": ["savanna", "sunplains", "grassveld"],
+  "Shrubland": ["scrublands", "thornwild", "drybrush"],
+  "Wetlands": ["marsh", "fen", "boglands"],
+  "Desert": ["dunes", "wastes", "barrens"],
+  "Coastal": ["coast", "shore", "strand"],
+  "Freshwater": ["riverlands", "delta", "lakeshore"],
+  "Marine": ["sea", "waters", "deeps"],
+  "Geothermal": ["vents", "firelands", "ashfields"],
+  "Subsurface": ["hollows", "underlands", "caverns"]
 };
-
