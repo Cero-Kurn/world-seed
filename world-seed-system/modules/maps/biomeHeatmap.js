@@ -1,73 +1,54 @@
 // modules/maps/biomeHeatmap.js
 // ------------------------------------------------------------
-// Biome Heatmap Renderer (canonical biome colors)
+// Biome Heatmap Renderer (simple grid based on region biomes)
 // ------------------------------------------------------------
 
-import { BIOMES } from "../data/biomes.js";
+import { BIOME_COLORS } from "../data/biomes.js";
 
-// ------------------------------------------------------------
-// BIOME → COLOR MAP (canonical only)
-// ------------------------------------------------------------
-const BIOME_COLORS = {
-  "Tundra": "#C9D6D5",
-  "Alpine": "#A9B8C9",
-  "Taiga Forests": "#4A6B4F",
-  "Temperate Forests": "#6FAF6F",
-  "Tropical Forests": "#2E8B57",
-  "Grassland": "#C7D36F",
-  "Savanna": "#D9C77E",
-  "Shrubland": "#BFAF7A",
-  "Wetlands": "#7FB8A4",
-  "Desert": "#E8D18B",
-  "Geothermal": "#D97F30",
-  "Coastal": "#A7D0E3",
-  "Freshwater": "#7EC8E3",
-  "Marine": "#3A6EA5",
-  "Subsurface": "#6E5F57"
-};
+/*
+  EXPECTED INPUT:
+  renderBiomeHeatmap(regions)
 
-// ------------------------------------------------------------
-// SAFE COLOR PICKER
-// ------------------------------------------------------------
-function getBiomeColor(biome) {
-  if (BIOME_COLORS[biome]) return BIOME_COLORS[biome];
+  Each region object must contain:
+    - id
+    - biome
+    - latitudeBand (for vertical ordering)
+*/
 
-  console.warn(`Unknown biome "${biome}" in heatmap — using fallback color.`);
-  return "#999999"; // neutral fallback
-}
+export function renderBiomeHeatmap(regions) {
+  const container = document.getElementById("biomeHeatmap");
+  if (!container) return;
 
-// ------------------------------------------------------------
-// HEATMAP RENDERER
-// ------------------------------------------------------------
-export function renderBiomeHeatmap(canvas, regions, hexGrid) {
-  const ctx = canvas.getContext("2d");
+  // Clear previous content
+  container.innerHTML = "";
 
-  for (let i = 0; i < hexGrid.length; i++) {
-    const hex = hexGrid[i];
-    const region = regions[hex.regionIndex];
+  // Sort regions by latitude band (north → south)
+  const sorted = [...regions].sort((a, b) => {
+    const order = {
+      polar: 0,
+      subpolar: 1,
+      temperate: 2,
+      subtropical: 3,
+      tropical: 4
+    };
+    return (order[a.latitudeBand] ?? 99) - (order[b.latitudeBand] ?? 99);
+  });
 
-    if (!region) continue;
+  // Build heatmap grid
+  const grid = document.createElement("div");
+  grid.className = "biome-heatmap-grid";
 
-    const color = getBiomeColor(region.biome);
+  sorted.forEach(region => {
+    const cell = document.createElement("div");
+    cell.className = "biome-heatmap-cell";
 
-    ctx.fillStyle = color;
-    drawHeatHex(ctx, hex.x, hex.y, hex.size);
-  }
-}
+    const color = BIOME_COLORS[region.biome] || "#444";
+    cell.style.background = color;
 
-// ------------------------------------------------------------
-// BASIC HEX DRAWING (heatmap style)
-// ------------------------------------------------------------
-function drawHeatHex(ctx, x, y, size) {
-  const angle = Math.PI / 3;
+    cell.title = `${region.name} — ${region.biome}`;
 
-  ctx.beginPath();
-  for (let i = 0; i < 6; i++) {
-    const px = x + size * Math.cos(angle * i);
-    const py = y + size * Math.sin(angle * i);
-    if (i === 0) ctx.moveTo(px, py);
-    else ctx.lineTo(px, py);
-  }
-  ctx.closePath();
-  ctx.fill();
+    grid.appendChild(cell);
+  });
+
+  container.appendChild(grid);
 }
