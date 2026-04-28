@@ -1,3 +1,5 @@
+import { BIOME_COLORS } from "../data/biomes.js";
+
 // -----------------------------
 // Noise Functions
 // -----------------------------
