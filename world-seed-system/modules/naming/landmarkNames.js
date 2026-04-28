@@ -7,31 +7,26 @@ import { BIOME_DESCRIPTORS } from "../data/biomes.js";
 
 // Landform nouns (landmark-specific)
 const LANDFORM_NOUNS = {
-    canyon: ["Chasm", "Gorge", "Rift", "Maw"],
-    coast: ["Cliff", "Strand", "Shoal"],
-    desert: ["Dunes", "Teeth", "Crown", "Wastes", "Basin"],
-    forest: ["Woods", "Grove", "Thicket", "Spire", "Hollows"],
-    generic: ["Crown", "Spires", "Maw", "Stone", "Reach"],
-    geothermal: ["Vent", "Caldera", "Flats"],
-    grassland: ["Steppe", "Plains", "Horizon", "Reach"],
-    marine: ["Reef", "Crest", "Shoals"],
-    mountains: ["Spires", "Peaks", "Crown", "Ridge", "Maw", "Teeth", "Pillar"],
-    ocean: ["Shoals", "Reef", "Crown", "Depths"],
-    savanna: ["Savanna", "Redlands", "Grasslands", "Plateau"],
-    subsurface: ["Cavern", "Hollow", "Depths"],
-    tundra: ["Expanse", "Fields", "Crown", "Frost", "Reach"],
-    wetlands: ["Marsh", "Fen", "Bog", "Reeds", "Pools"]
+  mountain: ["Spire", "Peak", "Crown", "Teeth", "Pillar"],
+  canyon: ["Chasm", "Gorge", "Rift", "Maw"],
+  forest: ["Hollow", "Grove", "Thicket"],
+  desert: ["Dune", "Basin", "Wastes"],
+  wetland: ["Fen", "Bog", "Pools"],
+  coast: ["Cliff", "Strand", "Shoal"],
+  marine: ["Reef", "Crest", "Shoals"],
+  geothermal: ["Vent", "Caldera", "Flats"],
+  subsurface: ["Cavern", "Hollow", "Depths"],
+  generic: ["Crown", "Spires", "Maw", "Stone", "Reach"]
 };
 
 // Twists add mythic flavor
 const TWISTS = [
-    "of Forgotten Kings",
-    "of the Ancients",
-    "of the Deep Wind",
-    "of the First Dawn",
-    "of the Last Tide",
-    "of the Old World",
-    "of the Silent Ones"
+  "of the Silent Ones",
+  "of the First Dawn",
+  "of Forgotten Kings",
+  "of the Last Tide",
+  "of the Deep Wind",
+  "of the Old World"
 ];
 
 function pick(arr) {
