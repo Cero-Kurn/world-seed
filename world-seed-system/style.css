@@ -108,41 +108,11 @@ button.secondary {
   margin: 0 auto;
 }
 
-/* ------------------------------
-   Region Debug
------------------------------- */
-.debug-entry {
-  border-bottom: 1px solid #333;
-  padding: 6px 0;
+#hexCanvas {
+  width: 100%;
+  height: 600px;
+  display: block;
 }
-
-.debug-header {
-  cursor: pointer;
-  color: #6cf;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.debug-content {
-  display: none;
-  padding-left: 12px;
-  color: #ccc;
-  font-family: monospace;
-  white-space: pre-wrap;
-}
-
-.debug-panel {
-  background: #0d0d0d;
-  border: 1px solid #333;
-  padding: 12px;
-  margin-top: 20px;
-  color: #ccc;
-  font-family: monospace;
-  white-space: pre-wrap;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
 
 /* GEOLOGY NARRATIVE */
 .geology-narrative {
