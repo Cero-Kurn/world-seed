@@ -1,85 +1,97 @@
 // modules/naming/landmarkNames.js
 // ------------------------------------------------------------
-// Procedural landmark naming engine (distinct from region naming)
+// Landmark Name Generator (canonical biomes + landforms)
+// ------------------------------------------------------------
+//
+// Generates evocative landmark names based on biome, landform,
+// special features, and tectonic context. Designed to be modular,
+// lore-friendly, and consistent with the world engine.
+//
+
+// ------------------------------------------------------------
+// WORD POOLS
 // ------------------------------------------------------------
 
-import { BIOME_DESCRIPTORS } from "../data/biomes.js";
-
-// Landform nouns (landmark-specific)
-const LANDFORM_NOUNS = {
-  mountain: ["Spire", "Peak", "Crown", "Teeth", "Pillar"],
-  canyon: ["Chasm", "Gorge", "Rift", "Maw"],
-  forest: ["Hollow", "Grove", "Thicket"],
-  desert: ["Dune", "Basin", "Wastes"],
-  wetland: ["Fen", "Bog", "Pools"],
-  coast: ["Cliff", "Strand", "Shoal"],
-  marine: ["Reef", "Crest", "Shoals"],
-  geothermal: ["Vent", "Caldera", "Flats"],
-  subsurface: ["Cavern", "Hollow", "Depths"],
-  generic: ["Crown", "Spires", "Maw", "Stone", "Reach"]
+const FEATURE_ROOTS = {
+  coast: ["Cliffs", "Shoals", "Tidewall", "Saltspires"],
+  marine: ["Reef", "Deeps", "Blue Shoals", "Sea Arches"],
+  freshwater: ["Falls", "Delta", "Riverbend", "Lakeward Stones"],
+  canyon: ["Rift", "Chasm", "Gorge", "Break"],
+  mountain: ["Peak", "Crest", "Highspire", "Crown"],
+  desert: ["Dunecrest", "Sunspire", "Sandwall", "Mirage Flats"],
+  wetland: ["Reedfen", "Boglight", "Mirestone", "Fenreach"],
+  forest: ["Greenwall", "Timberfall", "Leafspire", "Rootspire"],
+  geothermal: ["Ember Vents", "Ashen Rise", "Steam Pits", "Fireholes"],
+  subsurface: ["Hollow", "Underdeep", "Cavern Gate", "Shadow Vault"],
+  generic: ["Stone", "Reach", "Spire", "Rise"]
 };
 
-// Twists add mythic flavor
-const TWISTS = [
-  "of the Silent Ones",
-  "of the First Dawn",
-  "of Forgotten Kings",
-  "of the Last Tide",
-  "of the Deep Wind",
-  "of the Old World"
-];
+const BIOME_ADJECTIVES = {
+  "Tundra": ["Frost", "Pale", "Icebound"],
+  "Alpine": ["Sky", "Silver", "High"],
+  "Taiga Forests": ["Pine", "Frostpine", "Needle"],
+  "Temperate Forests": ["Green", "Leaf", "Verdant"],
+  "Tropical Forests": ["Emerald", "Jade", "Deep"],
+  "Grassland": ["Golden", "Wind", "Open"],
+  "Savanna": ["Amber", "Sun", "Lion"],
+  "Shrubland": ["Dry", "Thorn", "Scrub"],
+  "Wetlands": ["Reed", "Mire", "Fen"],
+  "Desert": ["Sun", "Dune", "Sand"],
+  "Coastal": ["Salt", "Tide", "Wave"],
+  "Freshwater": ["River", "Lake", "Delta"],
+  "Marine": ["Blue", "Deep", "Sea"],
+  "Geothermal": ["Ember", "Ash", "Fire"],
+  "Subsurface": ["Shadow", "Hollow", "Under"]
+};
 
-function pick(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+// ------------------------------------------------------------
+// UTILITY
+// ------------------------------------------------------------
+function pick(list) {
+  return list[Math.floor(Math.random() * list.length)];
 }
 
+// ------------------------------------------------------------
+// MAIN LANDMARK NAME GENERATOR
+// ------------------------------------------------------------
 export function generateLandmarkName(region) {
-  const biome = region.biome;
-  const elevation = region.elevation || "";
-  const climate = region.climatePattern || "";
-  const landform = region.specialFeature || ""; // e.g. "Volcanic Vent", "Canyon", "Reef"
+  const { biome, landform, specialFeature } = region;
 
-  // ------------------------------------------------------------
-  // Descriptor (biome-aware)
-  // ------------------------------------------------------------
-  const descriptorPool = BIOME_DESCRIPTORS[biome] || ["Ancient", "Hollow", "Eternal"];
-  let descriptor = pick(descriptorPool);
+  const biomeAdj = pick(BIOME_ADJECTIVES[biome] || ["Ancient"]);
+  const featureKey = classifyFeatureKey(landform, specialFeature);
+  const featureRoot = pick(FEATURE_ROOTS[featureKey] || FEATURE_ROOTS.generic);
 
-  // Elevation modifiers
-  if (elevation.includes("High")) descriptor = "High " + descriptor;
-  if (elevation.includes("Low")) descriptor = "Low " + descriptor;
-
-  // Climate modifiers
-  if (climate.includes("Arid")) descriptor = "Dry " + descriptor;
-  if (climate.includes("Humid")) descriptor = "Green " + descriptor;
-
-  // ------------------------------------------------------------
-  // Noun (landform-aware)
-  // ------------------------------------------------------------
-  let nounPool = LANDFORM_NOUNS.generic;
-
-  if (landform) {
-    const key = landform.toLowerCase();
-    if (key.includes("mountain")) nounPool = LANDFORM_NOUNS.mountain;
-    else if (key.includes("canyon") || key.includes("rift")) nounPool = LANDFORM_NOUNS.canyon;
-    else if (key.includes("forest")) nounPool = LANDFORM_NOUNS.forest;
-    else if (key.includes("desert")) nounPool = LANDFORM_NOUNS.desert;
-    else if (key.includes("wetland") || key.includes("marsh")) nounPool = LANDFORM_NOUNS.wetland;
-    else if (key.includes("coast")) nounPool = LANDFORM_NOUNS.coast;
-    else if (key.includes("reef") || key.includes("sea")) nounPool = LANDFORM_NOUNS.marine;
-    else if (key.includes("vent") || key.includes("lava")) nounPool = LANDFORM_NOUNS.geothermal;
-    else if (key.includes("cave") || key.includes("underground")) nounPool = LANDFORM_NOUNS.subsurface;
+  // Pattern A: Biome adjective + feature root
+  if (Math.random() < 0.4) {
+    return `The ${biomeAdj} ${featureRoot}`;
   }
 
-  const noun = pick(nounPool);
+  // Pattern B: Feature root + biome adjective modifier
+  if (Math.random() < 0.7) {
+    return `The ${featureRoot} of ${biomeAdj}`;
+  }
 
-  // ------------------------------------------------------------
-  // Optional twist
-  // ------------------------------------------------------------
-  const twist = Math.random() < 0.4 ? " " + pick(TWISTS) : "";
+  // Pattern C: Simple feature root
+  return `The ${featureRoot}`;
+}
 
-  // ------------------------------------------------------------
-  // Final landmark name
-  // ------------------------------------------------------------
-  return `The ${descriptor} ${noun}${twist}`;
+// ------------------------------------------------------------
+// Helper: classify feature key
+// ------------------------------------------------------------
+function classifyFeatureKey(landform, specialFeature) {
+  const f = (specialFeature || "").toLowerCase();
+
+  if (f.includes("coast") || f.includes("shore") || f.includes("bay")) return "coast";
+  if (f.includes("reef") || f.includes("sea") || f.includes("ocean")) return "marine";
+  if (f.includes("lake") || f.includes("river") || f.includes("delta")) return "freshwater";
+  if (f.includes("canyon") || f.includes("gorge") || f.includes("rift")) return "canyon";
+  if (f.includes("mountain") || f.includes("peak") || f.includes("range")) return "mountain";
+  if (f.includes("desert") || f.includes("dune")) return "desert";
+  if (f.includes("marsh") || f.includes("bog") || f.includes("fen")) return "wetland";
+  if (f.includes("forest") || f.includes("woods")) return "forest";
+  if (f.includes("vent") || f.includes("geyser") || f.includes("lava")) return "geothermal";
+  if (f.includes("cave") || f.includes("underground") || f.includes("subterranean")) return "subsurface";
+
+  // fallback to landform classifier
+  return landform || "generic";
 }
