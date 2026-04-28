@@ -1,63 +1,90 @@
 // modules/naming/landmarkNames.js
+// ------------------------------------------------------------
+// Procedural landmark naming engine (distinct from region naming)
+// ------------------------------------------------------------
+
+import { BIOME_DESCRIPTORS } from "../data/biomes.js";
+
+// Landform nouns (landmark-specific)
+const LANDFORM_NOUNS = {
+    canyon: ["Chasm", "Gorge", "Rift", "Maw"],
+    coast: ["Cliff", "Strand", "Shoal"],
+    desert: ["Dunes", "Teeth", "Crown", "Wastes", "Basin"],
+    forest: ["Woods", "Grove", "Thicket", "Spire", "Hollows"],
+    generic: ["Crown", "Spires", "Maw", "Stone", "Reach"],
+    geothermal: ["Vent", "Caldera", "Flats"],
+    grassland: ["Steppe", "Plains", "Horizon", "Reach"],
+    marine: ["Reef", "Crest", "Shoals"],
+    mountains: ["Spires", "Peaks", "Crown", "Ridge", "Maw", "Teeth", "Pillar"],
+    ocean: ["Shoals", "Reef", "Crown", "Depths"],
+    savanna: ["Savanna", "Redlands", "Grasslands", "Plateau"],
+    subsurface: ["Cavern", "Hollow", "Depths"],
+    tundra: ["Expanse", "Fields", "Crown", "Frost", "Reach"],
+    wetlands: ["Marsh", "Fen", "Bog", "Reeds", "Pools"]
+};
+
+// Twists add mythic flavor
+const TWISTS = [
+    "of Forgotten Kings",
+    "of the Ancients",
+    "of the Deep Wind",
+    "of the First Dawn",
+    "of the Last Tide",
+    "of the Old World",
+    "of the Silent Ones"
+];
+
+function pick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 export function generateLandmarkName(region) {
-  const biome = region.biome.toLowerCase();
-  const elevation = region.elevation.toLowerCase();
-  const climate = region.climatePattern?.toLowerCase() || "";
+  const biome = region.biome;
+  const elevation = region.elevation || "";
+  const climate = region.climatePattern || "";
+  const landform = region.specialFeature || ""; // e.g. "Volcanic Vent", "Canyon", "Reef"
 
-  // --- DESCRIPTORS ---
-  const descriptors = {
-    desert: ["Sun‑scorched", "Amber", "Dust‑forged", "Shattered", "Blistered"],
-    tundra: ["Frostglass", "Pale", "Silent", "Ice‑bitten", "Glacial"],
-    forest: ["Verdant", "Whispering", "Emerald", "Rootbound", "Shadowed"],
-    wetlands: ["Mireborn", "Reed‑crowned", "Sodden", "Bog‑shrouded"],
-    mountains: ["Storm‑forged", "Rifted", "High", "Broken", "Stone‑crowned"],
-    grassland: ["Golden", "Widewind", "Open", "Horizon", "Sun‑touched"],
-    savanna: ["Amberwind", "Lion’s", "Drought‑forged", "Redgrass"],
-    ocean: ["Coral", "Tide‑shattered", "Deepwater", "Salt‑crowned"]
-  };
+  // ------------------------------------------------------------
+  // Descriptor (biome-aware)
+  // ------------------------------------------------------------
+  const descriptorPool = BIOME_DESCRIPTORS[biome] || ["Ancient", "Hollow", "Eternal"];
+  let descriptor = pick(descriptorPool);
 
-  // fallback descriptor pool
-  const genericDescriptors = ["Ancient", "Hollow", "Eternal", "Forgotten", "Lost"];
+  // Elevation modifiers
+  if (elevation.includes("High")) descriptor = "High " + descriptor;
+  if (elevation.includes("Low")) descriptor = "Low " + descriptor;
 
-  // --- NOUNS ---
-  const nouns = {
-    desert: ["Dunes", "Teeth", "Crown", "Wastes", "Basin"],
-    tundra: ["Expanse", "Fields", "Crown", "Frost", "Reach"],
-    forest: ["Woods", "Grove", "Thicket", "Spire", "Hollows"],
-    wetlands: ["Marsh", "Fen", "Bog", "Reeds", "Pools"],
-    mountains: ["Spires", "Peaks", "Crown", "Ridge", "Maw"],
-    grassland: ["Steppe", "Plains", "Horizon", "Reach"],
-    savanna: ["Savanna", "Redlands", "Grasslands", "Plateau"],
-    ocean: ["Shoals", "Reef", "Crown", "Depths"]
-  };
+  // Climate modifiers
+  if (climate.includes("Arid")) descriptor = "Dry " + descriptor;
+  if (climate.includes("Humid")) descriptor = "Green " + descriptor;
 
-  const genericNouns = ["Crown", "Reach", "Spires", "Maw", "Basin"];
+  // ------------------------------------------------------------
+  // Noun (landform-aware)
+  // ------------------------------------------------------------
+  let nounPool = LANDFORM_NOUNS.generic;
 
-  // --- TWISTS ---
-  const twists = [
-    "of the First Dawn",
-    "of the Silent Ones",
-    "of the Last Tide",
-    "of the Deep Wind",
-    "of the Ancients",
-    "of Forgotten Kings",
-    "of the Old World"
-  ];
+  if (landform) {
+    const key = landform.toLowerCase();
+    if (key.includes("mountain")) nounPool = LANDFORM_NOUNS.mountain;
+    else if (key.includes("canyon") || key.includes("rift")) nounPool = LANDFORM_NOUNS.canyon;
+    else if (key.includes("forest")) nounPool = LANDFORM_NOUNS.forest;
+    else if (key.includes("desert")) nounPool = LANDFORM_NOUNS.desert;
+    else if (key.includes("wetland") || key.includes("marsh")) nounPool = LANDFORM_NOUNS.wetland;
+    else if (key.includes("coast")) nounPool = LANDFORM_NOUNS.coast;
+    else if (key.includes("reef") || key.includes("sea")) nounPool = LANDFORM_NOUNS.marine;
+    else if (key.includes("vent") || key.includes("lava")) nounPool = LANDFORM_NOUNS.geothermal;
+    else if (key.includes("cave") || key.includes("underground")) nounPool = LANDFORM_NOUNS.subsurface;
+  }
 
-  // --- PICK DESCRIPTOR ---
-  const biomeKey = Object.keys(descriptors).find(key => biome.includes(key));
-  const descriptorPool = biomeKey ? descriptors[biomeKey] : genericDescriptors;
-  const descriptor = descriptorPool[Math.floor(Math.random() * descriptorPool.length)];
+  const noun = pick(nounPool);
 
-  // --- PICK NOUN ---
-  const nounPool = biomeKey ? nouns[biomeKey] : genericNouns;
-  const noun = nounPool[Math.floor(Math.random() * nounPool.length)];
+  // ------------------------------------------------------------
+  // Optional twist
+  // ------------------------------------------------------------
+  const twist = Math.random() < 0.4 ? " " + pick(TWISTS) : "";
 
-  // --- OPTIONAL TWIST ---
-  const twist = Math.random() < 0.4
-    ? " " + twists[Math.floor(Math.random() * twists.length)]
-    : "";
-
+  // ------------------------------------------------------------
+  // Final landmark name
+  // ------------------------------------------------------------
   return `The ${descriptor} ${noun}${twist}`;
 }
