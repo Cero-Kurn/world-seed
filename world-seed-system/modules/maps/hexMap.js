@@ -2,45 +2,40 @@
 // ------------------------------------------------------------
 // Hex Map Renderer (canonical biome colors)
 // ------------------------------------------------------------
+//
+// This module renders a biome-colored hex map onto a <canvas>.
+// It expects:
+//   • canvas: HTMLCanvasElement
+//   • regions: array of region objects (from world engine)
+//   • hexGrid: array of hex cells from canvasRenderer.js
+//
+// Each hex cell must contain:
+//   • x, y, size
+//   • regionIndex (index into regions[])
+//
 
-import { BIOMES } from "../data/biomes.js";
+import { BIOME_COLORS } from "../data/biomeColors.js";
 
-// ------------------------------------------------------------
-// BIOME → COLOR MAP (canonical only)
-// ------------------------------------------------------------
-const BIOME_COLORS = {
-  "Tundra": "#C9D6D5",
-  "Alpine": "#A9B8C9",
-  "Taiga Forests": "#4A6B4F",
-  "Temperate Forests": "#6FAF6F",
-  "Tropical Forests": "#2E8B57",
-  "Grassland": "#C7D36F",
-  "Savanna": "#D9C77E",
-  "Shrubland": "#BFAF7A",
-  "Wetlands": "#7FB8A4",
-  "Desert": "#E8D18B",
-  "Geothermal": "#D97F30",
-  "Coastal": "#A7D0E3",
-  "Freshwater": "#7EC8E3",
-  "Marine": "#3A6EA5",
-  "Subsurface": "#6E5F57"
-};
-
-// ------------------------------------------------------------
-// SAFE COLOR PICKER
-// ------------------------------------------------------------
+/**
+ * Safe biome → color lookup.
+ * Falls back to neutral gray if unknown.
+ */
 function getBiomeColor(biome) {
-  if (BIOME_COLORS[biome]) return BIOME_COLORS[biome];
-
-  console.warn(`Unknown biome "${biome}" — using fallback color.`);
-  return "#888888"; // neutral fallback
+  return BIOME_COLORS[biome] || "#888888";
 }
 
-// ------------------------------------------------------------
-// MAIN RENDER FUNCTION
-// ------------------------------------------------------------
+/**
+ * Render the hex world map.
+ *
+ * @param {HTMLCanvasElement} canvas
+ * @param {Array} regions
+ * @param {Array} hexGrid
+ */
 export function renderHexMap(canvas, regions, hexGrid) {
+  if (!canvas || !regions || !hexGrid) return;
+
   const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (let i = 0; i < hexGrid.length; i++) {
     const hex = hexGrid[i];
@@ -48,16 +43,14 @@ export function renderHexMap(canvas, regions, hexGrid) {
 
     if (!region) continue;
 
-    const color = getBiomeColor(region.biome);
-
-    ctx.fillStyle = color;
+    ctx.fillStyle = getBiomeColor(region.biome);
     drawHex(ctx, hex.x, hex.y, hex.size);
   }
 }
 
-// ------------------------------------------------------------
-// BASIC HEX DRAWING
-// ------------------------------------------------------------
+/**
+ * Draw a filled hexagon at (x, y).
+ */
 function drawHex(ctx, x, y, size) {
   const angle = Math.PI / 3;
 
