@@ -8,7 +8,7 @@ import { generateWorldSummary } from "./modules/seed/worldSummary.js";
 // World-scale summaries
 import { generateContinentSummary } from "./modules/world/continentSummary.js";
 import { renderWorldFormation } from "./modules/climate/worldFormation.js";
-
+import { renderAtlasFullCards } from "./modules/ui/atlasFullCards.js";
 // Maps
 import { renderHexMap } from "./modules/maps/hexMap.js";
 import { renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
