@@ -1,9 +1,28 @@
 // modules/ui/atlasFullCards.js
 // ------------------------------------------------------------
-// Atlas Region Full Cards (Climate + Geology + Biome + Features + Colors)
+// Atlas Region Full Cards (Climate + Geology + Biome + Features + Colors + Icons)
 // ------------------------------------------------------------
 
 import { BIOME_COLORS } from "../data/biomes.js";
+
+// Biome → Icon mapping
+const BIOME_ICONS = {
+  "Tundra": "❄️",
+  "Alpine": "🏔️",
+  "Taiga Forests": "🌲",
+  "Temperate Forests": "🌳",
+  "Tropical Forests": "🌴",
+  "Grassland": "🌾",
+  "Savanna": "🦒",
+  "Shrubland": "🌿",
+  "Desert": "🏜️",
+  "Wetlands": "🦆",
+  "Freshwater": "💧",
+  "Marine": "🌊",
+  "Coastal": "🏖️",
+  "Geothermal": "🌋",
+  "Subsurface": "🕳️"
+};
 
 export function renderAtlasFullCards(regions) {
   const container = document.getElementById("atlasFullCards");
@@ -37,6 +56,7 @@ export function renderAtlasFullCards(regions) {
     const biomeColor = BIOME_COLORS[biome] || "#999999";
     const elevColor = ELEV_COLORS[elev] || "#CCCCCC";
     const moistColor = MOIST_COLORS[moist] || MOIST_COLORS.normal;
+    const icon = BIOME_ICONS[biome] || "🌐";
 
     // ------------------------------------------------------------
     // Climate Summary
@@ -112,13 +132,15 @@ export function renderAtlasFullCards(regions) {
         <div class="atlas-color-strip" style="background:${biomeColor};"></div>
 
         <div class="atlas-header" data-target="full-${i}">
-          ▶ ${name} — ${biome}
+          ▶ ${icon} ${name} — ${biome}
         </div>
 
         <div class="atlas-content" id="full-${i}">
           
           <p><strong>Biome:</strong> 
-            <span class="badge" style="background:${biomeColor};">${biome}</span>
+            <span class="badge" style="background:${biomeColor};">
+              ${icon} ${biome}
+            </span>
           </p>
 
           <p><strong>Elevation:</strong> 
