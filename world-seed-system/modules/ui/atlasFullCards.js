@@ -8,7 +8,7 @@ import { BIOME_COLORS } from "../data/biomes.js";
 // Biome → Icon mapping
 const BIOME_ICONS = {
   "Tundra": "❄️",
-  "Alpine": "🏔️",
+  "Alpine": "modules/Geo_Icons/alpine/MountainRange1.png",
   "Taiga Forests": "🌲",
   "Temperate Forests": "🌳",
   "Tropical Forests": "🌴",
