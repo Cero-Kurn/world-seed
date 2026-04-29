@@ -4,7 +4,7 @@ export function renderWorldFormation(regions, decoded) {
   const container = document.getElementById("worldFormation");
 
   // --- TECTONIC SUMMARY ---
-  const tectonic = decoded.tr.tectonicType.toLowerCase();
+  const tectonicType = pickTectonicType.toLowerCase();
   let tectonicOrigin = "";
 
   switch (tectonic) {
