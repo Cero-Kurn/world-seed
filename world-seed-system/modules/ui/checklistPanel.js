@@ -39,10 +39,10 @@ export function renderChecklistPanel() {
         ["Continent shape generator", "missing"],
         ["map canvas that draws shapes based on the seed", "missing"],
         ["Map export (PNG/SVG)", "missing"],
-        ["map linked version (regions highlight when hovered)", "missing"]
+        ["map linked version (regions highlight when hovered)", "missing"],
         ["Region hit‑testing", "missing"],
         ["Region hover highlighting", "missing"],
-        ["Tooltips", "missing"],
+        ["Tooltips", "missing"]
       ]
     },
     {
@@ -144,7 +144,7 @@ export function renderChecklistPanel() {
         ["Region based creatures", "missing"],
         ["World history timeline", "missing"],
         ["Worldbook export system", "missing"],
-        ["Worldbook layout", "missing"],
+        ["Worldbook layout", "missing"]
       ]
     },
     {
@@ -175,8 +175,8 @@ export function renderChecklistPanel() {
       title: "Seed UI & Interpretation",
       items: [
         ["Collapsible decoded seed UI", "missing"],
-        ["Color‑coded seed components", "missing"]
-        ["Seed interpretation panel", "missing"],
+        ["Color‑coded seed components", "missing"],
+        ["Seed interpretation panel", "missing"]
       ]
     },
     {
