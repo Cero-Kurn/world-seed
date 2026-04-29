@@ -33,7 +33,7 @@ export function renderChecklistPanel() {
         ["latitude‑based biome bands to the hex map", "partial"],
         ["Mountain Density Score", "partial"],
         ["Zoom / pan", "partial"],
-        ["Animated transitions", "missing"]
+        ["Animated transitions", "missing"],
         ["Click‑to‑select regions", "missing"],
         ["Coastline generator", "missing"],
         ["Continent shape generator", "missing"],
@@ -56,7 +56,7 @@ export function renderChecklistPanel() {
         ["Biome tendencies", "complete"],
         ["Biome transition smoothing", "complete"],
         ["biome variations (could be expanded)", "partial"],
-        ["Bestiary generator", "missing"]
+        ["Bestiary generator", "missing"],
         ["Biome Driven Fauna & Flora Generator", "missing"],
         ["Biome gradient shading", "missing"],
         ["Biome Heatmap with more visual interest", "missing"],
