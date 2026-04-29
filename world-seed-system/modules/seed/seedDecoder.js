@@ -30,4 +30,4 @@ export function decodeSeed(seedStr) {
     hy: decodePair(hy, HY_TABLE, "Hydrology Model"),
     sf: decodePair(sf, SF_TABLE, "Special Features Model"),
   };
-
+}
