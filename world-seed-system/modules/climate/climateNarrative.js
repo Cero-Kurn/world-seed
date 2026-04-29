@@ -49,7 +49,8 @@ export function renderClimateNarrative(regions, decoded) {
 
   // --- Tectonic influence on climate ---
   const tectonic = region.tectonicType;
-
+  let tectonicEffect = "";
+  
   switch (tectonic) {
     case "convergent":
       tectonicEffect = "Large mountain ranges create strong rain shadows and distinct climatic divides.";
