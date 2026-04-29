@@ -1,10 +1,26 @@
 // modules/ui/atlasFullCards.js
 // ------------------------------------------------------------
-// Atlas Region Full Cards (Climate + Geology + Biome + Features)
+// Atlas Region Full Cards (Climate + Geology + Biome + Features + Colors)
 // ------------------------------------------------------------
+
+import { BIOME_COLORS } from "../data/biomes.js";
 
 export function renderAtlasFullCards(regions) {
   const container = document.getElementById("atlasFullCards");
+
+  // Elevation color palette
+  const ELEV_COLORS = {
+    high: "#8EA6C9",
+    mid: "#C9C9C9",
+    low: "#D9B38C"
+  };
+
+  // Moisture color palette
+  const MOIST_COLORS = {
+    wet: "#7EC8E3",
+    dry: "#E8D18B",
+    normal: "#CFCFCF"
+  };
 
   // ------------------------------------------------------------
   // Build each region card
@@ -18,42 +34,32 @@ export function renderAtlasFullCards(regions) {
     const tect = r.tectonicType;
     const feats = r.specialFeatures || [];
 
+    const biomeColor = BIOME_COLORS[biome] || "#999999";
+    const elevColor = ELEV_COLORS[elev] || "#CCCCCC";
+    const moistColor = MOIST_COLORS[moist] || MOIST_COLORS.normal;
+
     // ------------------------------------------------------------
     // Climate Summary
     // ------------------------------------------------------------
     let climateSummary = "";
 
-    // Latitude
-    if (lat === "tropical") {
-      climateSummary += "Warm tropical climate with strong solar heating. ";
-    } else if (lat === "temperate") {
-      climateSummary += "Moderate temperate climate with seasonal variation. ";
-    } else if (lat === "polar") {
-      climateSummary += "Cold polar climate with extreme seasonal light cycles. ";
-    }
+    if (lat === "tropical") climateSummary += "Warm tropical climate with strong solar heating. ";
+    else if (lat === "temperate") climateSummary += "Moderate temperate climate with seasonal variation. ";
+    else if (lat === "polar") climateSummary += "Cold polar climate with extreme seasonal light cycles. ";
 
-    // Moisture
-    if (moist === "wet") {
-      climateSummary += "High moisture supports lush vegetation and stable rainfall. ";
-    } else if (moist === "dry") {
-      climateSummary += "Low moisture expands arid landscapes and limits vegetation. ";
-    }
+    if (moist === "wet") climateSummary += "High moisture supports lush vegetation and stable rainfall. ";
+    else if (moist === "dry") climateSummary += "Low moisture expands arid landscapes and limits vegetation. ";
 
-    // Elevation
-    if (elev === "high") {
-      climateSummary += "High elevation cools temperatures and enhances orographic precipitation. ";
-    } else if (elev === "low") {
-      climateSummary += "Low elevation promotes warmer temperatures and sediment accumulation. ";
-    }
+    if (elev === "high") climateSummary += "High elevation cools temperatures and enhances orographic precipitation. ";
+    else if (elev === "low") climateSummary += "Low elevation promotes warmer temperatures and sediment accumulation. ";
 
     // ------------------------------------------------------------
     // Geology Summary
     // ------------------------------------------------------------
     let geologySummary = "";
-
     switch (tect) {
       case "convergent":
-        geologySummary += "Convergent uplift forms mountains, steep terrain, and strong rain shadows. ";
+        geologySummary += "Convergent uplift forms mountains and strong rain shadows. ";
         break;
       case "divergent":
         geologySummary += "Divergent rifting produces volcanic ridges and geothermal anomalies. ";
@@ -73,33 +79,21 @@ export function renderAtlasFullCards(regions) {
     // Biome Summary
     // ------------------------------------------------------------
     let biomeSummary = "";
-
-    if (biome.includes("forest")) {
-      biomeSummary = "Forested landscapes support diverse flora and fauna, shaped by steady moisture and moderate temperatures.";
-    } else if (biome.includes("desert")) {
-      biomeSummary = "Arid desert terrain with sparse vegetation and extreme temperature swings.";
-    } else if (biome.includes("tundra")) {
-      biomeSummary = "Cold tundra with limited vegetation, shaped by permafrost and short growing seasons.";
-    } else if (biome.includes("grassland")) {
-      biomeSummary = "Open grasslands shaped by seasonal rainfall and wide temperature ranges.";
-    } else if (biome.includes("jungle") || biome.includes("rainforest")) {
-      biomeSummary = "Dense tropical rainforest with high biodiversity and year‑round rainfall.";
-    } else {
-      biomeSummary = "This biome supports a unique ecological balance shaped by local climate and terrain.";
-    }
+    if (biome.includes("Forest")) biomeSummary = "Forested landscapes support diverse flora and fauna.";
+    else if (biome.includes("Desert")) biomeSummary = "Arid desert terrain with sparse vegetation.";
+    else if (biome.includes("Tundra")) biomeSummary = "Cold tundra shaped by permafrost and short growing seasons.";
+    else if (biome.includes("Grassland")) biomeSummary = "Open grasslands shaped by seasonal rainfall.";
+    else biomeSummary = "This biome supports a unique ecological balance.";
 
     // ------------------------------------------------------------
     // Special Features
     // ------------------------------------------------------------
-    let featureSummary = "";
-    if (feats.length > 0) {
-      featureSummary = `
-        <p><strong>Special Features:</strong> ${feats.join(", ")}</p>
-      `;
-    }
+    let featureSummary = feats.length > 0
+      ? `<p><strong>Special Features:</strong> ${feats.join(", ")}</p>`
+      : "";
 
     // ------------------------------------------------------------
-    // Procedural Flavor Text (micro‑narrative)
+    // Flavor Text
     // ------------------------------------------------------------
     let flavor = `${name} is shaped by its ${biome.toLowerCase()} biome and ${tect} tectonic setting. `;
     flavor += `The region’s ${moist} moisture levels and ${elev} elevation create `;
@@ -113,14 +107,28 @@ export function renderAtlasFullCards(regions) {
 
     return `
       <div class="atlas-card">
+
+        <!-- Biome Color Strip -->
+        <div class="atlas-color-strip" style="background:${biomeColor};"></div>
+
         <div class="atlas-header" data-target="full-${i}">
           ▶ ${name} — ${biome}
         </div>
 
         <div class="atlas-content" id="full-${i}">
-          <p><strong>Biome:</strong> ${biome}</p>
-          <p><strong>Elevation:</strong> ${elev}</p>
-          <p><strong>Moisture:</strong> ${moist}</p>
+          
+          <p><strong>Biome:</strong> 
+            <span class="badge" style="background:${biomeColor};">${biome}</span>
+          </p>
+
+          <p><strong>Elevation:</strong> 
+            <span class="badge" style="background:${elevColor};">${elev}</span>
+          </p>
+
+          <p><strong>Moisture:</strong> 
+            <span class="badge" style="background:${moistColor};">${moist}</span>
+          </p>
+
           <p><strong>Latitude Band:</strong> ${lat}</p>
           <p><strong>Tectonic Type:</strong> ${tect}</p>
 
