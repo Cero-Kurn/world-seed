@@ -48,8 +48,7 @@ export function renderClimateNarrative(regions, decoded) {
   }
 
   // --- Tectonic influence on climate ---
-  const tectonicType = pickTectonicType(i);
-
+  const tectonic = region.tectonicType;
 
   switch (tectonic) {
     case "convergent":
