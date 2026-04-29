@@ -2,9 +2,8 @@
 import { simulateWorld } from "../world/worldSimulation.js";
 import { exportWorld } from "../world/worldExport.js";
 
-export function renderChecklistPanel(decodedSeed) {
-  const world = simulateWorld(decodedSeed);
-  const json = exportWorld(world, { pretty: true });
+export function renderChecklistPanel() {
+
   const container = document.getElementById("checklistPanel");
 
   // --- MASTER CHECKLIST DATA (UPDATED STATUSES) ---
