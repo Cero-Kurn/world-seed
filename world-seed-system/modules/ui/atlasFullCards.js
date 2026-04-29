@@ -1,31 +1,92 @@
+// Biome → Icon mapping
+//const BIOME_ICONS = {
+//  "Tundra": "❄️",
+//  "Alpine": "modules/Geo_Icons/alpine/MountainRange1.png",
+//  "Taiga Forests": "🌲",
+//  "Temperate Forests": "🌳",
+//  "Tropical Forests": "🌴",
+//  "Grassland": "🌾",
+//  "Savanna": "🦒",
+//  "Shrubland": "🌿",
+//  "Desert": "🏜️",
+//  "Wetlands": "🦆",
+//  "Freshwater": "💧",
+//  "Marine": "🌊",
+//  "Coastal": "🏖️",
+//  "Geothermal": "🌋",
+//  "Subsurface": "🕳️"
+
+
+// ------------------------------------------------------------
 // modules/ui/atlasFullCards.js
 // ------------------------------------------------------------
-// Atlas Region Full Cards (Climate + Geology + Biome + Features + Colors + Icons)
+// Atlas Region Full Cards
+// (Climate + Geology + Biome + Features + Colors + Image Icons)
+// Deterministic icon selection per seed
 // ------------------------------------------------------------
 
 import { BIOME_COLORS } from "../data/biomes.js";
 
-// Biome → Icon mapping
-const BIOME_ICONS = {
-  "Tundra": "❄️",
-  "Alpine": "modules/Geo_Icons/alpine/MountainRange1.png",
-  "Taiga Forests": "🌲",
-  "Temperate Forests": "🌳",
-  "Tropical Forests": "🌴",
-  "Grassland": "🌾",
-  "Savanna": "🦒",
-  "Shrubland": "🌿",
-  "Desert": "🏜️",
-  "Wetlands": "🦆",
-  "Freshwater": "💧",
-  "Marine": "🌊",
-  "Coastal": "🏖️",
-  "Geothermal": "🌋",
-  "Subsurface": "🕳️"
+// ------------------------------------------------------------
+// Biome → Icon file paths (multiple variants per biome)
+// Add/remove icons freely — deterministic picker handles it
+// ------------------------------------------------------------
+const BIOME_ICON_PATHS = {
+  "Alpine": [
+    "modules/Geo_Icons/biomes/alpine/Alpine_01.png",
+    "modules/Geo_Icons/biomes/alpine/Alpine_02.png",
+    "modules/Geo_Icons/biomes/alpine/Alpine_03.png"
+  ],
+  "Desert": [
+    "modules/Geo_Icons/biomes/desert/Desert_01.png",
+    "modules/Geo_Icons/biomes/desert/Desert_02.png"
+  ],
+  "Temperate Forests": [
+    "modules/Geo_Icons/biomes/forest_temperate/TemperateForest_01.png",
+    "modules/Geo_Icons/biomes/forest_temperate/TemperateForest_02.png"
+  ],
+  "Tropical Forests": [
+    "modules/Geo_Icons/biomes/forest_tropical/TropicalForest_01.png",
+    "modules/Geo_Icons/biomes/forest_tropical/TropicalForest_02.png"
+  ],
+  "Grassland": [
+    "modules/Geo_Icons/biomes/grassland/Grassland_01.png"
+  ],
+  "Tundra": [
+    "modules/Geo_Icons/biomes/tundra/Tundra_01.png"
+  ],
+  "Wetlands": [
+    "modules/Geo_Icons/biomes/wetlands/Wetlands_01.png"
+  ]
+  // Add more as needed — the system is fully extensible
 };
 
-export function renderAtlasFullCards(regions) {
+// ------------------------------------------------------------
+// Deterministic seeded random (per seed + region index)
+// ------------------------------------------------------------
+function seededRandom(seed, index) {
+  const str = seed + "_" + index;
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = (h << 5) - h + str.charCodeAt(i);
+    h |= 0;
+  }
+  return Math.abs(h) / 0xFFFFFFFF;
+}
+
+function pickDeterministicIcon(iconList, seed, regionIndex) {
+  if (!iconList || iconList.length === 0) return null;
+  const r = seededRandom(seed, regionIndex);
+  const idx = Math.floor(r * iconList.length);
+  return iconList[idx];
+}
+
+// ------------------------------------------------------------
+// Main Renderer
+// ------------------------------------------------------------
+export function renderAtlasFullCards(regions, decoded) {
   const container = document.getElementById("atlasFullCards");
+  const seed = decoded.seed || "DEFAULT_SEED";
 
   // Elevation color palette
   const ELEV_COLORS = {
@@ -56,7 +117,18 @@ export function renderAtlasFullCards(regions) {
     const biomeColor = BIOME_COLORS[biome] || "#999999";
     const elevColor = ELEV_COLORS[elev] || "#CCCCCC";
     const moistColor = MOIST_COLORS[moist] || MOIST_COLORS.normal;
-    const icon = BIOME_ICONS[biome] || "🌐";
+
+    // Deterministic biome icon
+    const iconList = BIOME_ICON_PATHS[biome] || [];
+    const icon = pickDeterministicIcon(iconList, seed, i);
+
+    const iconHTML = icon
+      ? `<img src="${icon}" class="biome-icon">`
+      : `<span class="biome-icon">🌐</span>`;
+
+    const iconSmallHTML = icon
+      ? `<img src="${icon}" class="biome-icon-small">`
+      : `<span class="biome-icon-small">🌐</span>`;
 
     // ------------------------------------------------------------
     // Climate Summary
@@ -125,6 +197,9 @@ export function renderAtlasFullCards(regions) {
       ? "a harsh, cold environment where life adapts to extreme conditions."
       : "a distinctive climate shaped by its latitude.";
 
+    // ------------------------------------------------------------
+    // Card HTML
+    // ------------------------------------------------------------
     return `
       <div class="atlas-card">
 
@@ -132,14 +207,14 @@ export function renderAtlasFullCards(regions) {
         <div class="atlas-color-strip" style="background:${biomeColor};"></div>
 
         <div class="atlas-header" data-target="full-${i}">
-          ▶ ${icon} ${name} — ${biome}
+          ▶ ${iconHTML} ${name} — ${biome}
         </div>
 
         <div class="atlas-content" id="full-${i}">
           
           <p><strong>Biome:</strong> 
             <span class="badge" style="background:${biomeColor};">
-              ${icon} ${biome}
+              ${iconSmallHTML} ${biome}
             </span>
           </p>
 
