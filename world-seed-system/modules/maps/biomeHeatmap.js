@@ -16,7 +16,7 @@
 //   • regionIndex (index into regions[])
 //
 
-import { BIOME_COLORS } from "../data/biomeColors.js";   // your canonical palette
+import { BIOME_COLORS } from "../data/biomes.js";   // your canonical palette
 
 /**
  * Get a safe color for a biome.
