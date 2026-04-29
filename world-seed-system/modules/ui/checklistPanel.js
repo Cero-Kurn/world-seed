@@ -13,46 +13,59 @@ export function renderChecklistPanel() {
       items: [
         ["7‑region hex world", "complete"],
         ["Biome heatmap preview", "complete"],
-        ["Break the continent into 6–20 regions", "complete"],
+        ["Break continent into 6–20 regions", "complete"],
         ["Canvas‑based hex renderer", "complete"],
+        ["Elevation noise", "complete"],
+        ["elevation variations", "complete"],
         ["Hex map generator", "complete"],
+        ["Region adjacency smoothing", "complete"],
         ["Region generator", "complete"],
         ["add a canvas renderer", "partial"],
         ["canvas (used for maps, not shapes yet)", "partial"],
+        ["Canvas drawing API", "partial"],
         ["canvas has responsive scaling, larger maps, dynamic resizing", "partial"],
-        ["Canvas maps (optional)", "partial"],
+        ["Canvas maps", "partial"],
         ["Canvas‑Based (drawing API)", "partial"],
-        ["Elevation noise", "complete"],
-        ["elevation variations", "complete"],
         ["latitude‑based biome bands to the hex map", "partial"],
         ["Mountain Density Score", "partial"],
-        ["Region adjacency smoothing", "complete"],
+        ["Zoom / pan", "partial"],
+        ["Animated transitions", "missing"]
+        ["Click‑to‑select regions", "missing"],
+        ["Coastline generator", "missing"],
         ["Continent shape generator", "missing"],
         ["map canvas that draws shapes based on the seed", "missing"],
         ["Map export (PNG/SVG)", "missing"],
         ["map linked version (regions highlight when hovered)", "missing"]
+        ["Region hit‑testing", "missing"],
+        ["Region hover highlighting", "missing"],
+        ["Tooltips", "missing"],
       ]
     },
     {
       title: "Biomes & Ecology",
       items: [
         ["Biome assignment", "complete"],
+        ["biome blending", "complete"],
         ["biome derives from climate", "complete"],
         ["Biome legend panel", "complete"],
         ["Biome roles", "complete"],
         ["Biome tendencies", "complete"],
-        ["biome blending", "complete"],
         ["Biome transition smoothing", "complete"],
         ["biome variations (could be expanded)", "partial"],
-        ["Bestiary generator", "missing"],
+        ["Bestiary generator", "missing"]
         ["Biome Driven Fauna & Flora Generator", "missing"],
+        ["Biome gradient shading", "missing"],
         ["Biome Heatmap with more visual interest", "missing"],
+        ["Biome icons", "missing"],
         ["Biome Linked Settlement Patterns", "missing"],
         ["Biome Linked Trade Goods", "missing"],
         ["biome specific features", "missing"],
-        ["Biome‑driven culture generator", "missing"],
         ["Biome‑Driven Culture Generator", "missing"],
+        ["Biome‑linked settlement patterns", "missing"],
+        ["Biome‑linked trade goods", "missing"],
+        ["Biome‑specific features", "missing"],
         ["fauna + flora tables", "missing"]
+
       ]
     },
     {
@@ -82,6 +95,7 @@ export function renderChecklistPanel() {
         ["Micro‑climates", "complete"],
         ["Seasonal variability", "complete"],
         ["Climate‑aware biome chains", "partial"],
+        ["Derived from elevation + moisture + latitude", "partial"],
         ["Derived from elevation + moisture + seed latitude", "partial"],
         ["Distance from coast", "missing"],
         ["Planetary Heat Budget", "missing"]
@@ -97,8 +111,10 @@ export function renderChecklistPanel() {
         ["Make regions more structured", "partial"],
         ["special Feature variations", "partial"],
         ["Sub Features (Terrain Details)", "partial"],
+        ["Sub‑features", "partial"],
+        ["Landmark atlas panel", "missing"],
         ["Landmarks panel full of named places", "missing"],
-        ["Named Landmark Generator", "missing"]
+["Named Landmark Generator", "missing"]
       ]
     },
     {
@@ -110,8 +126,11 @@ export function renderChecklistPanel() {
         ["World Formation Narrative", "complete"],
         ["Cultural or Narrative Seeds", "partial"],
         ["Lore Narrative Driven", "partial"],
+        ["Lore narrative engine", "partial"],
         ["Lore Scale Systems (Worldbook)", "partial"],
         ["Narrative hooks table", "partial"],
+        ["Atlas entry generator", "missing"],
+        ["Atlas panel", "missing"],
         ["Bestiary & Cultures", "missing"],
         ["Bestiary generator", "missing"],
         ["Cultural Archetype Generator", "missing"],
@@ -121,7 +140,8 @@ export function renderChecklistPanel() {
         ["Myths", "missing"],
         ["Region based creatures", "missing"],
         ["World history timeline", "missing"],
-        ["Worldbook export", "missing"]
+        ["Worldbook export system", "missing"],
+        ["Worldbook layout", "missing"],
       ]
     },
     {
@@ -136,8 +156,8 @@ export function renderChecklistPanel() {
         ["Save/load seeds", "partial"],
         ["downloadable world summary", "missing"],
         ["full atlas UI", "missing"],
-        ["polished UI with tabs", "missing"],
-        ["Tabbed interface", "missing"]
+        ["Full dark‑mode theme", "missing"],
+        ["Polished UI with tabs", "missing"]
       ]
     },
     {
@@ -146,6 +166,25 @@ export function renderChecklistPanel() {
         ["Auto writes a short world description", "complete"],
         ["Ties geology + climate + history into a single story", "complete"],
         ["World Summary Coding narrative engine", "partial"]
+      ]
+    },
+    {
+      title: "Seed UI & Interpretation",
+      items: [
+        ["Collapsible decoded seed UI", "missing"],
+        ["Color‑coded seed components", "missing"]
+        ["Seed interpretation panel", "missing"],
+      ]
+    },
+    {
+      title: "World Engine Core",
+      items: [
+        ["Fully aligned world engine bundle", "partial"],
+        ["Unified world‑engine bundle", "partial"],
+        ["Deterministic RNG for stable but richer patterns", "missing"],
+        ["Procedural rifts, arcs, hotspots, cratons", "missing"],
+        ["Realistic tectonic type generator", "missing"],
+        ["Tectonics tied to latitude, climate, randomness", "missing"]
       ]
     }
   ];
