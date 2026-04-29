@@ -1,12 +1,16 @@
 // modules/ui/checklistPanel.js
 import { simulateWorld } from "../world/worldSimulation.js";
 import { exportWorld } from "../world/worldExport.js";
+// ------------------------------------------------------------
+// Project Checklist Panel (Fully Updated, Canonical Version)
+// ------------------------------------------------------------
 
 export function renderChecklistPanel() {
-
   const container = document.getElementById("checklistPanel");
 
-  // --- MASTER CHECKLIST DATA (UPDATED STATUSES) ---
+  // ------------------------------------------------------------
+  // MASTER CHECKLIST (DEDUPED + EXPANDED + NORMALIZED)
+  // ------------------------------------------------------------
   const sections = [
     {
       title: "Map / Canvas / Hex Systems",
@@ -65,7 +69,6 @@ export function renderChecklistPanel() {
         ["Biome‑linked trade goods", "missing"],
         ["Biome‑specific features", "missing"],
         ["fauna + flora tables", "missing"]
-
       ]
     },
     {
@@ -189,18 +192,20 @@ export function renderChecklistPanel() {
     }
   ];
 
-  // --- NEXT SUGGESTED FEATURE (UPDATED) ---
+  // ------------------------------------------------------------
+  // NEXT SUGGESTED FEATURE
+  // ------------------------------------------------------------
   let nextFeature = null;
 
-  sections.forEach(section => {
-    if (nextFeature) return;
-    section.items.forEach(([label, status]) => {
-      if (nextFeature) return;
+  for (const section of sections) {
+    for (const [label, status] of section.items) {
       if (status === "missing" || status === "partial") {
         nextFeature = { label, status, section: section.title };
+        break;
       }
-    });
-  });
+    }
+    if (nextFeature) break;
+  }
 
   const suggestionHTML = nextFeature
     ? `
@@ -213,22 +218,22 @@ export function renderChecklistPanel() {
         <div class="next-feature-section">(${nextFeature.section})</div>
       </div>
     `
-    : `
-      <div class="next-feature-box">
-        <strong>All features complete!</strong>
-      </div>
-    `;
+    : `<div class="next-feature-box"><strong>All features complete!</strong></div>`;
 
-  // --- BUILD CHECKLIST HTML ---
+  // ------------------------------------------------------------
+  // BUILD CHECKLIST HTML
+  // ------------------------------------------------------------
   const html = sections.map((section, index) => {
-    const itemsHTML = section.items.map(([label, status]) => `
-      <div class="checklist-item">
-        <span class="status-${status}">
-          ${status === "complete" ? "✔" : status === "partial" ? "➕" : "✚"}
-        </span>
-        ${label}
-      </div>
-    `).join("");
+    const itemsHTML = section.items
+      .map(([label, status]) => `
+        <div class="checklist-item">
+          <span class="status-${status}">
+            ${status === "complete" ? "✔" : status === "partial" ? "➕" : "✚"}
+          </span>
+          ${label}
+        </div>
+      `)
+      .join("");
 
     return `
       <div class="checklist-section">
@@ -248,7 +253,9 @@ export function renderChecklistPanel() {
     ${html}
   `;
 
-  // --- COLLAPSIBLE BEHAVIOR ---
+  // ------------------------------------------------------------
+  // COLLAPSIBLE BEHAVIOR
+  // ------------------------------------------------------------
   document.querySelectorAll(".checklist-header").forEach(header => {
     header.addEventListener("click", () => {
       const index = header.getAttribute("data-checklist");
