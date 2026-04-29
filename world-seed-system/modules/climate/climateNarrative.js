@@ -48,7 +48,7 @@ export function renderClimateNarrative(regions, decoded) {
   }
 
   // --- Tectonic influence on climate ---
-  const tectonic = decoded.tr.tectonicType;
+  const tectonicType = pickTectonicType();
   let tectonicEffect = "";
 
   switch (tectonic) {
