@@ -4,7 +4,7 @@ export function renderClimateAnomalies(regions, decoded) {
   const lat = decoded.lm.primary.toLowerCase();
   const wind = decoded.we.primary.toLowerCase();
   const hydro = decoded.hy.primary.toLowerCase();
-  const tectonic = decoded.tr.tectonicType;
+  const tectonicType = pickTectonicType();
 
   const anomalies = [];
 
