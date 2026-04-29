@@ -1,54 +1,70 @@
 // modules/maps/biomeHeatmap.js
 // ------------------------------------------------------------
-// Biome Heatmap Renderer (simple grid based on region biomes)
+// Biome Heatmap Renderer (canonical biome colors)
 // ------------------------------------------------------------
+//
+// This module renders a biome heatmap onto a <canvas> element,
+// using the canonical biome list and color palette.
+//
+// It expects:
+//   • canvas: HTMLCanvasElement
+//   • regions: array of region objects (from world engine)
+//   • hexGrid: array of hex cells from canvasRenderer.js
+//
+// Each hex cell must contain:
+//   • x, y, size
+//   • regionIndex (index into regions[])
+//
 
-import { BIOME_COLORS } from "../data/biomes.js";
+import { BIOME_COLORS } from "../data/biomeColors.js";   // your canonical palette
 
-/*
-  EXPECTED INPUT:
-  renderBiomeHeatmap(regions)
+/**
+ * Get a safe color for a biome.
+ * Falls back to neutral gray if unknown.
+ */
+function getBiomeColor(biome) {
+  return BIOME_COLORS[biome] || "#999999";
+}
 
-  Each region object must contain:
-    - id
-    - biome
-    - latitudeBand (for vertical ordering)
-*/
+/**
+ * Render the biome heatmap onto a canvas.
+ *
+ * @param {HTMLCanvasElement} canvas
+ * @param {Array} regions
+ * @param {Array} hexGrid
+ */
+export function renderBiomeHeatmap(canvas, regions, hexGrid) {
+  if (!canvas || !regions || !hexGrid) return;
 
-export function renderBiomeHeatmap(regions) {
-  const container = document.getElementById("biomeHeatmap");
-  if (!container) return;
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Clear previous content
-  container.innerHTML = "";
+  for (let i = 0; i < hexGrid.length; i++) {
+    const hex = hexGrid[i];
+    const region = regions[hex.regionIndex];
 
-  // Sort regions by latitude band (north → south)
-  const sorted = [...regions].sort((a, b) => {
-    const order = {
-      polar: 0,
-      subpolar: 1,
-      temperate: 2,
-      subtropical: 3,
-      tropical: 4
-    };
-    return (order[a.latitudeBand] ?? 99) - (order[b.latitudeBand] ?? 99);
-  });
+    if (!region) continue;
 
-  // Build heatmap grid
-  const grid = document.createElement("div");
-  grid.className = "biome-heatmap-grid";
+    const color = getBiomeColor(region.biome);
+    ctx.fillStyle = color;
 
-  sorted.forEach(region => {
-    const cell = document.createElement("div");
-    cell.className = "biome-heatmap-cell";
+    drawHex(ctx, hex.x, hex.y, hex.size);
+  }
+}
 
-    const color = BIOME_COLORS[region.biome] || "#444";
-    cell.style.background = color;
+/**
+ * Draw a filled hexagon at (x, y).
+ */
+function drawHex(ctx, x, y, size) {
+  const angle = Math.PI / 3;
 
-    cell.title = `${region.name} — ${region.biome}`;
-
-    grid.appendChild(cell);
-  });
-
-  container.appendChild(grid);
+  ctx.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const px = x + size * Math.cos(angle * i);
+    const py = y + size * Math.sin(angle * i);
+    if (i === 0) ctx.moveTo(px, py);
+    else ctx.lineTo(px, py);
+  }
+  ctx.closePath();
+  ctx.fill();
 }
