@@ -114,7 +114,7 @@ export function renderChecklistPanel() {
         ["Sub‑features", "partial"],
         ["Landmark atlas panel", "missing"],
         ["Landmarks panel full of named places", "missing"],
-["Named Landmark Generator", "missing"]
+        ["Named Landmark Generator", "missing"]
       ]
     },
     {
