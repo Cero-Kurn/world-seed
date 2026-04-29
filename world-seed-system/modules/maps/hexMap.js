@@ -14,7 +14,7 @@
 //   • regionIndex (index into regions[])
 //
 
-import { BIOME_COLORS } from "../data/biomeColors.js";
+import { BIOME_COLORS } from "../data/biomes.js";
 
 /**
  * Safe biome → color lookup.
