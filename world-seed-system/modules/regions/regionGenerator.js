@@ -285,7 +285,7 @@ export function generateRegions(decoded) {
 
       // Names (assigned after core properties)
       name: null,
-      landmark: null,
+      landmark: null
 
       // Description
       description: buildRegionDescription
