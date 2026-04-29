@@ -1,20 +1,4 @@
-// Biome → Icon mapping
-//const BIOME_ICONS = {
-//  "Tundra": "❄️",
-//  "Alpine": "modules/Geo_Icons/alpine/MountainRange1.png",
-//  "Taiga Forests": "🌲",
-//  "Temperate Forests": "🌳",
-//  "Tropical Forests": "🌴",
-//  "Grassland": "🌾",
-//  "Savanna": "🦒",
-//  "Shrubland": "🌿",
-//  "Desert": "🏜️",
-//  "Wetlands": "🦆",
-//  "Freshwater": "💧",
-//  "Marine": "🌊",
-//  "Coastal": "🏖️",
-//  "Geothermal": "🌋",
-//  "Subsurface": "🕳️"
+
 
 
 // ------------------------------------------------------------
@@ -60,6 +44,25 @@ const BIOME_ICON_PATHS = {
   ]
   // Add more as needed — the system is fully extensible
 };
+
+
+////Biome → Icon mapping
+//const BIOME_ICONS = {
+//  "Tundra": "❄️",
+//  "Alpine": "mount",
+//  "Taiga Forests": "🌲",
+//  "Temperate Forests": "🌳",
+//  "Tropical Forests": "🌴",
+//  "Grassland": "🌾",
+//  "Savanna": "🦒",
+//  "Shrubland": "🌿",
+//  "Desert": "🏜️",
+//  "Wetlands": "🦆",
+//  "Freshwater": "💧",
+//  "Marine": "🌊",
+//  "Coastal": "🏖️",
+//  "Geothermal": "🌋",
+//  "Subsurface": "🕳️"
 
 // ------------------------------------------------------------
 // Deterministic seeded random (per seed + region index)
