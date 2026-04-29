@@ -48,9 +48,9 @@ export function renderClimateNarrative(regions, decoded) {
   }
 
   // --- Tectonic influence on climate ---
-  const tectonic = region.tectonicType;
+  const tectonic = regions[0]?.tectonicType || "unknown";
   let tectonicEffect = "";
-  
+
   switch (tectonic) {
     case "convergent":
       tectonicEffect = "Large mountain ranges create strong rain shadows and distinct climatic divides.";
@@ -67,6 +67,8 @@ export function renderClimateNarrative(regions, decoded) {
     case "craton":
       tectonicEffect = "Stable cratonic interiors experience long‑term climatic consistency.";
       break;
+    default:
+      tectonicEffect = "Tectonic forces shape regional climates in subtle, varied ways.";
   }
 
   container.innerHTML = `
