@@ -10,7 +10,7 @@
 // No region data is required.
 //
 
-import { BIOME_COLORS } from "../data/biomeColors.js";
+import { BIOME_COLORS } from "../data/biomes.js";
 
 /**
  * Render the biome legend into #biomeLegend.
