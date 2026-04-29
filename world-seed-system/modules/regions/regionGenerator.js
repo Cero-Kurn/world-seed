@@ -256,4 +256,96 @@ function pickClimate(latitudeBand, moisture, elevation) {
 }
 
 // ------------------------------------------------------------
-// BI
+// BIOME SELECTION
+// ------------------------------------------------------------
+function pickCanonicalBiome(ctx) {
+  const { latitudeBand, moisture, elevation, specialFeature } = ctx;
+
+  if (specialFeature.includes("Geothermal")) return "Geothermal";
+  if (specialFeature.includes("Subsurface")) return "Subsurface";
+
+  if (elevation.includes("Rift") && (moisture === "Wet" || moisture === "Humid")) {
+    return "Wetlands";
+  }
+
+  if (latitudeBand === "polar") return "Tundra";
+
+  if (latitudeBand === "subpolar") {
+    if (moisture === "Arid") return "Shrubland";
+    return "Taiga Forests";
+  }
+
+  if (latitudeBand === "temperate") {
+    if (moisture === "Arid") return "Shrubland";
+    if (moisture === "Semi-Arid") return "Grassland";
+    return "Temperate Forests";
+  }
+
+  if (latitudeBand === "subtropical") {
+    if (moisture === "Arid") return "Desert";
+    if (moisture === "Semi-Arid") return "Shrubland";
+    return "Savanna";
+  }
+
+  if (moisture === "Arid" || moisture === "Semi-Arid") return "Savanna";
+  return "Tropical Forests";
+}
+
+// ------------------------------------------------------------
+// LANDFORM CLASSIFICATION
+// ------------------------------------------------------------
+function classifyLandform(specialFeature, elevation, biome) {
+  if (specialFeature.includes("Archipelago")) return "Island Chain";
+  if (specialFeature.includes("Rift")) return "Rift Valley";
+  if (specialFeature.includes("Shield")) return "Shield Plateau";
+
+  if (elevation.includes("Mountain")) return "Mountain Belt";
+  if (elevation.includes("Rift")) return "Rifted Basin";
+  if (elevation.includes("Plateau")) return "High Plateau";
+
+  if (biome === "Wetlands") return "Floodplain";
+  if (biome === "Desert") return "Desert Basin";
+
+  return "Mixed Uplands";
+}
+
+// ------------------------------------------------------------
+// ROLE SELECTION
+// ------------------------------------------------------------
+function pickRole(index) {
+  const roles = [
+    "Heartland",
+    "Frontier",
+    "Trade Nexus",
+    "Sacred Ground",
+    "Borderland",
+    "Wilds",
+    "Old Kingdom",
+    "New Colony"
+  ];
+
+  return roles[index % roles.length];
+}
+
+// ------------------------------------------------------------
+// DEFAULT DESCRIPTION
+// ------------------------------------------------------------
+function defaultRegionDescription(ctx) {
+  const {
+    biome,
+    elevation,
+    climatePattern,
+    hemisphere,
+    latitudeBand,
+    tectonicType,
+    specialFeature
+  } = ctx;
+
+  const featurePart = specialFeature
+    ? `marked by ${specialFeature.toLowerCase()}`
+    : "with no singular defining feature";
+
+  return `A ${biome.toLowerCase()} region in the ${hemisphere.toLowerCase()} hemisphere, ` +
+    `within the ${latitudeBand} band, shaped by ${tectonicType.toLowerCase()} tectonics, ` +
+    `set in ${elevation.toLowerCase()} and a ${climatePattern.toLowerCase()} climate, ${featurePart}.`;
+}
