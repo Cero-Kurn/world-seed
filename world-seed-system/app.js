@@ -72,7 +72,6 @@ function renderDecoded(decoded, seedStr) {
       ${block(decoded.cc)}
       ${block(decoded.lm)}
       ${block(decoded.we)}
-      ${block(decoded.tr)}
       ${block(decoded.hy)}
       ${block(decoded.sf)}
     </div>
