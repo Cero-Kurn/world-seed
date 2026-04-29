@@ -1,3 +1,5 @@
+///modules/seed/seedDecoder.js
+///////
 import { CC_TABLE, LM_TABLE, WE_TABLE, TR_TABLE, TR_TECTONIC_TYPE, HY_TABLE, SF_TABLE } from "./lookupTables.js";
 
 export function decodeSeed(seedStr) {
