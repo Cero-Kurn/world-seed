@@ -211,6 +211,33 @@ h2 {
   border-radius: 4px;
   border: 1px solid #222;
 }
+/* ------------------------------------------------------------
+   BIOME HEATMAP + HEX MAP (SVG)
+------------------------------------------------------------ */
+.biome-legend-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.biome-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.biome-swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 1px solid #333;
+}
+
+.biome-label {
+  color: #fff;
+  font-size: 0.95em;
+}
 
 /* ------------------------------------------------------------
    TRADE & MIGRATION
