@@ -388,6 +388,7 @@ function processSeed(seed) {
   renderTectonicMap(regions);
 
   // --- BIOME MAPS ---
+  renderBiomeTendencies();
   renderBiomeHeatmap(regions);
   renderHexMap(regions);
 
