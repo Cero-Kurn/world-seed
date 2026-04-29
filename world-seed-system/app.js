@@ -47,7 +47,6 @@ import { renderBiomeLegend } from "./modules/climate/biomeLegend.js";
 import { renderBiomeTendencies } from "./modules/climate/renderBiomeTendencies.js";
 
 // --- INITIALIZE UI ---
-renderChecklistPanel();
 initCanvasRenderer("hexCanvas");
 
 
@@ -353,6 +352,9 @@ function processSeed(seed) {
   // --- WORLD SIMULATION (NEW PIPELINE) ---
   const world = simulateWorld(decoded);
   const regions = world.regions;
+  
+  // Now safe to render checklist
+  renderChecklistPanel(decoded);
 
   // --- CLIMATE SYSTEMS ---
   renderClimateNarrative(regions, decoded);
