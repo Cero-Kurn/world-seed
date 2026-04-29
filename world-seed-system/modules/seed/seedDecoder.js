@@ -19,16 +19,15 @@ export function decodeSeed(seedStr) {
   };
 
   return {
+    seed: seedStr,   // ⭐ Add this line
     cc: decodePair(cc, CC_TABLE, "Continental Configuration"),
     lm: decodePair(lm, LM_TABLE, "Latitude & Temperature Model"),
     we: decodePair(we, WE_TABLE, "Wind & Rainfall Model"),
-    // ⭐ TECTONICS — now includes tectonicType
     tr: {
       ...decodePair(tr, TR_TABLE, "Tectonic & Elevation Model"),
       tectonicType: TR_TECTONIC_TYPE[tr[0]] || "Craton"
     },
-
     hy: decodePair(hy, HY_TABLE, "Hydrology Model"),
     sf: decodePair(sf, SF_TABLE, "Special Features Model"),
   };
-}
+
