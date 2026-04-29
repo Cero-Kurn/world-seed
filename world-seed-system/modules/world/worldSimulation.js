@@ -1,3 +1,5 @@
+console.log("simulateWorld received:", decodedSeed);
+
 // modules/world/worldSimulation.js
 // ------------------------------------------------------------
 // World Simulation Orchestrator (canonical biome system)
