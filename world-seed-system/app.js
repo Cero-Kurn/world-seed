@@ -355,6 +355,7 @@ function processSeed(seed) {
   
   // Now safe to render checklist
   renderChecklistPanel(decoded);
+  renderAtlasFullCards(regions);
 
   // --- CLIMATE SYSTEMS ---
   renderClimateNarrative(regions, decoded);
