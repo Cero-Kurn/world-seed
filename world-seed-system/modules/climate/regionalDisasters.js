@@ -1,12 +1,27 @@
 // ---REGIONAL DISASTERS
 export function renderRegionalDisasters(regions, decoded) {
   const container = document.getElementById("regionalDisasters");
-
   const wind = decoded.we.primary.toLowerCase();
 
   function detectDisasters(r) {
     const events = [];
     const notes = [];
+
+    // --- derive elevation tier ---
+    const elevRaw = r.elevation.toLowerCase();
+    const elev =
+      /mountain|highland|plateau|upland/.test(elevRaw) ? "high" :
+      /lowland|basin|plain/.test(elevRaw) ? "low" :
+      "mid";
+
+    // --- derive moisture tier ---
+    const moistRaw = r.moisture.toLowerCase();
+    const moist =
+      /wet|humid/.test(moistRaw) ? "wet" :
+      /arid|semi/.test(moistRaw) ? "dry" :
+      "normal";
+
+    const lat = r.latitudeBand; // already lowercase
 
     // ----------------------------------------------------
     // EARTHQUAKES (Transform + Convergent)
@@ -28,7 +43,7 @@ export function renderRegionalDisasters(regions, decoded) {
     // MEGASTORMS (Storm belts + wet regions)
     // ----------------------------------------------------
     if (wind.includes("storm") || wind.includes("cyclone") || wind.includes("hurricane")) {
-      if (r.moisture === "Wet") {
+      if (moist === "wet") {
         events.push("Megastorm Potential");
         notes.push("Warm, moist air and unstable winds can generate powerful storm systems.");
       }
@@ -37,7 +52,7 @@ export function renderRegionalDisasters(regions, decoded) {
     // ----------------------------------------------------
     // FLASH FLOODS (Wet + Lowlands)
     // ----------------------------------------------------
-    if (r.moisture === "Wet" && r.elevation === "Lowlands") {
+    if (moist === "wet" && elev === "low") {
       events.push("Flash Flood Risk");
       notes.push("Heavy rainfall can overwhelm low‑lying basins.");
     }
@@ -45,7 +60,7 @@ export function renderRegionalDisasters(regions, decoded) {
     // ----------------------------------------------------
     // DROUGHT COLLAPSES (Dry + Subtropical)
     // ----------------------------------------------------
-    if (r.moisture === "Dry" && r.latitudeBand === "Subtropical") {
+    if (moist === "dry" && lat === "subtropical") {
       events.push("Drought Conditions");
       notes.push("Extended dry periods may stress ecosystems and water supplies.");
     }
@@ -53,7 +68,7 @@ export function renderRegionalDisasters(regions, decoded) {
     // ----------------------------------------------------
     // BLIZZARD EVENTS (Polar + High elevation)
     // ----------------------------------------------------
-    if (r.latitudeBand === "Polar" || r.elevation.includes("High")) {
+    if (lat === "polar" || elev === "high") {
       events.push("Blizzard Events");
       notes.push("Cold air masses can produce severe snowstorms during winter seasons.");
     }
