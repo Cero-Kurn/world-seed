@@ -1,6 +1,4 @@
 // --- Regional Weather
-
-
 export function renderRegionalWeather(regions, decoded) {
   const container = document.getElementById("regionalWeather");
   const wind = decoded.we.primary.toLowerCase();
@@ -9,11 +7,27 @@ export function renderRegionalWeather(regions, decoded) {
     const events = [];
     const notes = [];
 
+    // --- derive elevation tier ---
+    const elevRaw = r.elevation.toLowerCase();
+    const elev =
+      /mountain|highland|plateau|upland/.test(elevRaw) ? "high" :
+      /lowland|basin|plain/.test(elevRaw) ? "low" :
+      "mid";
+
+    // --- derive moisture tier ---
+    const moistRaw = r.moisture.toLowerCase();
+    const moist =
+      /wet|humid/.test(moistRaw) ? "wet" :
+      /arid|semi/.test(moistRaw) ? "dry" :
+      "normal";
+
+    const lat = r.latitudeBand; // already lowercase
+
     // ----------------------------------------------------
     // SUPER‑STORMS & CYCLONES
     // ----------------------------------------------------
     if (wind.includes("storm") || wind.includes("cyclone") || wind.includes("hurricane")) {
-      if (r.moisture === "Wet") {
+      if (moist === "wet") {
         events.push("Super‑Storms");
         notes.push("Moist air and unstable winds fuel powerful rotating storm systems.");
       }
@@ -22,7 +36,7 @@ export function renderRegionalWeather(regions, decoded) {
     // ----------------------------------------------------
     // MONSOON SURGES
     // ----------------------------------------------------
-    if (wind.includes("monsoon") && r.latitudeBand === "Tropical") {
+    if (wind.includes("monsoon") && lat === "tropical") {
       events.push("Monsoon Surges");
       notes.push("Seasonal wind reversals bring intense rainfall and flooding.");
     }
@@ -30,7 +44,7 @@ export function renderRegionalWeather(regions, decoded) {
     // ----------------------------------------------------
     // BLIZZARDS
     // ----------------------------------------------------
-    if (r.latitudeBand === "Polar" || (r.latitudeBand === "Temperate" && r.elevation.includes("High"))) {
+    if (lat === "polar" || (lat === "temperate" && elev === "high")) {
       events.push("Blizzards");
       notes.push("Cold air masses and elevation combine to produce severe snowstorms.");
     }
@@ -38,7 +52,7 @@ export function renderRegionalWeather(regions, decoded) {
     // ----------------------------------------------------
     // HEAT WAVES
     // ----------------------------------------------------
-    if (r.moisture === "Dry" && (r.latitudeBand === "Subtropical" || r.latitudeBand === "Tropical")) {
+    if (moist === "dry" && (lat === "subtropical" || lat === "tropical")) {
       events.push("Heat Waves");
       notes.push("High pressure and dry air create prolonged periods of extreme heat.");
     }
@@ -46,7 +60,7 @@ export function renderRegionalWeather(regions, decoded) {
     // ----------------------------------------------------
     // COLD SNAPS
     // ----------------------------------------------------
-    if (r.latitudeBand === "Temperate" && r.hemisphere === "Northern") {
+    if (lat === "temperate" && r.hemisphere === "Northern") {
       events.push("Cold Snaps");
       notes.push("Polar air occasionally plunges southward, causing sudden freezes.");
     }
@@ -54,7 +68,7 @@ export function renderRegionalWeather(regions, decoded) {
     // ----------------------------------------------------
     // FOG SEASONS
     // ----------------------------------------------------
-    if (r.moisture === "Moderate" && r.elevation.includes("Low")) {
+    if (moist === "normal" && elev === "low") {
       events.push("Fog Seasons");
       notes.push("Temperature inversions trap moisture, creating seasonal fog banks.");
     }
