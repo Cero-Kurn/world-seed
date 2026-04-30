@@ -1,18 +1,32 @@
-// ---Climate Extremes ---
-
+// ---Regional Climate Extremes ---
 export function renderRegionalClimateExtremes(regions, decoded) {
   const container = document.getElementById("regionalClimateExtremes");
-
   const wind = decoded.we.primary.toLowerCase();
 
   function detectExtremes(r) {
     const tags = [];
     const notes = [];
 
+    // --- derive elevation tier ---
+    const elevRaw = r.elevation.toLowerCase();
+    const elev =
+      /mountain|highland|plateau|upland/.test(elevRaw) ? "high" :
+      /lowland|basin|plain/.test(elevRaw) ? "low" :
+      "mid";
+
+    // --- derive moisture tier ---
+    const moistRaw = r.moisture.toLowerCase();
+    const moist =
+      /wet|humid/.test(moistRaw) ? "wet" :
+      /arid|semi/.test(moistRaw) ? "dry" :
+      "normal";
+
+    const lat = r.latitudeBand; // already lowercase
+
     // ----------------------------------------------------
     // HEAT DOMES
     // ----------------------------------------------------
-    if (r.latitudeBand === "Subtropical" && r.moisture === "Dry") {
+    if (lat === "subtropical" && moist === "dry") {
       tags.push("Heat Dome");
       notes.push("High‑pressure stagnation traps heat, creating extreme temperature spikes.");
     }
@@ -20,7 +34,7 @@ export function renderRegionalClimateExtremes(regions, decoded) {
     // ----------------------------------------------------
     // POLAR VORTEX DROPS
     // ----------------------------------------------------
-    if (r.latitudeBand === "Temperate" && r.hemisphere === "Northern") {
+    if (lat === "temperate" && r.hemisphere === "Northern") {
       tags.push("Polar Vortex Drops");
       notes.push("Cold polar air occasionally collapses southward, causing sudden freezes.");
     }
@@ -29,7 +43,7 @@ export function renderRegionalClimateExtremes(regions, decoded) {
     // SUPER‑STORM TRACKS
     // ----------------------------------------------------
     if (wind.includes("storm") || wind.includes("cyclone") || wind.includes("hurricane")) {
-      if (r.moisture === "Wet") {
+      if (moist === "wet") {
         tags.push("Super‑Storm Track");
         notes.push("Moist air and unstable winds fuel powerful storm systems.");
       }
@@ -38,7 +52,7 @@ export function renderRegionalClimateExtremes(regions, decoded) {
     // ----------------------------------------------------
     // FLASH‑FLOOD BASINS
     // ----------------------------------------------------
-    if (r.moisture === "Wet" && r.elevation === "Lowlands") {
+    if (moist === "wet" && elev === "low") {
       tags.push("Flash‑Flood Basin");
       notes.push("Low‑lying terrain channels sudden rainfall into rapid flooding.");
     }
@@ -46,7 +60,7 @@ export function renderRegionalClimateExtremes(regions, decoded) {
     // ----------------------------------------------------
     // HYPER‑DROUGHT ZONES
     // ----------------------------------------------------
-    if (r.moisture === "Dry" && r.elevation.includes("High")) {
+    if (moist === "dry" && elev === "high") {
       tags.push("Hyper‑Drought Zone");
       notes.push("High elevation and dry winds create long‑term drought conditions.");
     }
@@ -54,7 +68,7 @@ export function renderRegionalClimateExtremes(regions, decoded) {
     // ----------------------------------------------------
     // COLD‑CURRENT FOGLANDS
     // ----------------------------------------------------
-    if (r.moisture === "Moderate" && r.latitudeBand === "Temperate") {
+    if (moist === "normal" && lat === "temperate") {
       tags.push("Cold‑Current Foglands");
       notes.push("Cold offshore currents generate persistent coastal fog.");
     }
@@ -111,4 +125,3 @@ export function renderRegionalClimateExtremes(regions, decoded) {
     ${entries}
   `;
 }
-
