@@ -35,6 +35,37 @@ export function initCanvasRenderer(canvasId) {
   canvas.addEventListener("wheel", onWheel, { passive: false });
 }
 
+/**
+ * Generate a world hex grid using axial coordinates.
+ * Each hex is assigned to a region by regionId.
+ */
+export function generateHexGrid(regions) {
+  const cols = 40;
+  const rows = 25;
+
+  const hexGrid = [];
+  let regionIndex = 0;
+
+  for (let r = 0; r < rows; r++) {
+    for (let q = 0; q < cols; q++) {
+      hexGrid.push({
+        q,
+        r,
+        regionId: regions[regionIndex % regions.length].id
+      });
+      regionIndex++;
+    }
+  }
+
+  return hexGrid;
+}
+
+/**
+ * Render the hex world map.
+ *
+ * @param {Array} hexMap - array of { q, r, regionId }
+ * @param {Array} regions - region objects
+ */
 export function renderHexWorld(hexMap, regions) {
   if (!ctx || !canvas) return;
 
@@ -57,35 +88,6 @@ export function renderHexWorld(hexMap, regions) {
 
 export function setHighlightedRegion(regionId) {
   highlightedRegionId = regionId;
-}
-
-// ------------------------------------------------------------
-// PUBLIC: Generate a hex grid for the world
-// ------------------------------------------------------------
-export function generateHexGrid(regions) {
-  const cols = 40;
-  const rows = 25;
-
-  const hexGrid = [];
-  let regionIndex = 0;
-
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      hexGrid.push({
-        q,
-        r,
-        regionId: regions[regionIndex % regions.length].id
-      });
-      regionIndex++;
-    }
-  }
-
-  return hexGrid;
-}
-
-  const zoomFactor = 1.1;
-  const delta = e.deltaY < 0 ? zoomFactor : 1 / zoomFactor;
-  camera.zoom = Math.max(0.3, Math.min(3, camera.zoom * delta));
 }
 
 // ------------------------------------------------------------
@@ -154,5 +156,7 @@ function onMouseUp() {
 
 function onWheel(e) {
   e.preventDefault();
-
-
+  const zoomFactor = 1.1;
+  const delta = e.deltaY < 0 ? zoomFactor : 1 / zoomFactor;
+  camera.zoom = Math.max(0.3, Math.min(3, camera.zoom * delta));
+}
