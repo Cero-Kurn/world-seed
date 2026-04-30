@@ -17,8 +17,9 @@ import { renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
 
 
 // NEW: Canvas Renderer
-import { initCanvasRenderer, renderHexWorld } from "./modules/maps/canvasRenderer.js";
-import { generateHexMap } from "./modules/maps/hexMap.js";
+import { initCanvasRenderer, renderHexWorld, generateHexGrid } from "./modules/maps/canvasRenderer.js";
+
+
 
 // World Engine
 import { simulateWorld } from "./modules/world/worldSimulation.js";
@@ -398,8 +399,8 @@ function processSeed(seed) {
   renderHexMap(regions);
 
   // --- NEW: CANVAS HEX WORLD ---
-  const hexMap = generateHexMap(decoded);
-  renderHexWorld(hexMap, regions);
+  const hexGrid = generateHexGrid(regions);
+  renderHexWorld(hexGrid, regions);
 }
 
 
