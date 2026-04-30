@@ -66,7 +66,14 @@ export function generateRegions(decoded, options = {}) {
   for (let i = 0; i < REGION_COUNT; i++) {
     const hemisphere = pickHemisphere(i);
     const latitudeBand = pickLatitudeBand(hemisphere, i, latitudeModel);
-    const tectonicType = pickTectonicType(latitudeBand, i);
+    const tectonicCounts = regions.reduce((acc, r) => {
+      acc[r.tectonicType] = (acc[r.tectonicType] || 0) + 1;
+      return acc;
+    }, {});
+    
+    const tectonicType = Object.entries(tectonicCounts)
+      .sort((a, b) => b[1] - a[1])[0][0];
+
 
     const elevation = pickElevation(tectonicType, i);
     const moisture = pickMoisture(windModel, hydrologyModel, latitudeBand, i);
