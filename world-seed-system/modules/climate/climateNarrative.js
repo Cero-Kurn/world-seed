@@ -60,9 +60,10 @@ export function renderClimateNarrative(regions, decoded) {
   // ------------------------------------------------------------
   // 2. GLOBAL TECTONIC SUMMARY (region-driven)
   // ------------------------------------------------------------
-  const tectonics = regions.map(r => r.tectonicType);
-  const counts = {};
-  tectonics.forEach(t => counts[t] = (counts[t] || 0) + 1);
+  const counts = regions.reduce((acc, r) => {
+    acc[r.tectonicType] = (acc[r.tectonicType] || 0) + 1;
+    return acc;
+  }, {});
 
   const dominant = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || "unknown";
 
@@ -94,10 +95,19 @@ export function renderClimateNarrative(regions, decoded) {
   // ------------------------------------------------------------
   const regionProfiles = regions.map((r, i) => {
     const biome = r.biome;
-    const elev = r.elevationTier;
-    const moist = r.moistureLevel;
+    const elevRaw = r.elevation || "";
+    const moistRaw = r.moisture || "";
     const latBand = r.latitudeBand;
     const tect = r.tectonicType;
+
+    // Derive simple tiers from detailed strings
+    const elev = /mountain|highland|plateau|upland/i.test(elevRaw) ? "high"
+               : /lowland|basin|plain/i.test(elevRaw) ? "low"
+               : "mid";
+
+    const moist = /wet|humid/i.test(moistRaw) ? "wet"
+                : /arid|semi-arid/i.test(moistRaw) ? "dry"
+                : "normal";
 
     let line1 = `Region ${i + 1} — ${biome}.`;
     let line2 = "";
@@ -123,6 +133,10 @@ export function renderClimateNarrative(regions, decoded) {
       line2 += " Its temperate latitude produces seasonal variability.";
     } else if (latBand === "polar") {
       line2 += " Its polar latitude keeps temperatures low and seasons extreme.";
+    } else if (latBand === "subtropical") {
+      line2 += " Its subtropical latitude balances strong insolation with seasonal shifts.";
+    } else if (latBand === "subpolar") {
+      line2 += " Its subpolar latitude sits at the edge of persistent cold influence.";
     }
 
     // Tectonics
@@ -159,7 +173,7 @@ export function renderClimateNarrative(regions, decoded) {
   `;
 
   // ------------------------------------------------------------
-  // BUILD COLLAPSIBLE UI (Option B)
+  // BUILD COLLAPSIBLE UI
   // ------------------------------------------------------------
   container.innerHTML = `
     <h3>🌡 Climate Narrative</h3>
