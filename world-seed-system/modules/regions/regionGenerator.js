@@ -50,13 +50,7 @@
  * @param {RegionGenerationOptions} [options]
  * @returns {Region[]}
  */
-function pickLatitudeBand(hemisphere, index, latitudeModel) {
-  const bands = ["polar", "subpolar", "temperate", "subtropical", "tropical"];
 
-  // ⭐ SAFETY GUARD
-  if (typeof latitudeModel !== "string") {
-    latitudeModel = "";
-  }
 
   let offset = 0;
   if (latitudeModel.includes("E")) offset = 1;
