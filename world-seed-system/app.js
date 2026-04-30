@@ -1,3 +1,5 @@
+//world-seed-system/app.js
+
 // --- IMPORT MODULES ---
 
 // Seed engine
@@ -355,7 +357,7 @@ function processSeed(seed) {
   
   // Now safe to render checklist
   renderChecklistPanel(decoded);
-  renderAtlasFullCards(regions);
+  renderAtlasFullCards(regions, decoded);
 
   // --- CLIMATE SYSTEMS ---
   renderClimateNarrative(regions, decoded);
