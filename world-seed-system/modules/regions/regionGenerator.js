@@ -43,22 +43,9 @@
  * @property {(ctx: any) => string} [buildRegionDescription]
  */
 
-/**
- * Generate all regions for a world.
- *
- * @param {DecodedSeed} decoded
- * @param {RegionGenerationOptions} [options]
- * @returns {Region[]}
- */
-
-
-  let offset = 0;
-  if (latitudeModel.includes("E")) offset = 1;
-  if (latitudeModel.includes("P")) offset = -1;
-
-  const base = index + (hemisphere === "Northern" ? 0 : 2) + offset;
-  const idx = ((base % bands.length) + bands.length) % bands.length;
-
+// ------------------------------------------------------------
+// MAIN GENERATOR
+// ------------------------------------------------------------
 export function generateRegions(decoded, options = {}) {
   const regions = [];
 
@@ -75,14 +62,7 @@ export function generateRegions(decoded, options = {}) {
   for (let i = 0; i < REGION_COUNT; i++) {
     const hemisphere = pickHemisphere(i);
     const latitudeBand = pickLatitudeBand(hemisphere, i, latitudeModel);
-    const tectonicCounts = regions.reduce((acc, r) => {
-      acc[r.tectonicType] = (acc[r.tectonicType] || 0) + 1;
-      return acc;
-    }, {});
-    
-    const tectonicType = Object.entries(tectonicCounts)
-      .sort((a, b) => b[1] - a[1])[0][0];
-
+    const tectonicType = pickTectonicType(latitudeBand, i);
 
     const elevation = pickElevation(tectonicType, i);
     const moisture = pickMoisture(windModel, hydrologyModel, latitudeBand, i);
@@ -112,11 +92,9 @@ export function generateRegions(decoded, options = {}) {
       specialFeature,
       landform,
 
-      // Naming hooks
       name: null,
       landmark: null,
 
-      // Description
       description: buildRegionDescription({
         biome,
         elevation,
@@ -165,7 +143,7 @@ function pickHemisphere(index) {
 function pickLatitudeBand(hemisphere, index, latitudeModel) {
   const bands = ["polar", "subpolar", "temperate", "subtropical", "tropical"];
 
-  // ⭐ SAFETY GUARD
+  // Safety guard
   if (typeof latitudeModel !== "string") {
     latitudeModel = "";
   }
@@ -177,9 +155,8 @@ function pickLatitudeBand(hemisphere, index, latitudeModel) {
   const base = index + (hemisphere === "Northern" ? 0 : 2) + offset;
   const idx = ((base % bands.length) + bands.length) % bands.length;
 
-  return bands[idx] || "temperate"; // ⭐ fallback
+  return bands[idx] || "temperate";
 }
-
 
 // ------------------------------------------------------------
 // TECTONICS
