@@ -40,9 +40,9 @@ import { BIOME_COLORS } from "../data/biomes.js";
 // ------------------------------------------------------------
 const BIOME_ICON_PATHS = {
   "Alpine": [
-    "modules/Geo_Icons/biomes/alpine/Alpine_01.png",
-    "modules/Geo_Icons/biomes/alpine/Alpine_02.png",
-    "modules/Geo_Icons/biomes/alpine/Alpine_03.png"
+    "modules/Geo_Icons/biomes/alpine/Mountain1.png",
+    "modules/Geo_Icons/biomes/alpine/Mountain2.png",
+    "modules/Geo_Icons/biomes/alpine/Mountain3.png"
   ],
   "Desert": [
     "modules/Geo_Icons/biomes/desert/Desert_01.png",
