@@ -9,16 +9,16 @@
 // ------------------------------------------------------------
 ////Biome → Icon mapping
 //const BIOME_ICONS = {
-/  "Tundra": "❄️",
+//  "Tundra": "❄️",
 //  "Alpine": "🏔️",
 //  "Taiga Forests": "🌲",
 //  "Temperate Forests": "🌳",
 //  "Tropical Forests": "🌴",
 //  "Grassland": "🌾",
-//  "Savanna": "🦒",
-//  "Shrubland": "🌿",
+//  "Savanna": "🦓",
+//  "Shrubland": "🌵",
 //  "Desert": "🏜️",
-//  "Wetlands": "🦆",
+//  "Wetlands": "🌿",
 //  "Freshwater": "💧",
 //  "Marine": "🌊",
 //  "Coastal": "🏖️",
