@@ -8,56 +8,73 @@ export function renderMicroClimates(regions, decoded) {
     const tags = [];
     const notes = [];
 
+    // --- derive elevation tier ---
+    const elevRaw = r.elevation.toLowerCase();
+    const elev =
+      /mountain|highland|plateau|upland/.test(elevRaw) ? "high" :
+      /lowland|basin|plain/.test(elevRaw) ? "low" :
+      "mid";
+
+    // --- derive moisture tier ---
+    const moistRaw = r.moisture.toLowerCase();
+    const moist =
+      /wet|humid/.test(moistRaw) ? "wet" :
+      /arid|semi/.test(moistRaw) ? "dry" :
+      "normal";
+
+    const lat = r.latitudeBand; // already lowercase
+    const tect = r.tectonicType; // already lowercase
+
     // --- Fog Belts ---
-    if (r.moisture === "Wet" && r.elevation.includes("High")) {
+    if (moist === "wet" && elev === "high") {
       tags.push("Fog Belt");
       notes.push("Moist air condenses along high slopes, forming persistent fog.");
     }
 
     // --- Cloud Forests ---
-    if (r.latitudeBand === "Tropical" && r.elevation.includes("High")) {
+    if (lat === "tropical" && elev === "high") {
       tags.push("Cloud Forest");
       notes.push("Warm, humid air rises into cooler elevations, creating cloud‑soaked forests.");
     }
 
     // --- Geothermal Zones ---
-    if (r.tectonicType === "hotspot") {
+    if (tect === "hotspot") {
       tags.push("Geothermal Zone");
       notes.push("Volcanic heat drives geysers, hot springs, and warm micro‑climates.");
     }
 
     // --- Rift Valley Heat Traps ---
-    if (r.tectonicType === "divergent") {
+    if (tect === "divergent") {
       tags.push("Rift Heat Trap");
       notes.push("Low‑lying rift basins accumulate heat and moisture.");
     }
 
     // --- Rain Shadow Deserts ---
-    if (r.elevation.includes("Mountain") && r.moisture === "Dry") {
+    if (elev === "high" && moist === "dry") {
       tags.push("Rain Shadow Desert");
       notes.push("Mountains block moist winds, creating dry leeward climates.");
     }
 
     // --- Monsoon Corridors ---
-    if (wind.includes("monsoon") && r.latitudeBand === "Tropical") {
+    if (wind.includes("monsoon") && lat === "tropical") {
       tags.push("Monsoon Corridor");
       notes.push("Seasonal wind reversals bring intense wet‑dry cycles.");
     }
 
     // --- Polar Katabatic Winds ---
-    if (r.latitudeBand === "Polar") {
+    if (lat === "polar") {
       tags.push("Katabatic Winds");
       notes.push("Cold, dense air flows downslope, creating fierce local winds.");
     }
 
     // --- Fault‑Driven Microclimates ---
-    if (r.tectonicType === "transform") {
+    if (tect === "transform") {
       tags.push("Faultline Microclimate");
       notes.push("Broken terrain creates pockets of unusual temperature and moisture.");
     }
 
     // --- Craton Stability ---
-    if (r.tectonicType === "craton") {
+    if (tect === "craton") {
       tags.push("Stable Climate Pocket");
       notes.push("Ancient crust produces long‑term climatic stability.");
     }
