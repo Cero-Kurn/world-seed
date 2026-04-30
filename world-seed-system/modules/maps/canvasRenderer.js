@@ -60,6 +60,35 @@ export function setHighlightedRegion(regionId) {
 }
 
 // ------------------------------------------------------------
+// PUBLIC: Generate a hex grid for the world
+// ------------------------------------------------------------
+export function generateHexGrid(regions) {
+  const cols = 40;
+  const rows = 25;
+
+  const hexGrid = [];
+  let regionIndex = 0;
+
+  for (let r = 0; r < rows; r++) {
+    for (let q = 0; q < cols; q++) {
+      hexGrid.push({
+        q,
+        r,
+        regionId: regions[regionIndex % regions.length].id
+      });
+      regionIndex++;
+    }
+  }
+
+  return hexGrid;
+}
+
+  const zoomFactor = 1.1;
+  const delta = e.deltaY < 0 ? zoomFactor : 1 / zoomFactor;
+  camera.zoom = Math.max(0.3, Math.min(3, camera.zoom * delta));
+}
+
+// ------------------------------------------------------------
 // INTERNAL: HEX DRAWING
 // ------------------------------------------------------------
 function axialToPixel(q, r) {
@@ -127,31 +156,3 @@ function onWheel(e) {
   e.preventDefault();
 
 
-  // ------------------------------------------------------------
-// PUBLIC: Generate a hex grid for the world
-// ------------------------------------------------------------
-export function generateHexGrid(regions) {
-  const cols = 40;
-  const rows = 25;
-
-  const hexGrid = [];
-  let regionIndex = 0;
-
-  for (let r = 0; r < rows; r++) {
-    for (let q = 0; q < cols; q++) {
-      hexGrid.push({
-        q,
-        r,
-        regionId: regions[regionIndex % regions.length].id
-      });
-      regionIndex++;
-    }
-  }
-
-  return hexGrid;
-}
-
-  const zoomFactor = 1.1;
-  const delta = e.deltaY < 0 ? zoomFactor : 1 / zoomFactor;
-  camera.zoom = Math.max(0.3, Math.min(3, camera.zoom * delta));
-}
