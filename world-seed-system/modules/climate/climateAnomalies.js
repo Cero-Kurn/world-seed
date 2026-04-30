@@ -4,7 +4,14 @@ export function renderClimateAnomalies(regions, decoded) {
   const lat = decoded.lm.primary.toLowerCase();
   const wind = decoded.we.primary.toLowerCase();
   const hydro = decoded.hy.primary.toLowerCase();
-  const tectonicType = pickTectonicType();
+  // ⭐ Determine dominant tectonic type globally
+  const tectonicCounts = regions.reduce((acc, r) => {
+    acc[r.tectonicType] = (acc[r.tectonicType] || 0) + 1;
+    return acc;
+  }, {});
+
+  const tectonicType = Object.entries(tectonicCounts)
+    .sort((a, b) => b[1] - a[1])[0][0]; // most common tectonic type
 
   const anomalies = [];
 
@@ -101,7 +108,7 @@ export function renderClimateAnomalies(regions, decoded) {
   // ----------------------------------------------------
   // TECTONIC CLIMATE ANOMALIES
   // ----------------------------------------------------
-  switch (tectonic) {
+  switch (tectonicType) {
     case "convergent":
       anomalies.push({
         name: "Orographic Climate Walls",
