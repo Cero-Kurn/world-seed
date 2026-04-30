@@ -9,8 +9,8 @@
 // ------------------------------------------------------------
 ////Biome → Icon mapping
 //const BIOME_ICONS = {
-//  "Tundra": "❄️",
-//  "Alpine": "mount",
+/  "Tundra": "❄️",
+//  "Alpine": "🏔️",
 //  "Taiga Forests": "🌲",
 //  "Temperate Forests": "🌳",
 //  "Tropical Forests": "🌴",
