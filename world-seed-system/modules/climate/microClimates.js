@@ -1,6 +1,6 @@
 // ---MicroClimate ---
 export function renderMicroClimates(regions, decoded) {
-  const container = document.getElementById("microClimate");
+  const container = document.getElementById("microClimates");
 
   const wind = decoded.we.primary.toLowerCase();
 
