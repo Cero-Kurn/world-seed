@@ -50,6 +50,25 @@
  * @param {RegionGenerationOptions} [options]
  * @returns {Region[]}
  */
+function pickLatitudeBand(hemisphere, index, latitudeModel) {
+  const bands = ["polar", "subpolar", "temperate", "subtropical", "tropical"];
+
+  // ⭐ SAFETY GUARD
+  if (typeof latitudeModel !== "string") {
+    latitudeModel = "";
+  }
+
+  let offset = 0;
+  if (latitudeModel.includes("E")) offset = 1;
+  if (latitudeModel.includes("P")) offset = -1;
+
+  const base = index + (hemisphere === "Northern" ? 0 : 2) + offset;
+  const idx = ((base % bands.length) + bands.length) % bands.length;
+
+  return bands[idx] || "temperate"; // ⭐ fallback
+}
+
+
 export function generateRegions(decoded, options = {}) {
   const regions = [];
 
@@ -156,6 +175,11 @@ function pickHemisphere(index) {
 function pickLatitudeBand(hemisphere, index, latitudeModel) {
   const bands = ["polar", "subpolar", "temperate", "subtropical", "tropical"];
 
+  // ⭐ SAFETY GUARD
+  if (typeof latitudeModel !== "string") {
+    latitudeModel = "";
+  }
+
   let offset = 0;
   if (latitudeModel.includes("E")) offset = 1;
   if (latitudeModel.includes("P")) offset = -1;
@@ -163,8 +187,9 @@ function pickLatitudeBand(hemisphere, index, latitudeModel) {
   const base = index + (hemisphere === "Northern" ? 0 : 2) + offset;
   const idx = ((base % bands.length) + bands.length) % bands.length;
 
-  return bands[idx];
+  return bands[idx] || "temperate"; // ⭐ fallback
 }
+
 
 // ------------------------------------------------------------
 // TECTONICS
