@@ -18,6 +18,7 @@ import { renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
 
 // NEW: Canvas Renderer
 import { initCanvasRenderer, renderHexWorld } from "./modules/maps/canvasRenderer.js";
+import { generateHexMap } from "./modules/maps/hexMap.js";
 
 // World Engine
 import { simulateWorld } from "./modules/world/worldSimulation.js";
