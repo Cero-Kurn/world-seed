@@ -59,10 +59,6 @@
   const base = index + (hemisphere === "Northern" ? 0 : 2) + offset;
   const idx = ((base % bands.length) + bands.length) % bands.length;
 
-  return bands[idx] || "temperate"; // ⭐ fallback
-}
-
-
 export function generateRegions(decoded, options = {}) {
   const regions = [];
 
