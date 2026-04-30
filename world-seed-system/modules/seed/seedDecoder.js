@@ -8,7 +8,13 @@ export function decodeSeed(seedStr) {
     throw new Error("Seed must have 6 parts: CC-LM-WE-TR-HY-SF");
   }
 
+  // ⭐ NEW VALIDATION
+  if (parts.some(p => p.length < 2)) {
+    throw new Error("Each seed segment must be 2 characters (e.g., 6A-2B-51-3A-4C-09)");
+  }
+
   const [cc, lm, we, tr, hy, sf] = parts;
+
 
   const decodePair = (pair, table, label) => {
     const a = pair[0];
