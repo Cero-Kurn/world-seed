@@ -1,9 +1,11 @@
 // ---CLIMATE ANOMALIES ---
 export function renderClimateAnomalies(regions, decoded) {
   const container = document.getElementById("climateAnomalies");
+
   const lat = decoded.lm.primary.toLowerCase();
   const wind = decoded.we.primary.toLowerCase();
   const hydro = decoded.hy.primary.toLowerCase();
+
   // ⭐ Determine dominant tectonic type globally
   const tectonicCounts = regions.reduce((acc, r) => {
     acc[r.tectonicType] = (acc[r.tectonicType] || 0) + 1;
@@ -11,12 +13,12 @@ export function renderClimateAnomalies(regions, decoded) {
   }, {});
 
   const tectonicType = Object.entries(tectonicCounts)
-    .sort((a, b) => b[1] - a[1])[0][0]; // most common tectonic type
+    .sort((a, b) => b[1] - a[1])[0][0];
 
   const anomalies = [];
 
   // ----------------------------------------------------
-  // MONSOON BELTS
+  // SEED‑DRIVEN ANOMALIES (your originals)
   // ----------------------------------------------------
   if (wind.includes("monsoon") || wind.includes("seasonally reversing")) {
     anomalies.push({
@@ -25,9 +27,6 @@ export function renderClimateAnomalies(regions, decoded) {
     });
   }
 
-  // ----------------------------------------------------
-  // HEAT DOMES
-  // ----------------------------------------------------
   if (lat.includes("hot") || lat.includes("greenhouse") || lat.includes("heat")) {
     anomalies.push({
       name: "Heat Dome Zones",
@@ -35,9 +34,6 @@ export function renderClimateAnomalies(regions, decoded) {
     });
   }
 
-  // ----------------------------------------------------
-  // COLD OCEAN CURRENTS
-  // ----------------------------------------------------
   if (lat.includes("cold") || hydro.includes("glacial")) {
     anomalies.push({
       name: "Cold Ocean Currents",
@@ -45,9 +41,6 @@ export function renderClimateAnomalies(regions, decoded) {
     });
   }
 
-  // ----------------------------------------------------
-  // WARM OCEAN CURRENTS
-  // ----------------------------------------------------
   if (lat.includes("hot") || hydro.includes("lake") || hydro.includes("wetland")) {
     anomalies.push({
       name: "Warm Ocean Currents",
@@ -55,9 +48,6 @@ export function renderClimateAnomalies(regions, decoded) {
     });
   }
 
-  // ----------------------------------------------------
-  // POLAR VORTEX ZONES
-  // ----------------------------------------------------
   if (lat.includes("cold") || lat.includes("ice")) {
     anomalies.push({
       name: "Polar Vortex Zones",
@@ -65,9 +55,6 @@ export function renderClimateAnomalies(regions, decoded) {
     });
   }
 
-  // ----------------------------------------------------
-  // JET STREAM BREAKS
-  // ----------------------------------------------------
   if (wind.includes("jet") || wind.includes("instability")) {
     anomalies.push({
       name: "Jet‑Stream Breaks",
@@ -75,9 +62,6 @@ export function renderClimateAnomalies(regions, decoded) {
     });
   }
 
-  // ----------------------------------------------------
-  // STORM CORRIDORS
-  // ----------------------------------------------------
   if (wind.includes("storm") || wind.includes("cyclone") || wind.includes("hurricane")) {
     anomalies.push({
       name: "Storm Corridors",
@@ -85,9 +69,6 @@ export function renderClimateAnomalies(regions, decoded) {
     });
   }
 
-  // ----------------------------------------------------
-  // DESERTIFICATION BELTS
-  // ----------------------------------------------------
   if (wind.includes("dry") || hydro.includes("arid") || hydro.includes("dried")) {
     anomalies.push({
       name: "Desertification Belts",
@@ -95,9 +76,6 @@ export function renderClimateAnomalies(regions, decoded) {
     });
   }
 
-  // ----------------------------------------------------
-  // HUMIDITY CONVERGENCE ZONES
-  // ----------------------------------------------------
   if (wind.includes("moist") || hydro.includes("wetland") || hydro.includes("river")) {
     anomalies.push({
       name: "Humidity Convergence Zones",
@@ -106,7 +84,7 @@ export function renderClimateAnomalies(regions, decoded) {
   }
 
   // ----------------------------------------------------
-  // TECTONIC CLIMATE ANOMALIES
+  // TECTONIC CLIMATE ANOMALIES (your originals)
   // ----------------------------------------------------
   switch (tectonicType) {
     case "convergent":
@@ -146,6 +124,56 @@ export function renderClimateAnomalies(regions, decoded) {
   }
 
   // ----------------------------------------------------
+  // ⭐ REGION‑DRIVEN ANOMALIES (NEW + IMPORTANT)
+  // ----------------------------------------------------
+  regions.forEach((r, i) => {
+    const biome = r.biome;
+    const elev = r.elevation.toLowerCase();
+    const moist = r.moisture.toLowerCase();
+    const latBand = r.latitudeBand;
+
+    // Tropical deserts
+    if (latBand === "tropical" && (moist.includes("arid") || moist.includes("semi"))) {
+      anomalies.push({
+        name: `Tropical Dry Zone (Region ${i + 1})`,
+        desc: `${r.biome} in a tropical latitude indicates suppressed convection or strong cold‑current influence.`
+      });
+    }
+
+    // Polar wetlands
+    if (latBand === "polar" && (moist.includes("humid") || moist.includes("wet"))) {
+      anomalies.push({
+        name: `Polar Wet Zone (Region ${i + 1})`,
+        desc: `Unusually high moisture at polar latitudes suggests geothermal or ocean‑current anomalies.`
+      });
+    }
+
+    // High‑elevation humidity
+    if (elev.includes("mountain") && (moist.includes("wet") || moist.includes("humid"))) {
+      anomalies.push({
+        name: `Orographic Moisture Trap (Region ${i + 1})`,
+        desc: `Moist air forced upslope creates persistent cloud forests and heavy rainfall.`
+      });
+    }
+
+    // Low‑elevation cold zones
+    if (elev.includes("low") && latBand === "polar") {
+      anomalies.push({
+        name: `Polar Lowland Cold Sink (Region ${i + 1})`,
+        desc: `Cold air pooling in lowlands intensifies frost, fog, and extreme winter conditions.`
+      });
+    }
+
+    // Biome/latitude mismatch
+    if (latBand === "temperate" && biome === "Tropical Forests") {
+      anomalies.push({
+        name: `Latitude‑Biome Inversion (Region ${i + 1})`,
+        desc: `A tropical biome in a temperate latitude suggests strong warm‑current or geothermal influence.`
+      });
+    }
+  });
+
+  // ----------------------------------------------------
   // RENDER
   // ----------------------------------------------------
   const entries = anomalies.map(a => `
@@ -160,4 +188,3 @@ export function renderClimateAnomalies(regions, decoded) {
     ${entries}
   `;
 }
-
