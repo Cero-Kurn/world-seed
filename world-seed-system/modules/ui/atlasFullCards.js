@@ -1,7 +1,30 @@
-
-
-
 // ------------------------------------------------------------
+// modules/ui/atlasFullCards.js
+// ------------------------------------------------------------
+// Atlas Region Full Cards
+// (Climate + Geology + Biome + Features + Colors + Image Icons)
+// Deterministic icon selection per seed
+// Biome → Icon file paths (multiple variants per biome)
+// Add/remove icons freely — deterministic picker handles it
+// ------------------------------------------------------------
+////Biome → Icon mapping
+//const BIOME_ICONS = {
+//  "Tundra": "❄️",
+//  "Alpine": "mount",
+//  "Taiga Forests": "🌲",
+//  "Temperate Forests": "🌳",
+//  "Tropical Forests": "🌴",
+//  "Grassland": "🌾",
+//  "Savanna": "🦒",
+//  "Shrubland": "🌿",
+//  "Desert": "🏜️",
+//  "Wetlands": "🦆",
+//  "Freshwater": "💧",
+//  "Marine": "🌊",
+//  "Coastal": "🏖️",
+//  "Geothermal": "🌋",
+//  "Subsurface": "🕳️"
+
 // modules/ui/atlasFullCards.js
 // ------------------------------------------------------------
 // Atlas Region Full Cards
@@ -45,25 +68,6 @@ const BIOME_ICON_PATHS = {
   // Add more as needed — the system is fully extensible
 };
 
-
-////Biome → Icon mapping
-//const BIOME_ICONS = {
-//  "Tundra": "❄️",
-//  "Alpine": "mount",
-//  "Taiga Forests": "🌲",
-//  "Temperate Forests": "🌳",
-//  "Tropical Forests": "🌴",
-//  "Grassland": "🌾",
-//  "Savanna": "🦒",
-//  "Shrubland": "🌿",
-//  "Desert": "🏜️",
-//  "Wetlands": "🦆",
-//  "Freshwater": "💧",
-//  "Marine": "🌊",
-//  "Coastal": "🏖️",
-//  "Geothermal": "🌋",
-//  "Subsurface": "🕳️"
-
 // ------------------------------------------------------------
 // Deterministic seeded random (per seed + region index)
 // ------------------------------------------------------------
@@ -87,7 +91,7 @@ function pickDeterministicIcon(iconList, seed, regionIndex) {
 // ------------------------------------------------------------
 // Main Renderer
 // ------------------------------------------------------------
-export function renderAtlasFullCards(regions, decoded) {
+export function renderAtlasFullCards(regions, decoded = { seed: "DEFAULT_SEED" }) {
   const container = document.getElementById("atlasFullCards");
   const seed = decoded.seed || "DEFAULT_SEED";
 
