@@ -24,18 +24,42 @@ export function renderBiomeTendencies() {
   const container = document.getElementById("biomeTendencies");
   if (!container) return;
 
-
-  const rows = Object.entries(counts)
-    .sort((a, b) => b[1] - a[1])
-    .map(([biome, count]) => {
-      const pct = ((count / total) * 100).toFixed(1);
-      return `<div><strong>${biome}</strong>: ${pct}%</div>`;
-    })
-    .join("");
-
   container.innerHTML = `
-    <h3>🌍 Biome Tendencies</h3>
-    <p>This world leans toward the following biome distribution:</p>
-    ${rows}
+    <div class="biome-tendencies-grid">
+      ${Object.entries(BIOME_TENDENCIES)
+        .map(([biome, t]) => tendencyCard(biome, t))
+        .join("")}
+    </div>
+  `;
+}
+
+/**
+ * Render a single biome tendency card.
+ */
+function tendencyCard(biome, t) {
+  return `
+    <div class="biome-tendencies-card">
+      <div class="bt-title">${biome}</div>
+
+      <div class="bt-row">
+        <span class="bt-label">Warms →</span>
+        <span class="bt-value">${t.warmsTo}</span>
+      </div>
+
+      <div class="bt-row">
+        <span class="bt-label">Cools →</span>
+        <span class="bt-value">${t.coolsTo}</span>
+      </div>
+
+      <div class="bt-row">
+        <span class="bt-label">Dries →</span>
+        <span class="bt-value">${t.driesTo}</span>
+      </div>
+
+      <div class="bt-row">
+        <span class="bt-label">Wets →</span>
+        <span class="bt-value">${t.wetsTo}</span>
+      </div>
+    </div>
   `;
 }
