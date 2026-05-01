@@ -115,7 +115,7 @@ export function renderAtlasFullCards(regions, decoded = { seed: "DEFAULT_SEED" }
   const cardsHTML = regions.map((r, i) => {
     const name = r.name || `Region ${i + 1}`;
     const biome = r.biome;
-    const elev = r.elevationTier;
+    const elev = r.elevation;
     const moist = r.moistureLevel;
     const lat = r.latitudeBand;
     const tect = r.tectonicType;
