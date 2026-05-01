@@ -74,7 +74,7 @@ export function renderWorldSummary(regions, decoded) {
     .join(", ");
 
   // Moisture + elevation interactions
-  const moist = regions.map(r => r.moistureLevel);
+  const moist = regions.map(r => r.moisture);
   const wet = moist.filter(m => m === "wet").length;
   const dry = moist.filter(m => m === "dry").length;
 
@@ -95,7 +95,7 @@ export function renderWorldSummary(regions, decoded) {
   const regionSummaries = regions.map((r, i) => {
     const biome = r.biome;
     const elev = r.elevation;
-    const moist = r.moistureLevel;
+    const moist = r.moisture;
     const tect = r.tectonicType;
 
     let summary = `Region ${i + 1} — ${biome}. `;
