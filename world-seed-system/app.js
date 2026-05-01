@@ -11,6 +11,8 @@ import { generateWorldSummary } from "./modules/seed/worldSummary.js";
 import { generateContinentSummary } from "./modules/world/continentSummary.js";
 import { renderWorldFormation } from "./modules/climate/worldFormation.js";
 import { renderAtlasFullCards } from "./modules/ui/atlasFullCards.js";
+import { renderWorldTendencies } from "./modules/world/worldTendencies.js";
+
 // Maps
 import { renderHexMap } from "./modules/maps/hexMap.js";
 import { renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
@@ -360,7 +362,7 @@ function processSeed(seed) {
   // Now safe to render checklist
   renderChecklistPanel(decoded);
   renderAtlasFullCards(regions, decoded);
-
+  renderWorldTendencies(regions);
   // --- CLIMATE SYSTEMS ---
   renderClimateNarrative(regions, decoded);
   renderOceanCurrents(regions, decoded);
