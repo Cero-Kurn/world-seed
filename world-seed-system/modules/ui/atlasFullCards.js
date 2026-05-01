@@ -40,30 +40,90 @@ import { BIOME_COLORS } from "../data/biomes.js";
 // ------------------------------------------------------------
 const BIOME_ICON_PATHS = {
   "Alpine": [
-    "modules/Geo_Icons/alpine/Mountain1.png",
-    "modules/Geo_Icons/alpine/Mountain2.png",
-    "modules/Geo_Icons/alpine/Mountain3.png"
+    "modules/Geo_Icons/biomes/alpine/Mountain1.png",
+    "modules/Geo_Icons/biomes/alpine/Mountain2.png",
+    "modules/Geo_Icons/biomes/alpine/Mountain3.png"
   ],
   "Desert": [
-    "modules/Geo_Icons/biomes/desert/Desert_01.png",
-    "modules/Geo_Icons/biomes/desert/Desert_02.png"
+    "modules/Geo_Icons/biomes/desert/Dune1.png",
+    "modules/Geo_Icons/biomes/desert/Dune2.png"
+    "modules/Geo_Icons/biomes/desert/Dune3.png"
   ],
   "Temperate Forests": [
-    "modules/Geo_Icons/biomes/forest_temperate/TemperateForest_01.png",
-    "modules/Geo_Icons/biomes/forest_temperate/TemperateForest_02.png"
+    "modules/Geo_Icons/biomes/temperate/TemperateGroup1.png",
+    "modules/Geo_Icons/biomes/temperate/TemperateGroup2.png",
+    "modules/Geo_Icons/biomes/temperate/TemperateGroup3.png",
   ],
   "Tropical Forests": [
-    "modules/Geo_Icons/biomes/forest_tropical/TropicalForest_01.png",
-    "modules/Geo_Icons/biomes/forest_tropical/TropicalForest_02.png"
+    "modules/Geo_Icons/biomes/tropical/TropicalGroup1.png",
+    "modules/Geo_Icons/biomes/tropical/TropicalGroup2.png"
+    "modules/Geo_Icons/biomes/tropical/TropicalGroup3.png"
   ],
   "Grassland": [
-    "modules/Geo_Icons/biomes/grassland/Grassland_01.png"
+    "modules/Geo_Icons/biomes/grasslands/GrassGroup4.png.png"
+    "modules/Geo_Icons/biomes/grasslands/GrassGroup5.png.png"
+    "modules/Geo_Icons/biomes/grasslands/GrassGroup6.png.png"
   ],
-  "Tundra": [
-    "modules/Geo_Icons/biomes/tundra/Tundra_01.png"
+  "Taiga Forests": [
+    "modules/Geo_Icons/biomes/taiga/TaigaGroup1.png"
+    "modules/Geo_Icons/biomes/taiga/TaigaGroup2.png"
+    "modules/Geo_Icons/biomes/taiga/TaigaGroup3.png"
+  ],
+  "Savanna": [
+    "modules/Geo_Icons/biomes/savanna/savanna1.png"
+    "modules/Geo_Icons/biomes/savanna/savanna2.png"
+    "modules/Geo_Icons/biomes/savanna/savanna3.png"
+  ],
+  "Shrubland": [
+    "modules/Geo_Icons/biomes/shrubland/shrubland1.png"
+    "modules/Geo_Icons/biomes/shrubland/shrubland2.png"
+    "modules/Geo_Icons/biomes/shrubland/shrubland3.png"
+    "modules/Geo_Icons/biomes/shrubland/shrubland4.png"
   ],
   "Wetlands": [
-    "modules/Geo_Icons/biomes/wetlands/Wetlands_01.png"
+    "modules/Geo_Icons/biomes/wetlands/Swamp1.png"
+    "modules/Geo_Icons/biomes/wetlands/Swamp2.png"
+    "modules/Geo_Icons/biomes/wetlands/Swamp3.png"
+    "modules/Geo_Icons/biomes/wetlands/Swamp4.png"
+  ],
+  "Subsurface": [
+    "modules/Geo_Icons/biomes/subsurface/Crater4.png"
+    "modules/Geo_Icons/biomes/subsurface/Crater5.png"
+    "modules/Geo_Icons/biomes/subsurface/Crater6.png"
+    "modules/Geo_Icons/biomes/subsurface/subsurface1.png"
+    "modules/Geo_Icons/biomes/subsurface/subsurface2.png"
+  ],
+  "Tundra": [
+    "modules/Geo_Icons/biomes/tundra/tundra1.png"
+    "modules/Geo_Icons/biomes/tundra/tundra2.png"
+    "modules/Geo_Icons/biomes/tundra/tundra3.png"
+    "modules/Geo_Icons/biomes/tundra/tundra4.png"
+  ],
+  "Coastal": [
+    "modules/Geo_Icons/biomes/coastal/coastal1.png"
+    "modules/Geo_Icons/biomes/coastal/coastal2.png"
+    "modules/Geo_Icons/biomes/coastal/coastal3.png"
+    "modules/Geo_Icons/biomes/coastal/coastal4.png"
+  ],
+  "Freshwater": [
+    "modules/Geo_Icons/biomes/water/water1.png"
+    "modules/Geo_Icons/biomes/water/water2.png"
+    "modules/Geo_Icons/biomes/water/water3.png"
+    "modules/Geo_Icons/biomes/water/fwater1.png"
+    "modules/Geo_Icons/biomes/water/fwater2.png"
+    "modules/Geo_Icons/biomes/water/fwater3.png"
+  ],
+  "Marine": [
+    "modules/Geo_Icons/biomes/water/water1.png"
+    "modules/Geo_Icons/biomes/water/water2.png"
+    "modules/Geo_Icons/biomes/water/water3.png"
+    "modules/Geo_Icons/biomes/water/marine1.png"
+    "modules/Geo_Icons/biomes/water/marine2.png"
+  ],
+  "Geothermal": [
+    "modules/Geo_Icons/biomes/geothermal/Volcano1.png"
+    "modules/Geo_Icons/biomes/geothermal/Volcano2.png"
+    "modules/Geo_Icons/biomes/geothermal/Volcano3.png"
   ]
   // Add more as needed — the system is fully extensible
 };
