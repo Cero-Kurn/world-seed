@@ -24,12 +24,6 @@ export function renderBiomeTendencies() {
   const container = document.getElementById("biomeTendencies");
   if (!container) return;
 
-  const counts = regions.reduce((acc, r) => {
-    acc[r.biome] = (acc[r.biome] || 0) + 1;
-    return acc;
-  }, {});
-
-  const total = regions.length;
 
   const rows = Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
