@@ -6,7 +6,7 @@
 import { BIOME_COLORS } from "../data/biomes.js";
 
 // Basic hex settings
-const HEX_SIZE = 24;
+const HEX_SIZE = 4;
 const HEX_WIDTH = Math.sqrt(3) * HEX_SIZE;
 const HEX_HEIGHT = 2 * HEX_SIZE;
 const HEX_VERTICAL_SPACING = HEX_HEIGHT * 0.75;
