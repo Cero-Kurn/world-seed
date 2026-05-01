@@ -10,7 +10,7 @@ export function renderGeologyNarrative(regions) {
   // 1. GLOBAL GEOLOGY SUMMARY
   // ------------------------------------------------------------
   const tectonics = regions.map(r => r.tectonicType);
-  const elevs = regions.map(r => r.elevationTier);
+  const elevs = regions.map(r => r.elevation);
 
   // Count tectonic types
   const tectCount = {};
@@ -80,7 +80,7 @@ export function renderGeologyNarrative(regions) {
   // ------------------------------------------------------------
   const regionProfiles = regions.map((r, i) => {
     const tect = r.tectonicType;
-    const elev = r.elevationTier;
+    const elev = r.elevation;
     const feats = r.specialFeatures || [];
     const lat = r.latitudeBand;
 
