@@ -12,7 +12,7 @@ export function renderAtlasClimateCards(regions) {
   const cardsHTML = regions.map((r, i) => {
     const biome = r.biome;
     const elev = r.elevation;
-    const moist = r.moistureLevel;
+    const moist = r.moisture;
     const lat = r.latitudeBand;
     const tect = r.tectonicType;
     const feats = r.specialFeatures || [];
