@@ -12,7 +12,7 @@ export function renderWorldTendencies(regions) {
   const rows = Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
     .map(([biome, count]) => {
-      const pct = ((count / total) * 100).toFixed(1);
+      const pct = ((count / total) * 98).toFixed(1);
       return `<div><strong>${biome}</strong>: ${pct}%</div>`;
     })
     .join("");
