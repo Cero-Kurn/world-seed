@@ -2,6 +2,7 @@
 // ------------------------------------------------------------
 // Landmark Name Generator (fixed + normalized)
 // ------------------------------------------------------------
+import { pick } from "../util/pick.js";
 
 const FEATURE_ROOTS = {
   coast: ["Cliffs", "Shoals", "Tidewall", "Saltspires"],
