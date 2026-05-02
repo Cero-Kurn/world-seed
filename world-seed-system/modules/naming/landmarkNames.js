@@ -58,19 +58,13 @@ function normalizeFeatureKey(landform, specialFeature) {
 }
 
 // ------------------------------------------------------------
-// UTILITY
+// MAIN LANDMARK NAME GENERATOR (DETERMINISTIC)
 // ------------------------------------------------------------
-function pick(list, rng) {
-  return list[Math.floor(rng() * list.length)];
-}
+export function generateLandmarkName(region, rng) {
+  const biomeAdj = pick(BIOME_ADJECTIVES[region.biome] || ["Ancient"], rng);
 
-// ------------------------------------------------------------
-// MAIN LANDMARK NAME GENERATOR
-// ------------------------------------------------------------
-export function generateLandmarkName(region) {
-  const biomeAdj = pick(BIOME_ADJECTIVES[region.biome] || ["Ancient"]);
   const featureKey = normalizeFeatureKey(region.landform, region.specialFeature);
-  const featureRoot = pick(FEATURE_ROOTS[featureKey] || FEATURE_ROOTS.generic);
+  const featureRoot = pick(FEATURE_ROOTS[featureKey] || FEATURE_ROOTS.generic, rng);
 
   // Pattern A
   if (rng() < 0.4) {
