@@ -3,6 +3,7 @@
 // --- IMPORT MODULES ---
 
 // Seed engine
+import { makeRNG } from "./modules/util/seededRNG.js";
 import { generateRandomSeed } from "./modules/seed/seedGenerator.js";
 import { decodeSeed } from "./modules/seed/seedDecoder.js";
 import { generateWorldSummary } from "./modules/seed/worldSummary.js";
