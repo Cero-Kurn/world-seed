@@ -72,12 +72,12 @@ export function generateLandmarkName(region) {
   const featureRoot = pick(FEATURE_ROOTS[featureKey] || FEATURE_ROOTS.generic);
 
   // Pattern A
-  if (Math.random() < 0.4) {
+  if (rng() < 0.4) {
     return `The ${biomeAdj} ${featureRoot}`;
   }
 
   // Pattern B
-  if (Math.random() < 0.7) {
+  if (rng() < 0.7) {
     return `The ${featureRoot} of ${biomeAdj}`;
   }
 
