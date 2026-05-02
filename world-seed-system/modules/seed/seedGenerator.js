@@ -6,7 +6,7 @@ import { CC_TABLE, LM_TABLE, WE_TABLE, TR_TABLE, HY_TABLE, SF_TABLE } from "./lo
 
 function randomKey(table) {
   const keys = Object.keys(table);
-  return keys[Math.floor(Math.random() * keys.length)];
+  return keys[Math.floor(rng() * keys.length)];
 }
 
 export function generateRandomSeed() {
