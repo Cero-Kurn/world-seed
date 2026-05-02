@@ -13,9 +13,9 @@ export const CC_TABLE = {
   "B": "Fragmented continents",
   "C": "Island world",
   "D": "Ring-shaped landmass",
-  "E": "Landmass with deep inland sea",
+  "E": "Landmass with a deep inland sea",
   "F": "Shattered archipelago",
-  "G": "Continent with massive peninsula",
+  "G": "Continent with massive peninsulas",
   "H": "Continent split by rift valley",
   "I": "Chaotic microcontinents",
   "J": "Continent with polar extension",
@@ -40,8 +40,8 @@ export const CC_TABLE = {
 
 export const LM_TABLE = {
   "1": "Earth-like gradient",
-  "2": "Hot world (expanded tropics)",
-  "3": "Cold world (expanded tundra)",
+  "2": "Expanded tropics",
+  "3": "Expanded tundra",
   "4": "Asymmetric (one hemisphere hotter)",
   "5": "Patchy heat anomalies",
   "6": "Magical heat anomalies",
@@ -68,8 +68,7 @@ export const LM_TABLE = {
   "R": "Chaotic thermal pockets",
   "S": "Magical temperature flux",
   "T": "Permafrost creep",
-  "U": "Runaway greenhouse pockets",
-  "V": "GM’s choice",
+  "U": "Runaway greenhouse pockets"
 };
 
 export const WE_TABLE = {
@@ -78,10 +77,10 @@ export const WE_TABLE = {
   "3": "North → South",
   "4": "South → North",
   "5": "Monsoon-dominated",
-  "6": "Chaotic / magical",
+  "6": "Chaotic",
   "7": "Standard trade winds",
   "8": "Strong monsoon cycle",
-  "9": "Chaotic / magical winds",
+  "9": "Magical winds",
   "A": "Dry continental winds",
   "B": "Moist oceanic winds",
   "C": "Jet stream instability",
