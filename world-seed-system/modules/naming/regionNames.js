@@ -11,6 +11,7 @@
 // ------------------------------------------------------------
 // WORD POOLS
 // ------------------------------------------------------------
+import { pick } from "../util/pick.js";
 
 const BIOME_TITLES = {
   "Tundra": ["Frostlands", "Pale Expanse", "Glacier Reach"],
