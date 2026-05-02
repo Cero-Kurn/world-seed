@@ -13,12 +13,12 @@ export function renderChecklistPanel() {
     {
       title: "World Engine Core",
       items: [
-        ["Fully aligned world engine bundle", "partial"],
-        ["Unified world‑engine bundle", "partial"],
-        ["Deterministic RNG for stable but richer patterns", "missing"],
-        ["Procedural rifts, arcs, hotspots, cratons", "missing"],
-        ["Realistic tectonic type generator", "missing"],
-        ["Tectonics tied to latitude, climate, randomness", "missing"]
+        ["Fully aligned world engine bundle", "complete"],
+        ["Unified world‑engine bundle", "complete"],
+        ["Deterministic RNG for stable but richer patterns", "partial"],
+        ["Procedural rifts, arcs, hotspots, cratons", "partial"],
+        ["Realistic tectonic type generator", "partial"],
+        ["Tectonics tied to latitude, climate, randomness", "partial"]
       ]
     },
 
@@ -43,12 +43,12 @@ export function renderChecklistPanel() {
         ["Elevation noise", "complete"],
         ["Elevation variations", "complete"],
         ["Region adjacency smoothing", "complete"],
-        ["Canvas responsive scaling", "partial"],
-        ["Canvas maps", "partial"],
-        ["Canvas drawing API", "partial"],
+        ["Canvas responsive scaling", "complete"],
+        ["Canvas maps", "complete"],
+        ["Canvas drawing API", "complete"],
         ["Latitude‑based biome bands", "partial"],
         ["Mountain Density Score", "partial"],
-        ["Zoom / pan", "partial"],
+        ["Zoom / pan", "complete"],
         ["Animated transitions", "missing"],
         ["Click‑to‑select regions", "missing"],
         ["Region hit‑testing", "missing"],
@@ -56,7 +56,7 @@ export function renderChecklistPanel() {
         ["Tooltips", "missing"],
         ["Coastline generator", "missing"],
         ["Continent shape generator", "missing"],
-        ["Map export (PNG/SVG)", "missing"]
+        ["Map export (PNG/SVG)", "missing"]      
       ]
     },
 
@@ -72,12 +72,12 @@ export function renderChecklistPanel() {
         ["Biome transition smoothing", "complete"],
         ["Biome variations", "partial"],
         ["Biome gradient shading", "missing"],
-        ["Biome icons", "missing"],
+        ["Biome icons", "complete"],
         ["Biome‑linked settlement patterns", "missing"],
         ["Biome‑linked trade goods", "missing"],
-        ["Biome‑specific features", "missing"],
+        ["Biome‑specific features", "partial"],
         ["Fauna + flora tables", "missing"],
-        ["Bestiary generator", "missing"]
+        ["Bestiary generator", "missing"]        
       ]
     },
 
@@ -89,12 +89,12 @@ export function renderChecklistPanel() {
         ["Volcanic hazard rating", "complete"],
         ["Geological narrative", "complete"],
         ["Plate motion vectors", "partial"],
-        ["Elevation tier refinement", "missing"],
+        ["Elevation tier refinement", "partial"],
         ["Canyon systems", "missing"],
         ["Erosion + sediment deposition", "missing"],
         ["Full plate simulation", "missing"],
-        ["Hydrology‑driven modifiers", "missing"],
-        ["Volcanic province generator", "missing"]
+        ["Hydrology‑driven modifiers", "partial"],
+        ["Volcanic province generator", "missing"]        
       ]
     },
 
@@ -107,9 +107,9 @@ export function renderChecklistPanel() {
         ["Micro‑climates", "complete"],
         ["Seasonal variability", "complete"],
         ["Climate‑aware biome chains", "partial"],
-        ["Derived from elevation + moisture + latitude", "partial"],
+        ["Derived from elevation + moisture + latitude", "complete"],
         ["Distance from coast", "missing"],
-        ["Planetary heat budget", "missing"]
+        ["Planetary heat budget", "missing"]        
       ]
     },
 
@@ -124,7 +124,7 @@ export function renderChecklistPanel() {
         ["Make regions more structured", "partial"],
         ["Special feature variations", "partial"],
         ["Sub‑features (terrain details)", "partial"],
-        ["Landmark atlas panel", "missing"]        
+        ["Landmark atlas panel", "complete"]        
       ]
     },
 
@@ -139,15 +139,15 @@ export function renderChecklistPanel() {
         ["Lore narrative engine", "partial"],
         ["Lore scale systems (worldbook)", "partial"],
         ["Narrative hooks table", "partial"],
-        ["Atlas panel", "missing"],
-        ["Atlas entry generator", "missing"],
+        ["Atlas panel", "complete"],
+        ["Atlas entry generator", "complete"],
         ["Worldbook layout", "missing"],
         ["Worldbook export system", "missing"],
         ["Culture generator", "missing"],
         ["Cultural archetype generator", "missing"],
         ["Magical anomaly creatures", "missing"],
         ["Myths", "missing"],
-        ["Region‑based creatures", "missing"]
+        ["Region‑based creatures", "missing"]        
       ]
     },
 
@@ -163,7 +163,7 @@ export function renderChecklistPanel() {
         ["Save/load seeds", "partial"],
         ["Full dark‑mode theme", "missing"],
         ["Tabbed interface (full UI)", "missing"],
-        ["Polished UI with tabs", "missing"]
+        ["Polished UI with tabs", "missing"]        
       ]
     }
   ];
