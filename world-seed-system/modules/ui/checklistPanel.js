@@ -118,13 +118,13 @@ export function renderChecklistPanel() {
       items: [
         ["Feature name variety", "complete"],
         ["Landform & feature generator", "complete"],
+        ["Named landmark generator", "complete"],
         ["Make regions more detailed", "partial"],
         ["Make regions more procedural", "partial"],
         ["Make regions more structured", "partial"],
         ["Special feature variations", "partial"],
         ["Sub‑features (terrain details)", "partial"],
-        ["Landmark atlas panel", "missing"],
-        ["Named landmark generator", "missing"]
+        ["Landmark atlas panel", "missing"]        
       ]
     },
 
