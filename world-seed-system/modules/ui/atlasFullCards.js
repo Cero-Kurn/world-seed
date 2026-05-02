@@ -60,9 +60,10 @@ const BIOME_ICON_PATHS = {
     "modules/Geo_Icons/biomes/tropical/TropicalGroup3.png"
   ],
   "Grassland": [
-    "modules/Geo_Icons/biomes/grasslands/GrassGroup4.png",
-    "modules/Geo_Icons/biomes/grasslands/GrassGroup5.png",
-    "modules/Geo_Icons/biomes/grasslands/GrassGroup6.png"
+    "modules/Geo_Icons/biomes/grasslands/Grassland1.png",
+    "modules/Geo_Icons/biomes/grasslands/Grassland2.png",
+    "modules/Geo_Icons/biomes/grasslands/Grassland3.png",
+    "modules/Geo_Icons/biomes/grasslands/Grassland4.png"
   ],
   "Taiga Forests": [
     "modules/Geo_Icons/biomes/taiga/TaigaGroup1.png",
