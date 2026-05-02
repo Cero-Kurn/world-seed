@@ -2,15 +2,6 @@
 // ------------------------------------------------------------
 // World Simulation Orchestrator (canonical biome system)
 // ------------------------------------------------------------
-//
-// This module ties together:
-// - region generation
-// - climate engine
-// - naming (regions + landmarks)
-// - region descriptions
-//
-// It produces a fully realized world model from a decoded seed.
-//
 
 import { generateRegions } from "../regions/regionGenerator.js";
 import { applyClimateEngine } from "./climateEngine.js";
@@ -18,24 +9,24 @@ import { generateRegionName } from "../naming/regionNames.js";
 import { generateLandmarkName } from "../naming/landmarkNames.js";
 import { buildRegionDescription } from "../regions/regionDescription.js";
 
-export function simulateWorld(decodedSeed) {
+export function simulateWorld(decodedSeed, rng) {
   // ------------------------------------------------------------
-  // 1. Generate base regions
+  // 1. Generate base regions (now deterministic)
   // ------------------------------------------------------------
-  let regions = generateRegions(decodedSeed);
+  let regions = generateRegions(decodedSeed, rng);
 
   // ------------------------------------------------------------
-  // 2. Apply climate engine (drift + smoothing + stabilization)
+  // 2. Apply climate engine
   // ------------------------------------------------------------
   regions = applyClimateEngine(regions);
 
   // ------------------------------------------------------------
-  // 3. Apply naming (region + landmark)
+  // 3. Apply naming (region + landmark) with rng
   // ------------------------------------------------------------
   regions = regions.map((region) => ({
     ...region,
-    name: generateRegionName(region),
-    landmark: generateLandmarkName(region)
+    name: generateRegionName(region, rng),
+    landmark: generateLandmarkName(region, rng)
   }));
 
   // ------------------------------------------------------------
