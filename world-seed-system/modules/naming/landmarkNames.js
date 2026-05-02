@@ -59,8 +59,8 @@ function normalizeFeatureKey(landform, specialFeature) {
 // ------------------------------------------------------------
 // UTILITY
 // ------------------------------------------------------------
-function pick(list) {
-  return list[Math.floor(Math.random() * list.length)];
+function pick(list, rng) {
+  return list[Math.floor(rng() * list.length)];
 }
 
 // ------------------------------------------------------------
