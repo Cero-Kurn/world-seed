@@ -343,7 +343,9 @@ function processSeed(seed) {
     alert("Invalid seed format.");
     return;
   }
-
+  // ⭐ Add deterministic RNG here
+  const rng = makeRNG(decoded.seed);
+  
   // --- DECODE ---
   renderDecoded(decoded, seed);
 
