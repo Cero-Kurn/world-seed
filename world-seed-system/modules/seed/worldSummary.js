@@ -3,7 +3,7 @@ export function generateWorldSummary(decoded) {
 
   const combo = (item) => {
     if (item.primary === item.twist) return item.primary;
-    return `${item.primary}, with a twist of ${item.twist.toLowerCase()}`;
+    return `${item.primary}, with ${item.twist.toLowerCase()}`;
   };
 
   return `
