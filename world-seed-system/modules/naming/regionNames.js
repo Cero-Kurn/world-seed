@@ -89,9 +89,10 @@ function normalizeLatitude(lat) {
 // ------------------------------------------------------------
 // UTILITY
 // ------------------------------------------------------------
-function pick(list) {
-  return list[Math.floor(Math.random() * list.length)];
+function pick(list, rng) {
+  return list[Math.floor(rng() * list.length)];
 }
+
 
 // ------------------------------------------------------------
 // MAIN NAME GENERATOR
@@ -106,12 +107,12 @@ export function generateRegionName(region) {
   const latDescriptor = pick(LATITUDE_DESCRIPTORS[latKey] || []);
 
   // Pattern A: Hemisphere + Biome Title
-  if (Math.random() < 0.33 && hemiPrefix) {
+  if (rng() < 0.33 && hemiPrefix) {
     return `${hemiPrefix} ${biomeTitle}`;
   }
 
   // Pattern B: Latitude Descriptor + Landform Title
-  if (Math.random() < 0.5 && latDescriptor) {
+  if (rng() < 0.5 && latDescriptor) {
     return `${latDescriptor} ${landformTitle}`;
   }
 
