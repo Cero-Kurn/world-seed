@@ -18,11 +18,8 @@ import { renderWorldTendencies } from "./modules/world/worldTendencies.js";
 import { renderHexMap } from "./modules/maps/hexMap.js";
 import { renderBiomeHeatmap } from "./modules/maps/biomeHeatmap.js";
 
-
 // NEW: Canvas Renderer
 import { initCanvasRenderer, renderHexWorld, generateHexGrid } from "./modules/maps/canvasRenderer.js";
-
-
 
 // World Engine
 import { simulateWorld } from "./modules/world/worldSimulation.js";
@@ -344,9 +341,10 @@ function processSeed(seed) {
     alert("Invalid seed format.");
     return;
   }
-  // ⭐ Add deterministic RNG here
+
+  // ⭐ Deterministic RNG instance for this world
   const rng = makeRNG(decoded.seed);
-  
+
   // --- DECODE ---
   renderDecoded(decoded, seed);
 
@@ -359,13 +357,18 @@ function processSeed(seed) {
     generateContinentSummary(decoded);
 
   // --- WORLD SIMULATION (NEW PIPELINE) ---
-  const world = simulateWorld(decoded);
+  const world = simulateWorld(decoded, rng);
   const regions = world.regions;
-  
-  // Now safe to render checklist
+
+  // --- CHECKLIST ---
   renderChecklistPanel(decoded);
+
+  // --- ATLAS ---
   renderAtlasFullCards(regions, decoded);
+
+  // --- WORLD TENDENCIES ---
   renderWorldTendencies(regions);
+
   // --- CLIMATE SYSTEMS ---
   renderClimateNarrative(regions, decoded);
   renderOceanCurrents(regions, decoded);
