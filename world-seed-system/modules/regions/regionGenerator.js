@@ -1,7 +1,10 @@
 // modules/regions/regionGenerator.js
 // ------------------------------------------------------------
-// Region Generator (Aligned with New World Engine)
+// Region Generator (Aligned with New World Engine + Deterministic RNG)
 // ------------------------------------------------------------
+
+import { generateRegionName } from "../naming/regionNames.js";
+import { generateLandmarkName } from "../naming/landmarkNames.js";
 
 /**
  * @typedef {Object} DecodedSeedPart
@@ -46,7 +49,7 @@
 // ------------------------------------------------------------
 // MAIN GENERATOR
 // ------------------------------------------------------------
-export function generateRegions(decoded, options = {}) {
+export function generateRegions(decoded, rng, options = {}) {
   const regions = [];
 
   const windModel = decoded.we.primary;
@@ -92,8 +95,25 @@ export function generateRegions(decoded, options = {}) {
       specialFeature,
       landform,
 
-      name: null,
-      landmark: null,
+      // ⭐ Deterministic naming
+      name: generateRegionName(
+        {
+          biome,
+          landform,
+          hemisphere,
+          latitudeBand
+        },
+        rng
+      ),
+
+      landmark: generateLandmarkName(
+        {
+          biome,
+          landform,
+          specialFeature
+        },
+        rng
+      ),
 
       description: buildRegionDescription({
         biome,
@@ -143,7 +163,6 @@ function pickHemisphere(index) {
 function pickLatitudeBand(hemisphere, index, latitudeModel) {
   const bands = ["polar", "subpolar", "temperate", "subtropical", "tropical"];
 
-  // Safety guard
   if (typeof latitudeModel !== "string") {
     latitudeModel = "";
   }
