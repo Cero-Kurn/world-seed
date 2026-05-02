@@ -1,15 +1,6 @@
 // modules/naming/landmarkNames.js
 // ------------------------------------------------------------
-// Landmark Name Generator (canonical biomes + landforms)
-// ------------------------------------------------------------
-//
-// Generates evocative landmark names based on biome, landform,
-// special features, and tectonic context. Designed to be modular,
-// lore-friendly, and consistent with the world engine.
-//
-
-// ------------------------------------------------------------
-// WORD POOLS
+// Landmark Name Generator (fixed + normalized)
 // ------------------------------------------------------------
 
 const FEATURE_ROOTS = {
@@ -45,6 +36,27 @@ const BIOME_ADJECTIVES = {
 };
 
 // ------------------------------------------------------------
+// NORMALIZATION
+// ------------------------------------------------------------
+function normalizeFeatureKey(landform, specialFeature) {
+  const f = (specialFeature || "").toLowerCase();
+  const l = (landform || "").toLowerCase();
+
+  if (f.includes("coast") || l.includes("coast")) return "coast";
+  if (f.includes("reef") || f.includes("sea") || l.includes("marine")) return "marine";
+  if (f.includes("lake") || f.includes("river") || f.includes("delta")) return "freshwater";
+  if (f.includes("canyon") || f.includes("gorge") || f.includes("rift")) return "canyon";
+  if (f.includes("mountain") || l.includes("mountain")) return "mountain";
+  if (f.includes("desert") || l.includes("desert")) return "desert";
+  if (f.includes("marsh") || f.includes("bog") || l.includes("wetland")) return "wetland";
+  if (f.includes("forest") || l.includes("forest")) return "forest";
+  if (f.includes("vent") || f.includes("lava") || l.includes("geo")) return "geothermal";
+  if (f.includes("cave") || f.includes("subterr") || l.includes("subsurface")) return "subsurface";
+
+  return "generic";
+}
+
+// ------------------------------------------------------------
 // UTILITY
 // ------------------------------------------------------------
 function pick(list) {
@@ -55,43 +67,20 @@ function pick(list) {
 // MAIN LANDMARK NAME GENERATOR
 // ------------------------------------------------------------
 export function generateLandmarkName(region) {
-  const { biome, landform, specialFeature } = region;
-
-  const biomeAdj = pick(BIOME_ADJECTIVES[biome] || ["Ancient"]);
-  const featureKey = classifyFeatureKey(landform, specialFeature);
+  const biomeAdj = pick(BIOME_ADJECTIVES[region.biome] || ["Ancient"]);
+  const featureKey = normalizeFeatureKey(region.landform, region.specialFeature);
   const featureRoot = pick(FEATURE_ROOTS[featureKey] || FEATURE_ROOTS.generic);
 
-  // Pattern A: Biome adjective + feature root
+  // Pattern A
   if (Math.random() < 0.4) {
     return `The ${biomeAdj} ${featureRoot}`;
   }
 
-  // Pattern B: Feature root + biome adjective modifier
+  // Pattern B
   if (Math.random() < 0.7) {
     return `The ${featureRoot} of ${biomeAdj}`;
   }
 
-  // Pattern C: Simple feature root
+  // Pattern C
   return `The ${featureRoot}`;
-}
-
-// ------------------------------------------------------------
-// Helper: classify feature key
-// ------------------------------------------------------------
-function classifyFeatureKey(landform, specialFeature) {
-  const f = (specialFeature || "").toLowerCase();
-
-  if (f.includes("coast") || f.includes("shore") || f.includes("bay")) return "coast";
-  if (f.includes("reef") || f.includes("sea") || f.includes("ocean")) return "marine";
-  if (f.includes("lake") || f.includes("river") || f.includes("delta")) return "freshwater";
-  if (f.includes("canyon") || f.includes("gorge") || f.includes("rift")) return "canyon";
-  if (f.includes("mountain") || f.includes("peak") || f.includes("range")) return "mountain";
-  if (f.includes("desert") || f.includes("dune")) return "desert";
-  if (f.includes("marsh") || f.includes("bog") || f.includes("fen")) return "wetland";
-  if (f.includes("forest") || f.includes("woods")) return "forest";
-  if (f.includes("vent") || f.includes("geyser") || f.includes("lava")) return "geothermal";
-  if (f.includes("cave") || f.includes("underground") || f.includes("subterranean")) return "subsurface";
-
-  // fallback to landform classifier
-  return landform || "generic";
 }
