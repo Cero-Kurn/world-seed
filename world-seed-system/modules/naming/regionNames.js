@@ -6,13 +6,12 @@
 // Generates evocative region names based on biome, landform,
 // climate, and tectonic context. Designed to be modular,
 // lore-friendly, and consistent with the world engine.
-//
+// modules/naming/regionNames.js
+import { pick } from "../util/pick.js";
 
 // ------------------------------------------------------------
 // WORD POOLS
 // ------------------------------------------------------------
-import { pick } from "../util/pick.js";
-
 const BIOME_TITLES = {
   "Tundra": ["Frostlands", "Pale Expanse", "Glacier Reach"],
   "Alpine": ["High Peaks", "Skybound Range", "Silver Heights"],
@@ -88,24 +87,18 @@ function normalizeLatitude(lat) {
 }
 
 // ------------------------------------------------------------
-// UTILITY
+// MAIN NAME GENERATOR (DETERMINISTIC)
 // ------------------------------------------------------------
-function pick(list, rng) {
-  return list[Math.floor(rng() * list.length)];
-}
+export function generateRegionName(region, rng) {
+  const biomeTitle = pick(BIOME_TITLES[region.biome] || ["Unknown Lands"], rng);
 
-
-// ------------------------------------------------------------
-// MAIN NAME GENERATOR
-// ------------------------------------------------------------
-export function generateRegionName(region) {
-  const biomeTitle = pick(BIOME_TITLES[region.biome] || ["Unknown Lands"]);
   const landformKey = normalizeLandform(region.landform);
-  const landformTitle = pick(LANDFORM_TITLES[landformKey] || LANDFORM_TITLES.generic);
+  const landformTitle = pick(LANDFORM_TITLES[landformKey] || LANDFORM_TITLES.generic, rng);
 
-  const hemiPrefix = pick(HEMISPHERE_PREFIX[region.hemisphere] || []);
+  const hemiPrefix = pick(HEMISPHERE_PREFIX[region.hemisphere] || [], rng);
+
   const latKey = normalizeLatitude(region.latitudeBand);
-  const latDescriptor = pick(LATITUDE_DESCRIPTORS[latKey] || []);
+  const latDescriptor = pick(LATITUDE_DESCRIPTORS[latKey] || [], rng);
 
   // Pattern A: Hemisphere + Biome Title
   if (rng() < 0.33 && hemiPrefix) {
