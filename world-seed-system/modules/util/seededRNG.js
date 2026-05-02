@@ -1,12 +1,17 @@
 // modules/util/seededRNG.js
-export function makeRNG(seed) {
+// ------------------------------------------------------------
+// Deterministic RNG (seed → stable random sequence)
+// ------------------------------------------------------------
+
+export function makeRNG(seedString) {
+  // FNV-1a hash
   let h = 2166136261 >>> 0;
 
-  for (let i = 0; i < seed.length; i++) {
-    h ^= seed.charCodeAt(i);
+  for (let i = 0; i < seedString.length; i++) {
+    h ^= seedString.charCodeAt(i);
     h = Math.imul(h, 16777619);
   }
-
+ // Return a PRNG function
   return function () {
     h ^= h >>> 13;
     h = Math.imul(h, 16777619);
