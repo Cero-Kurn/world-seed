@@ -1,0 +1,174 @@
+
+<!-- Script IaBx0kKCB2B592BYm1iz916Q compiled from /var/www/html/torbenm/maps.msp on Wed Mar 18 12:41:41 2026 -->
+<html>
+<head>
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+<title>Planet Map Generator</title>
+</head>
+<body style="background-color:#F9F5D1";>
+<h1>Planet Map Generator</h1>
+
+
+
+
+<a href="forums.msp">News and discussion forum</a>
+Last posting: Wed Apr 29 11:14:13 2026.<br/>
+<br/>
+
+<HR>
+
+<form method=post action=maps.msp>
+<input type="image" border="0" name="what" value="Make map" src="Transparent.gif"> 
+<!-- text fields for typing planet parameters -->
+<table>
+<tr><td><div style="float:left">Seed:</div><div style="float:right"><input type="submit" name="what" value="Random"></div></td><td>
+<INPUT TYPE=TEXT NAME="seed" size=10 maxlength=10 value="1111111">
+</td><td>
+&nbsp;&nbsp;Projection:
+</td><td>
+<SELECT NAME="projection" ><option selected value="M">Mollweide</option>
+<OPTION VALUE="m">Mercator</option>
+<OPTION VALUE="p">Peters</option>
+<OPTION VALUE="q">Square</option>
+<OPTION VALUE="s">Stereographic</option>
+<OPTION VALUE="o">Orthographic</option>
+<OPTION VALUE="g">Gnomonic</option>
+<OPTION VALUE="a">Area preserving azimuthal</option>
+<OPTION VALUE="c">Conical</option>
+<OPTION VALUE="i">Icosahedral</option>
+<OPTION VALUE="S">Sinusoidal</option>
+</SELECT>
+See <a href ="http://www.quadibloc.com/maps/mapint.htm">Map Projections</a>.
+</td></tr>
+<tr><td>Width (max 2000):</td><td>
+<INPUT TYPE=TEXT NAME="width" size=10 maxlength=10 value="500">
+</td><td>
+&nbsp;&nbsp;Colour map:
+</td><td>
+<SELECT NAME="colourmap" ><option selected value="Olsson.col">Olsson</option>
+<OPTION VALUE="OlssonLight.col">Olsson light</option>
+<OPTION VALUE="Olsson2.col">Olsson2</option>
+<OPTION VALUE="OlssonW.col">OlssonW</option>
+<OPTION VALUE="default.col">Mogensen</option>
+<OPTION VALUE="defaultB.col">Mogensen black</option>
+<OPTION VALUE="Bathymetric.col">Bathymetric</option>
+<OPTION VALUE="burrows.col">Burrows</option>
+<OPTION VALUE="burrowsB.col">Burrows black</option>
+<OPTION VALUE="mars.col">Mars</option>
+<OPTION VALUE="white.col">White</option>
+<OPTION VALUE="yellow.col">Yellow</option>
+<OPTION VALUE="greyscale.col">Greyscale</option>
+<OPTION VALUE="Blackbody.col">Black body radiation</option>
+<OPTION VALUE="Lefebvre.col">Lefebvre</option>
+<OPTION VALUE="Lefebvre2.col">Lefebvre2</option>
+<OPTION VALUE="2col.col">uniform blue/green</option>
+</SELECT>
+</td></tr>
+<tr><td>Height (max 2000):</td><td>
+<INPUT TYPE=TEXT NAME="height" size=10 maxlength=10 value="250">
+</td><td>
+&nbsp;&nbsp;Shading:
+</td><td>
+<SELECT NAME="shading" ><option selected value="">None</option>
+<OPTION VALUE=" -B">Bumpmap</option>
+<OPTION VALUE=" -b">Bumpmap on land only</option>
+<OPTION VALUE=" -d -a 50">Daylight</option>
+</SELECT>
+</td></tr>
+<tr><td>Zoom (0.1 to 10000):</td><td>
+<INPUT TYPE=TEXT NAME="zoom" size=10 maxlength=10 value="1">
+</td><td>
+&nbsp;&nbsp;Contour lines
+</td><td>
+<input type="radio" name="outline" value=""
+ checked>None
+<input type="radio" name="outline" value=" -E "
+>Coastlines only
+<input type="radio" name="outline" value=" -E2 "
+>2 (land)
+<input type="radio" name="outline" value=" -E5 "
+>5 (land)
+<input type="radio" name="outline" value=" -E10 "
+>10 (land)
+<input type="radio" name="outline" value=" -E-1 "
+>1 (coast)
+<input type="radio" name="outline" value=" -E-2 "
+>2 (coast)
+<input type="radio" name="outline" value=" -E-3 "
+>3 (coast)
+</td></tr>
+<tr><td>Center latitude (-90 to 90):</td><td>
+<INPUT TYPE=TEXT NAME="lati" size=10 maxlength=10 value="">
+</td><td>
+&nbsp;&nbsp;Adjust colour by latitude
+</td><td>
+<input type="radio" name="polar" value=""
+ checked>No
+<input type="radio" name="polar" value=" -c "
+>Yes
+<input type="radio" name="polar" value=" -c -c "
+>Yes, strongly
+<input type="radio" name="polar" value=" -c -c -c "
+>Yes, very strongly
+</td></tr>
+<tr><td>Center longitude (-360 to 360):</td><td>
+<INPUT TYPE=TEXT NAME="longi" size=10 maxlength=10 value="">
+</td><td>
+&nbsp;&nbsp;Water line (-0.1 to 0.1):</td><td>
+<INPUT TYPE=TEXT NAME="water" size=10 maxlength=10 value="-0.02">
+</td><td>
+</td></tr>
+<tr><td>Grid  (none or 1 to 90):</td><td>
+<INPUT TYPE=TEXT NAME="grid" size=10 maxlength=10 value="none">
+</td><td>
+&nbsp;&nbsp;Non-linear altitude scaling:</td><td>
+<input type="checkbox" name="nonLinear" value=" -n "
+>
+&nbsp;&nbsp;Make more "wrinkly" maps:
+<input type="checkbox" name="wrinkly" value=" -S "
+>
+&nbsp;&nbsp;Make biome maps:
+<input type="checkbox" name="biome" value=" -z "
+>
+</td></tr>
+</table>
+<br/>
+
+<input type="submit" name="what" value="Make map">
+
+</form>
+
+<BR><IMG SRC="Maps/Map-111.bmp">
+
+<hr>
+
+<!-- Various information stuff --> 
+<p>Biomes legend:</p>
+<table>
+  <tr>
+   <td border=0 bgColor=#ffffff width=20></td><td>Ice</td>
+   <td border=0 bgColor=#699b78 width=20></td><td>Taiga / boreal forest</td>
+   <td border=0 bgColor=#9bd7aa width=20></td><td>Temperate forest</td>
+   <td border=0 bgColor=#82be19 width=20></td><td>Tropical dry forest</td>
+  </tr>
+  <tr>
+   <td border=0 bgColor=#d2d2d2 width=20></td><td>Tundra</td>
+   <td border=0 bgColor=#dcc3af width=20></td><td>Desert</td>
+   <td border=0 bgColor=#aac3c8 width=20></td><td>Temperate rainforest</td>
+   <td border=0 bgColor=#6ea0aa width=20></td><td>Tropical rainforest</td>
+  </tr>
+  <tr>
+    <td border=0 bgColor=#fad7a5 width=20></td><td>Grasslands</td>
+    <td border=0 bgColor=#ff9b64 width=20></td><td>Savanna</td>
+    <td border=0 bgColor=#b996a0 width=20></td><td>Xeric shrubland and dry forest</td>
+  </tr>
+</table>
+<p>See
+also <a href="http://hjemmesider.diku.dk/~torbenm/Planet/">The
+Planet homepage</a> for more information and an offline version of the
+planet generator program, that you can download.</p>
+
+<p>Comments and suggestions can be sent to <a href="mailto:torbenm@diku.dk">torbenm@diku.dk</a>.</p>
+
+
+</body></html>
