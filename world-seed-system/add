@@ -12,3 +12,17 @@
 🔥 deterministic narrative generator
 🔥 deterministic continent shape generator
 🔥 deterministic simulateWorld.js
+
+Star System Generator - https://donjon.bin.sh/scifi/system/
+  Seed Source Code - view-source:https://donjon.bin.sh/scifi/system/
+  System Output - https://donjon.bin.sh/scifi/system/index.cgi
+  System Source Code - view-source:https://donjon.bin.sh/scifi/system/index.cgi
+SW6 Star System Generator - https://donjon.bin.sh/scifi/swsg/
+  Source Code - view-source:https://donjon.bin.sh/scifi/swsg/
+Planet Map Generator - https://topps.diku.dk/torbenm/maps.msp
+  Like donjon, but more control and options
+  Source Code - view-source:https://topps.diku.dk/torbenm/maps.msp
+Fractal Wold Generator - https://erpg.app/zh/tools/fractal-world/
+  Rotating planet view
+  Source Code - view-source:https://erpg.app/zh/tools/fractal-world/
+
